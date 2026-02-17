@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>BODDARING | Arbitrage Intelligence</title>
 
-  <!-- 검색/공유 미리보기용 메타(화면엔 안 보임) -->
+  <!-- 검색/공유 미리보기용 -->
   <meta name="description" content="거래소 간 시세 차익을 실시간 비교하고 시그널을 제공하는 아비트라지 인텔리전스 플랫폼, BODDARING." />
   <meta property="og:title" content="BODDARING | Arbitrage Intelligence" />
   <meta property="og:description" content="거래소 간 시세 차익 비교 · 시그널 제공 · 자동화 봇 운영" />
@@ -37,13 +37,13 @@
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: var(--bg); /* ✅ 배경은 단색만 남김 */
+      background: var(--bg);
       color:var(--text);
       overflow-x:hidden;
     }
     a{color:inherit}
 
-    /* ✅ 전체 텍스트 줄바꿈 “자연스럽게” */
+
     p, span, div, h1, h2, h3 {
       word-break: keep-all;
       overflow-wrap: break-word;
@@ -287,7 +287,6 @@
     }
     .iconbtn:hover{transform: translateY(-1px); background: rgba(0,0,0,.45)}
 
-    /* ✅ dots 위치: 좌측 하단 -> 좌측 상단 */
     .dots{
       position:absolute; left:16px; top:16px; bottom:auto;
       z-index:5;
@@ -389,7 +388,6 @@
     .cap .txt b{display:block; font-size:15px}
     .cap .txt span{display:block; margin-top:6px; color:var(--muted); font-size:12px; line-height:1.5}
 
-    /* ✅ Bots card thumbnail */
     .card.has-thumb{
       overflow:hidden;
       position:relative;
@@ -456,7 +454,6 @@
       .h1{font-size: 38px}
       .thumb{height:160px;}
     }
-    /* Signal 배지( Live / ⚡ Signal ) 우측 상단 고정 */
     .cap{
      top:16px;
      right:16px;
@@ -464,24 +461,18 @@
      bottom:auto;
      justify-content:flex-end;
     }
-    /* ✅ Signal 섹션(.split 안의 shot) 배지만 오버플로우 허용 */
     #signal .shot .cap-badge{ top:12px; right:12px; }
-
-    /* ✅ 배지는 overlay/이미지보다 항상 위 */
     #signal .shot .cap-badge{
      position:absolute;
      top:16px;
      right:16px;
      z-index:20;
-     pointer-events:none; /* 클릭 필요 없으면 */
+     pointer-events:none;
     }
-
-    /* ✅ 배지 pill 자체가 잘려보이는 느낌 방지(선택) */
     #signal .shot .cap-badge .pill{
      background: rgba(0,0,0,.35);
      backdrop-filter: blur(10px);
     }
-    /* ✅ 페이지 전체가 길어져도 배경이 "한 장"으로 유지되게 고정 */
     body::before{
      content:"";
      position: fixed;
@@ -523,7 +514,7 @@
         </div>
 
         <div class="cta">
-          <!-- <a class="btn" href="https://blog.naver.com/여기에_블로그주소" target="_blank" rel="noreferrer">블로그</a> -->
+          <!-- <a class="btn" href="https://blog.naver.com/블로그주소" target="_blank" rel="noreferrer">블로그</a> -->
           <a class="btn btn-primary" href="https://boddaring.com" target="_blank" rel="noreferrer">여기에 뭐 넣지</a>
         </div>
       </div>
@@ -656,15 +647,11 @@
         <div class="shot reveal">
           <div class="img" id="signalImg2"></div>
           <div class="overlay"></div>
-      
-          <!-- ✅ Signal 배지: 우측 상단 -->
           <div class="cap-badge">
             <span class="pill" style="border-color:rgba(252,163,17,.25); color:rgba(252,163,17,.95)">
               ⚡ Signal
             </span>
           </div>
-      
-          <!-- ✅ 텍스트 캡션: 그대로 하단 -->
           <div class="cap">
             <div class="txt">
               <b>필터 & 실행 중심</b>
@@ -689,23 +676,18 @@
       </div>
 
       <div class="grid3">
-        <!-- ✅ 카드 1: 미니 썸네일 추가 -->
         <div class="card has-thumb reveal">
           <div class="thumb"><div id="botThumb1"></div></div>
           <div class="badge"><i></i> Sell Bot</div>
           <h3>종합 매도봇</h3>
           <p>다중 거래소 지원, 반복 실행, 알림/로그/안전장치 중심의 실전형 매도 워크플로우.</p>
         </div>
-
-        <!-- ✅ 카드 2 -->
         <div class="card has-thumb reveal">
           <div class="thumb"><div id="botThumb2"></div></div>
           <div class="badge"><i></i> Withdrawal</div>
           <h3>출금봇</h3>
           <p>주소/네트워크 기반 선택, 수수료 반영, 자동 재시도 등 출금 루틴을 빠르게 표준화.</p>
         </div>
-
-        <!-- ✅ 카드 3 -->
         <div class="card has-thumb reveal">
           <div class="thumb"><div id="botThumb3"></div></div>
           <div class="badge"><i></i> Alerts</div>
@@ -751,7 +733,6 @@
   </footer>
 
   <script>
-    // ====== CONFIG (이미지 파일만 맞추면 자동 반영) ======
     const HERO_SLIDES = [
       {
         img: "/hero-1.png",
@@ -772,22 +753,16 @@
         desc: "반복 작업을 줄이고 판단/실행에 집중할 수 있게 설계했습니다."
       }
     ];
-
-    // 시그널 섹션 샷 2장
     const SIGNAL_SHOTS = [
       "/bot-1.png",
       "/bot-2.png"
     ];
 
-    // ✅ 봇 소개 카드 썸네일 3장 (여기 파일만 바꿔주면 됨)
-    // 추천: assets/bots/sell.png, withdraw.png, tools.png 같은 식으로 추가해도 OK
     const BOT_THUMBS = [
-      "assets/bot-sell.png",
-      "assets/bot-withdraw.png",
-      "assets/bot-tools.png"
+      "/bot-sell.png",
+      "/bot-withdraw.png",
+      "/bot-tools.png"
     ];
-
-    // ✅ 줄바꿈(\n) 섞여도 자동으로 정리
     function cleanText(s){
       return String(s).replace(/\s*\n+\s*/g, " ").trim();
     }
@@ -909,7 +884,7 @@
     setBgWithFallback(s1, SIGNAL_SHOTS[0] || "");
     setBgWithFallback(s2, SIGNAL_SHOTS[1] || "");
 
-    // ✅ Bots thumbs (카드 3개)
+    // Bots thumbs
     const b1 = $("#botThumb1"), b2 = $("#botThumb2"), b3 = $("#botThumb3");
     setBgWithFallback(b1, BOT_THUMBS[0] || "");
     setBgWithFallback(b2, BOT_THUMBS[1] || "");
@@ -921,3 +896,4 @@
 </body>
 
 </html>
+
