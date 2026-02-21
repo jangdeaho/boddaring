@@ -9,6 +9,7 @@ const EXCHANGES = [
   { name: "빗썸", logo: "bithumb.png", color: "#F7A600" },
   { name: "코인원", logo: "coinone.png", color: "#0075FF" },
   { name: "코빗", logo: "korbit.png", color: "#0075FF" },
+  { name: "고팍스", logo: "gopax.png", color: "#fea831" },
   { name: "Binance", logo: "binance.png", color: "#F0B90B" },
   { name: "Coinbase", logo: "coinbase.png", color: "#0052ff" },
   { name: "OKX", logo: "okx.png", color: "#2D2D2D" },
