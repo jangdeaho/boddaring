@@ -427,7 +427,7 @@ export default function Home() {
             <p className="section-desc">
               국내외 주요 거래소를 선별 연동하여 고품질 차익 데이터를 제공합니다.
               저유동성 거래소는 필터링하며, 시장 변화에 따라 연동 거래소는 지속적으로
-              확장됩니다.1
+              확장됩니다.
             </p>
           </div>
 
