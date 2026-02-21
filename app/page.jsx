@@ -8,7 +8,9 @@ const EXCHANGES = [
   { name: "업비트", abbr: "U", color: "#1763B6" },
   { name: "빗썸", abbr: "B", color: "#F7A600" },
   { name: "코인원", abbr: "C", color: "#0075FF" },
+  { name: "코빗", abbr: "K", color: "#0075FF" },
   { name: "Binance", abbr: "B", color: "#F0B90B" },
+  { name: "Coinbase", abbr: "K", color: "#5741D9" },
   { name: "OKX", abbr: "O", color: "#2D2D2D" },
   { name: "Bybit", abbr: "B", color: "#F7A600" },
   { name: "Bitget", abbr: "B", color: "#00B4D8" },
@@ -17,6 +19,9 @@ const EXCHANGES = [
   { name: "HTX", abbr: "H", color: "#2ECC71" },
   { name: "KuCoin", abbr: "K", color: "#00A550" },
   { name: "Kraken", abbr: "K", color: "#5741D9" },
+  { name: "AscendEX", abbr: "A", color: "#5741D9" },
+  { name: "OrangeX", abbr: "O", color: "#5741D9" },
+  { name: "DEEPCOIN", abbr: "D", color: "#5741D9" },
 ];
 
 /* ── 별똥별 Canvas ── */
