@@ -36,7 +36,7 @@ const EXCHANGES = [
   { name: "Lbank", logo: "lbank.png", color: "#ffcd00" },
   { name: "CoinEx", logo: "coinex.png", color: "#1ee1bc" },
   { name: "OrangeX", logo: "orangex.png", color: "#ff8508" },
-  { name: "Deepcoin", logo: "deepcoin.png", color: "#fe7701" },
+  { name: "Deepcoin2", logo: "deepcoin.png", color: "#fe7701" },
 ];
 
 export default function Home() {
