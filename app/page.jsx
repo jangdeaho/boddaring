@@ -307,9 +307,9 @@ export default function Home() {
               </h1>
 
               <p className="hero-desc">
-                국내/해외 거래소에 상장된 모든 코인의 데이터를 수집하여
+                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여
                 가격을 비교해 차익을 계산하고, 실행 가능한 기회만 선별해{" "}
-                <span className="led-text">초 단위로 시그널</span>을 제공합니다.
+                <br /><span className="led-text">초 단위로 시그널</span>을 제공합니다.
               </p>
 
               <div className="hero-actions">
@@ -323,12 +323,12 @@ export default function Home() {
 
               <div className="hero-stats">
                 <div className="hero-stat">
-                  <span className="hero-stat-val">20<span className="unit">+</span></span>
+                  <span className="hero-stat-val">15<span className="unit">+</span></span>
                   <span className="hero-stat-label">연동 거래소</span>
                 </div>
                 <div className="hero-stat-divider" />
                 <div className="hero-stat">
-                  <span className="hero-stat-val">7,000<span className="unit">+</span></span>
+                  <span className="hero-stat-val">10,000<span className="unit">+</span></span>
                   <span className="hero-stat-label">추적 코인</span>
                 </div>
                 <div className="hero-stat-divider" />
@@ -348,7 +348,7 @@ export default function Home() {
                 </div>
                 <div className="hero-video-placeholder">
                   <div className="video-icon">▶</div>
-                  <span className="video-label">소개 영상이 이 곳에 들어갑니다</span>
+                  <span className="video-label">소개 영상 넣을자리</span>
                 </div>
               </div>
             </div>
@@ -365,7 +365,9 @@ export default function Home() {
             <div className="section-label">Supported Exchanges</div>
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
-              국내외 주요 거래소를 모두 커버합니다. 더 많은 거래소가 지속적으로 추가됩니다.
+              BODDARING은 단순히 많은 거래소를 나열하지 않습니다. 국내외 주요 거래소를 대부분 연동하였으며,
+              <br />유의미한 차익 신호 선별을 위해 거래량이 낮거나 신뢰도가 떨어지는 거래소는 제외하고 있습니다.
+              <br />데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가됩니다.
             </p>
           </div>
         </div>
