@@ -36,7 +36,7 @@ const EXCHANGES = [
   { name: "Lbank", logo: "lbank.png", color: "#ffcd00" },
   { name: "CoinEx", logo: "coinex.png", color: "#1ee1bc" },
   { name: "OrangeX", logo: "orangex.png", color: "#ff8508" },
-  { name: "Deepcoin2", logo: "deepcoin.png", color: "#fe7701" },
+  { name: "Deepcoin", logo: "deepcoin.png", color: "#fe7701" },
 ];
 
 export default function Home() {
@@ -427,7 +427,7 @@ export default function Home() {
             <p className="section-desc">
               국내외 주요 거래소를 선별 연동하여 고품질 차익 데이터를 제공합니다.
               저유동성 거래소는 필터링하며, 시장 변화에 따라 연동 거래소는 지속적으로
-              확장됩니다.
+              확장됩니다.1
             </p>
           </div>
 
@@ -436,7 +436,7 @@ export default function Home() {
               <div className="exchange-card" key={ex.name}>
                 <div className="exchange-logo">
                   <img
-                    src={`/${ex.logo}`}
+                    src={`/exchanges/${ex.logo}`}
                     alt={ex.name}
                     onError={(e) => {
                       e.target.style.display = "none";
