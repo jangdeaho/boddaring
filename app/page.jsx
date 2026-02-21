@@ -1,5 +1,5 @@
 "use client";
-
+import emailjs from "@emailjs/browser";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
@@ -208,33 +208,36 @@ export default function Home() {
     return errs;
   };
 
-  /* EmailJS를 이용한 폼 제출 */
+  /* 폼 제출 */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
     setFormErrors({});
     setFormStatus("sending");
-
+  
     try {
-      /* EmailJS 초기화 및 전송 */
-      if (!window.emailjs) {
-        throw new Error("EmailJS not loaded");
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("EmailJS env missing (service/template/public key)");
       }
-
-      await window.emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_boddaring",
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_boddaring",
+  
+      await emailjs.send(
+        serviceId,
+        templateId,
         {
           to_email: "boddaring@endholdings.com",
           from_email: formData.email,
           from_name: "BODDARING 문의",
           telegram_id: formData.telegram,
-          message: formData.message || "(메시지 없음)",
+          message: formData.message?.trim() ? formData.message : "(메시지 없음)",
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "public_key"
+        { publicKey }
       );
-
+  
       setFormStatus("sent");
       setFormData({ email: "", telegram: "", message: "" });
       setTimeout(() => setFormStatus("idle"), 5000);
