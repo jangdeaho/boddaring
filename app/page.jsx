@@ -20,6 +20,23 @@ const EXCHANGES = [
   { name: "HTX", logo: "htx.png", color: "#00c2ff" },
   { name: "Crypto.com", logo: "cryptocom.png", color: "#0066ff" },
   { name: "Coinbase", logo: "coinbase.png", color: "#0052ff" },
+  { name: "OKX", logo: "okx.png", color: "#2D2D2D" },
+  { name: "Bybit", logo: "bybit.png", color: "#F7A600" },
+  { name: "Bitget", logo: "bitget.png", color: "#00B4D8" },
+  { name: "Gate.io", logo: "gateio.png", color: "#2354E6" },
+  { name: "MEXC", logo: "mexc.png", color: "#2B6AFF" },
+  { name: "HTX", logo: "htx.png", color: "#2ECC71" },
+  { name: "KuCoin", logo: "kucoin.png", color: "#00A550" },
+  { name: "Crypto.com", logo: "cryptocom.png", color: "#222b5a" },
+  { name: "Bitmart", logo: "bitmart.png", color: "#5741D9" },
+  { name: "Kraken", logo: "kraken.png", color: "#5741d9" },
+  { name: "AscendEX", logo: "ascendex.png", color: "#7c44c0" },
+  { name: "Bingx", logo: "bingx.png", color: "#2a54ff" },
+  { name: "Whitebit", logo: "whitebit.png", color: "#eabb4a" },
+  { name: "Lbank", logo: "lbank.png", color: "#ffcd00" },
+  { name: "CoinEx", logo: "coinex.png", color: "#1ee1bc" },
+  { name: "OrangeX", logo: "orangex.png", color: "#ff8508" },
+  { name: "Deepcoin", logo: "deepcoin.png", color: "#fe7701" },
 ];
 
 export default function Home() {
