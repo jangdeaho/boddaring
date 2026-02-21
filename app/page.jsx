@@ -50,7 +50,7 @@ export default function Home() {
     return errs;
   };
 
-  /* EmailJS를 이용한 폼 제출 */
+  /*  폼 제출 */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
@@ -66,7 +66,6 @@ export default function Home() {
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-      // ✅ env 없으면 바로 에러로 잡아서 원인 명확히
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS env missing (service/template/public key)");
       }
