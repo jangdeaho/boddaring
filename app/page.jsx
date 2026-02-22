@@ -431,10 +431,13 @@ export default function Home() {
             <div className="section-label">Supported Exchanges</div>
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
-              BODDARING은 단순히 많은 거래소를 나열하지 않습니다.<br />
-              국내외 주요 거래소를 대부분 연동하였으며, 유의미한 차익 신호 선별을 위해<br />
-              거래량이 낮거나 신뢰도가 떨어지는 거래소는 제외하고 있습니다.<br />
-              데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가됩니다.
+            BODDARING은 단순히 많은 거래소를 나열하지 않습니다.<br />
+            현재 대한민국과 글로벌 거래소를 통해 KRW / USDT 시장 간 가격 격차 데이터를 제공합니다. <br />
+            해당 데이터는 공개 API 기반으로 수집·계산된 참고 정보입니다.<br />
+            유의미한 차익 신호 선별을 위해 신뢰도가 떨어지는 불필요 거래소는 제외하고 있습니다.<br />
+            BODDARING은 데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가되며, 끊임없는 개발 진행 중입니다.<br />
+
+            * 태국, 인도 등 타국에서도 해당 국가에 맞는 전문적인 아비트라지 시스템이 필요하신 트레이더분은 문의 주십시오<br />
             </p>
           </div>
         </div>
@@ -473,7 +476,7 @@ export default function Home() {
             <div className="section-label">Signal Intelligence</div>
             <h2 className="section-title">
               아비트라지의 모든 것,<br />
-              <span className="hero-grad">BODDARING</span>이 정리합니다.
+              <span className="hero-grad">BODDARING</span>
             </h2>
             <p className="section-desc">
             거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
@@ -641,33 +644,38 @@ export default function Home() {
               </div>
       
               <div className="quote-item">
-                원·달러 환율이 중요한가요?<br />
-                비트코인 가격이 오르는지가 핵심인가요?
+                비트코인 가격을 왜 ‘예측’하려고 하시나요?<br />
+                시황 뉴스는 대부분 이미 가격에 반영된 뒤 도착합니다.
+              </div>
+
+              <div className="quote-item">
+                뒤늦은 해석과 감정적인 추격 대신,<br />
+                <strong>거래소 간 가격 격차라는 ‘구조’</strong>를 보세요.
               </div>
       
               <div className="quote-item">
-                아비트라지는 예측의 영역이 아닙니다.<br />
-                <strong>가격 구조의 차이를 읽는 기술</strong>입니다.
+                아비트라지는 예측의 영역이 아닌<br />
+                <strong>가격 구조 데이터를 이해하는 과정</strong>입니다.
               </div>
-      
-              <div className="quote-item">
-                기본적 분석도, 기술적 분석도 필요 없습니다.<br />
-                우리가 제공하는 데이터 그 자체만 보십시오.
-              </div>
-      
+            
               <div className="quote-item">
                 하루 종일 차트를 붙잡고<br />
-                평단가에 흔들리는 스트레스 대신,<br />
-                구조적인 수익 흐름을 선택하십시오.
+                평단가에 흔들리는 스트레스와<br />
+                기약 없는 기다림의 포지션 종료 대신,<br />
+                짧은 사이클로 구조를 확인하는 아비트라지가 있습니다.
               </div>
       
               <div className="quote-item">
-                10년간 시장에서 살아남은 이유,<br />
-                그 방식을 공개합니다.
+              BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
+              </div>
+
+              <div className="quote-author">
+                ※ 본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
+                   정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
               </div>
       
               <div className="quote-author">
-                BODDARING · Arbitrage Infrastructure
+                BODDARING · 아비트라지 데이터 플랫폼
               </div>
       
             </div>
@@ -676,8 +684,8 @@ export default function Home() {
             <div className="contact-box reveal reveal-delay-1">
               <h3>문의하기</h3>
               <p>
-                궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.
-                빠르게 답변 드리겠습니다.
+                궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
+                최대한 빠르게 답변 드리겠습니다.
               </p>
 
               {formStatus === "sent" ? (
@@ -780,7 +788,6 @@ export default function Home() {
             <span>© {new Date().getFullYear()} BODDARING. All rights reserved.</span>
             <div className="footer-bottom-links">
               <a href="#top">맨 위로</a>
-              <a href="#contact">문의</a>
             </div>
           </div>
         </div>
