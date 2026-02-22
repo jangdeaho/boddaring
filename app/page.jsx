@@ -225,29 +225,27 @@ export default function Home() {
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      const publicKey  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
   
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
       }
-
-      if (!emailjsReady || typeof window === "undefined" || !window.emailjs) {
+      if (typeof window === "undefined" || !window.emailjs) {
         throw new Error("EmailJS not loaded");
       }
-
+  
       await window.emailjs.send(
         serviceId,
         templateId,
         {
-          // 템플릿 변수명과 1:1로 맞춰야 함
           from_email: formData.email,
           telegram_id: formData.telegram,
           message: formData.message || "(메시지 없음)",
           name: "BODDARING 문의",
         },
-        publicKey // ✅ CDN 방식은 4번째 인자에 publicKey 문자열
+        publicKey
       );
-
+  
       setFormStatus("sent");
       setFormData({ email: "", telegram: "", message: "" });
       setTimeout(() => setFormStatus("idle"), 5000);
@@ -265,8 +263,7 @@ export default function Home() {
   const isSubmitDisabled =
     !formData.email.trim() ||
     !formData.telegram.trim() ||
-    formStatus === "sending" ||
-    !emailjsReady;
+    formStatus === "sending";
 
   /* 거래소 무한 스크롤용 복제 */
   const doubledExchanges = [...EXCHANGES, ...EXCHANGES];
