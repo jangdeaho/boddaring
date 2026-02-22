@@ -30,7 +30,6 @@ const EXCHANGES = [
   { name: "OrangeX", logo: "orangex.png", color: "#ff8508" },
   { name: "Deepcoin", logo: "deepcoin.png", color: "#fe7701" },
 ];
-
 /* ── 별똥별 Canvas ── */
 function StarCanvas() {
   const canvasRef = useRef(null);
@@ -176,30 +175,16 @@ function StarCanvas() {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [serviceOpen, setServiceOpen] = useState(false);
-  const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
   const [formData, setFormData] = useState({ email: "", telegram: "", message: "" });
   const [formErrors, setFormErrors] = useState({});
   const [formStatus, setFormStatus] = useState("idle");
   const [emailjsReady, setEmailjsReady] = useState(false);
-  const serviceRef = useRef(null);
 
   /* 스크롤 감지 */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  /* 드롭다운 외부 클릭 닫기 */
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (serviceRef.current && !serviceRef.current.contains(e.target)) {
-        setServiceOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   /* Scroll Reveal */
@@ -220,6 +205,7 @@ export default function Home() {
       console.error("Missing NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
       return;
     }
+  
     emailjs.init(pk);
     setEmailjsReady(true);
   }, []);
@@ -236,26 +222,39 @@ export default function Home() {
   /* 폼 제출 */
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const errs = validate();
     if (Object.keys(errs).length > 0) {
       setFormErrors(errs);
       return;
     }
+  
     setFormErrors({});
     setFormStatus("sending");
+  
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
       }
-      await emailjs.send(serviceId, templateId, {
-        from_email: formData.email,
-        telegram_id: formData.telegram,
-        message: formData.message || "(메시지 없음)",
-        name: "BODDARING 문의",
-      });
+  
+      // (권장) init을 useEffect에서 해도 되지만, 안전하게 여기서도 보장 가능
+      // emailjs.init(publicKey);
+  
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_email: formData.email,
+          telegram_id: formData.telegram,
+          message: formData.message || "(메시지 없음)",
+          name: "BODDARING 문의",
+        },
+      );
+  
       setFormStatus("sent");
       setFormData({ email: "", telegram: "", message: "" });
       setTimeout(() => setFormStatus("idle"), 5000);
@@ -304,56 +303,10 @@ export default function Home() {
 
             {/* 데스크탑 네비 */}
             <div className="nav-links">
-              {/* 서비스 드롭다운 */}
-              <div
-                className={`nav-dropdown${serviceOpen ? " open" : ""}`}
-                ref={serviceRef}
-                onMouseEnter={() => setServiceOpen(true)}
-                onMouseLeave={() => setServiceOpen(false)}
-              >
-                <button className="nav-link nav-dropdown-trigger">
-                  서비스
-                  <svg className="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                <div className="dropdown-menu">
-                  <a href="#signal" className="dropdown-item" onClick={() => setServiceOpen(false)}>
-                    <span className="dropdown-item-icon">📡</span>
-                    <div>
-                      <div className="dropdown-item-title">시그널 소개</div>
-                      <div className="dropdown-item-desc">실시간 차익 시그널 시스템</div>
-                    </div>
-                  </a>
-                  <a href="#exchanges" className="dropdown-item" onClick={() => setServiceOpen(false)}>
-                    <span className="dropdown-item-icon">🏦</span>
-                    <div>
-                      <div className="dropdown-item-title">연동 거래소</div>
-                      <div className="dropdown-item-desc">국내·해외 주요 거래소 현황</div>
-                    </div>
-                  </a>
-                  <a href="#bot" className="dropdown-item" onClick={() => setServiceOpen(false)}>
-                    <span className="dropdown-item-icon">🤖</span>
-                    <div>
-                      <div className="dropdown-item-title">BOT 소개</div>
-                      <div className="dropdown-item-desc">자동화 보조 프로그램</div>
-                    </div>
-                  </a>
-                  <a href="#contact" className="dropdown-item" onClick={() => setServiceOpen(false)}>
-                    <span className="dropdown-item-icon">✉️</span>
-                    <div>
-                      <div className="dropdown-item-title">문의하기</div>
-                      <div className="dropdown-item-desc">서비스 이용 문의</div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-
-              {/* 더 알아보기 */}
-              <Link href="/learn" className="nav-link nav-learn-link">
-                더 알아보기
-                <span className="nav-learn-badge">!</span>
-              </Link>
+              <a href="#signal" className="nav-link">시그널 소개</a>
+              <a href="#exchanges" className="nav-link">연동 거래소</a>
+              <a href="#bot" className="nav-link">BOT 소개</a>
+              <a href="#contact" className="nav-link">문의하기</a>
             </div>
 
             {/* CTA */}
@@ -379,30 +332,10 @@ export default function Home() {
 
       {/* 모바일 메뉴 */}
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
-        {/* 모바일 서비스 아코디언 */}
-        <button
-          className="nav-link mobile-service-toggle"
-          onClick={() => setMobileServiceOpen((p) => !p)}
-        >
-          서비스
-          <svg
-            className={`dropdown-arrow${mobileServiceOpen ? " rotated" : ""}`}
-            width="12" height="12" viewBox="0 0 12 12" fill="none"
-          >
-            <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        {mobileServiceOpen && (
-          <div className="mobile-service-list">
-            <a href="#signal" className="mobile-service-item" onClick={() => setMenuOpen(false)}>시그널 소개</a>
-            <a href="#exchanges" className="mobile-service-item" onClick={() => setMenuOpen(false)}>연동 거래소</a>
-            <a href="#bot" className="mobile-service-item" onClick={() => setMenuOpen(false)}>BOT 소개</a>
-            <a href="#contact" className="mobile-service-item" onClick={() => setMenuOpen(false)}>문의하기</a>
-          </div>
-        )}
-        <Link href="/learn" className="nav-link" onClick={() => setMenuOpen(false)}>
-          더 알아보기
-        </Link>
+        <a href="#signal" className="nav-link" onClick={() => setMenuOpen(false)}>시그널 소개</a>
+        <a href="#exchanges" className="nav-link" onClick={() => setMenuOpen(false)}>연동 거래소</a>
+        <a href="#bot" className="nav-link" onClick={() => setMenuOpen(false)}>BOT 소개</a>
+        <a href="#contact" className="nav-link" onClick={() => setMenuOpen(false)}>문의하기</a>
         <Link href="/apply" className="btn-apply" onClick={() => setMenuOpen(false)}>
           신청하기 →
         </Link>
@@ -424,7 +357,7 @@ export default function Home() {
                 <span className="hero-grad">시세 차익</span>을
                 <br />
                 한눈에, 빠르게!
-                <span className="line2 hero-title-animated">데이터수집의 새로운 기준</span>
+                <span className="line2">데이터수집의 새로운 기준</span>
               </h1>
 
               <p className="hero-desc">
@@ -440,16 +373,15 @@ export default function Home() {
                 <a href="#signal" className="btn-outline">
                   시그널 화면 보기
                 </a>
-              </div>
-
-              {/* Real-Time Badge */}
-              <div className="hero-rtbadge-row">
-                <div className="real-time-badge">
-                  <span className="real-dot" />
-                  Real-Time Data Acquisition
+                <br />
+                <div>
+                  <div className="real-time-badge">
+                    <span className="real-dot" />
+                    Real-Time Data Acquisition
+                  </div>
                 </div>
               </div>
-
+              
               <div className="hero-stats">
                 <div className="hero-stat">
                   <span className="hero-stat-val">15<span className="unit"> +</span></span>
@@ -499,7 +431,13 @@ export default function Home() {
             <div className="section-label">Supported Exchanges</div>
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
-              BODDARING은 단순히 거래소 수를 늘리는 것이 아닌, 데이터 신뢰성을 기준으로 거래소를 선별합니다. 현재 국내 및 글로벌 주요 거래소를 통해 KRW / USDT 시장 간 가격 격차 데이터를 제공하며, 해당 데이터는 공개 API 기반으로 수집·계산된 참고 정보입니다. 유의미한 차익 신호 선별을 위해 데이터 신뢰도가 낮은 거래소는 제외하고 있으며, 데이터 완성도를 높이기 위해 검증된 거래소를 지속적으로 추가하고 있습니다.
+            BODDARING은 단순히 많은 거래소를 나열하지 않습니다.<br />
+            현재 대한민국과 글로벌 거래소를 통해 KRW / USDT 시장 간 가격 격차 데이터를 제공합니다. <br />
+            해당 데이터는 공개 API 기반으로 수집·계산된 참고 정보입니다.<br />
+            유의미한 차익 신호 선별을 위해 신뢰도가 떨어지는 불필요 거래소는 제외하고 있습니다.<br />
+            BODDARING은 데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가되며, 끊임없는 개발 진행 중입니다.<br />
+
+            * 태국, 인도 등 타국에서도 해당 국가에 맞는 전문적인 아비트라지 시스템이 필요하신 트레이더분은 문의 주십시오<br />
             </p>
           </div>
         </div>
@@ -527,18 +465,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-
-        {/* 거래소 섹션 하단 고지 */}
-        <div className="container">
-          <div className="exchange-footer-notes">
-            <p className="exchange-note-intl">
-              * Traders in Thailand, India, and other countries who require a professional arbitrage data system tailored to their local market are welcome to contact us.
-            </p>
-            <p className="exchange-disclaimer">
-              This platform has no official affiliation with any listed exchange. All data is independently collected via public APIs and provided solely for informational purposes. All trademarks belong to their respective owners.
-            </p>
-          </div>
-        </div>
       </section>
 
       <div className="divider" />
@@ -553,47 +479,43 @@ export default function Home() {
               <span className="hero-grad">BODDARING</span>
             </h2>
             <p className="section-desc">
-              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다. BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
+            거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
+            BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며,<br />
+            해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
             </p>
           </div>
 
-          {/* 기능 카드 — 타임라인 스타일 */}
-          <div className="feature-timeline reveal">
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">📡</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">실시간 데이터 수집</h3>
-                <p className="ftl-desc">공개 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영하여 정확도를 높입니다.</p>
-              </div>
+          <div className="feature-grid">
+            <div className="feature-card reveal">
+              <div className="feature-icon">📡</div>
+              <h3>실시간 데이터 수집</h3>
+              <p>
+                국내외 주요 거래소별 전종목 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영합니다.
+              </p>
             </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">⚡</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">비용 반영 계산 시스템</h3>
-                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다. <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
-              </div>
+            <div className="feature-card reveal reveal-delay-1">
+              <div className="feature-icon">⚡</div>
+              <h3>정밀 차익 계산 시스템</h3>
+              <p>
+                수수료, 환율, 슬리피지까지 반영하여 실질 순수익 기준의 아비트라지 기회만을 선별합니다.
+                - 종목별 최종거래가 기준으로 시그널이 발생하는 것이 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, Amount만큼의 수익률 계산 공식이 작동됩니다.
+              </p>
             </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">🎯</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">오더북 기반 유동성 분석</h3>
-                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 즉시 수익 판단이 가능합니다.</p>
-              </div>
+            <div className="feature-card reveal reveal-delay-2">
+              <div className="feature-icon">🎯</div>
+              <h3>호가 스카우터</h3>
+              <p>
+                거래소 간 차익 시그널과 함께 From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교 제공합니다.
+                국내·해외 간 아비트라지 발생 시 평단가 계산 없이 To 거래소에 맞춰 평단가를 표기하여 즉시 수익 판단이 가능합니다.
+              </p>
             </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">🤖</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">사용자 조건 필터</h3>
-                <p className="ftl-desc">Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다. 거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.</p>
-              </div>
+            <div className="feature-card reveal reveal-delay-3">
+              <div className="feature-icon">🤖</div>
+              <h3>커스터마이징 필터</h3>
+              <p>
+                최소 Per(수익률) 및 Amount(거래 규모)를 직접 설정하여 원하는 조건의 시그널만 확인할 수 있습니다.
+                거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.
+              </p>
             </div>
           </div>
         </div>
@@ -716,37 +638,46 @@ export default function Home() {
       
             {/* 좌측 — 인용구 */}
             <div className="quote-box reveal">
+      
               <div className="quote-title">
                 방향성보다 구조를 보십시오.
               </div>
+      
               <div className="quote-item">
-                비트코인 가격을 왜 '예측'하려고 하시나요?<br />
+                비트코인 가격을 왜 ‘예측’하려고 하시나요?<br />
                 시황 뉴스는 대부분 이미 가격에 반영된 뒤 도착합니다.
               </div>
+
               <div className="quote-item">
                 뒤늦은 해석과 감정적인 추격 대신,<br />
-                <strong>거래소 간 가격 격차라는 '구조'</strong>를 보세요.
+                <strong>거래소 간 가격 격차라는 ‘구조’</strong>를 보세요.
               </div>
+      
               <div className="quote-item">
                 아비트라지는 예측의 영역이 아닌<br />
                 <strong>가격 구조 데이터를 이해하는 과정</strong>입니다.
               </div>
+            
               <div className="quote-item">
-                하루 종일 차트를 붙잡고
-                평단가에 흔들리는 스트레스와
-                기약 없는 기다림의 포지션 종료 대신,
+                하루 종일 차트를 붙잡고<br />
+                평단가에 흔들리는 스트레스와<br />
+                기약 없는 기다림의 포지션 종료 대신,<br />
                 짧은 사이클로 구조를 확인하는 아비트라지가 있습니다.
               </div>
+      
               <div className="quote-item">
-                BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
+              BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
               </div>
+
               <div className="quote-author">
                 ※ 본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
                    정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
               </div>
+      
               <div className="quote-author">
                 BODDARING · 아비트라지 데이터 플랫폼
               </div>
+      
             </div>
 
             {/* 우측 — 문의 폼 */}
