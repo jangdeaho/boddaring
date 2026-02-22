@@ -1,8 +1,7 @@
 "use client";
-
+import emailjs from "@emailjs/browser"
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Script from "next/script";
 
 /* ── 거래소 데이터 (이미지 로고 준비) ── */
 const EXCHANGES = [
@@ -200,6 +199,18 @@ export default function Home() {
     return () => io.disconnect();
   }, []);
 
+  useEffect(() => {
+    const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (!pk) {
+      console.error("Missing NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
+      setEmailjsReady(false);
+      return;
+    }
+  
+    emailjs.init(pk);
+    setEmailjsReady(true);
+  }, []);
+
   /* 폼 검증 */
   const validate = () => {
     const errs = {};
@@ -230,11 +241,11 @@ export default function Home() {
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
       }
-      if (typeof window === "undefined" || !window.emailjs) {
-        throw new Error("EmailJS not loaded");
-      }
   
-      await window.emailjs.send(
+      // (권장) init을 useEffect에서 해도 되지만, 안전하게 여기서도 보장 가능
+      // emailjs.init(publicKey);
+  
+      await emailjs.send(
         serviceId,
         templateId,
         {
@@ -243,7 +254,6 @@ export default function Home() {
           message: formData.message || "(메시지 없음)",
           name: "BODDARING 문의",
         },
-        publicKey
       );
   
       setFormStatus("sent");
@@ -261,6 +271,7 @@ export default function Home() {
   };
 
   const isSubmitDisabled =
+    !emailjsReady ||
     !formData.email.trim() ||
     !formData.telegram.trim() ||
     formStatus === "sending";
@@ -755,22 +766,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* EmailJS 스크립트 로드 */}
-      <Script
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-          if (window.emailjs && pk) {
-            window.emailjs.init(pk);
-            setEmailjsReady(true);
-          } else {
-            setEmailjsReady(false);
-          }
-        }}
-        onError={() => setEmailjsReady(false)}
-      />
     </>
   );
 }
