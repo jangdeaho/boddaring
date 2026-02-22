@@ -501,7 +501,7 @@ export default function Home() {
             <div className="reveal reveal-delay-1">
               <div className="section-label">Why BODDARING</div>
               <h2 className="section-title">
-                데이터가 곧<br />경쟁력입니다
+                데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
               </h2>
               <p className="section-desc">
                 아비트라지는 속도와 정보의 싸움입니다.
