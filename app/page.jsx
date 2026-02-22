@@ -297,7 +297,7 @@ export default function Home() {
               <img src="/icon.png" alt="BODDARING" className="brand-icon" />
               <div className="brand-text">
                 <span className="brand-name">BODDARING</span>
-                <span className="brand-sub">대한민국 최고 아비트라지 플랫폼</span>
+                <span className="brand-sub">아비트라지 데이터 플랫폼</span>
               </div>
             </a>
 
@@ -399,7 +399,7 @@ export default function Home() {
                 </div>
                 <div className="hero-stat-divider" />
                 <div className="hero-stat">
-                  <span className="hero-stat-val">300,000<span className="unit"> 회⤴</span></span>
+                  <span className="hero-stat-val">300,000<span className="unit"> 회 ⤴</span></span>
                   <span className="hero-stat-label">종목·페어 초당 계산</span>
                 </div>
               </div>
@@ -476,7 +476,9 @@ export default function Home() {
               <span className="hero-grad">BODDARING</span>이 정리합니다.
             </h2>
             <p className="section-desc">
-              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 기회를 잡을 수 있습니다. BODDARING은 실제로 수익이 나는 순간만 정확하게 포착합니다.
+            거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
+            BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며,<br />
+            해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
             </p>
           </div>
 
@@ -550,7 +552,7 @@ export default function Home() {
                 </div>              
                 <div className="check-item">
                   테더(USDT) 실거래 환율 기반 프리미엄 계산<br />
-                    └─ 단순 원·달러 환율이 아닌 비트코인 환율 기반 실질 수익 기준 반영
+                    └─ 단순 원·달러 환율이 아닌 비트코인 환율 기반 실질 차익 기준 반영
                 </div>              
                 <div className="check-item">
                   오더북 유동성 기반 실행 가능성 검증<br />
