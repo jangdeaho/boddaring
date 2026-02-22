@@ -203,7 +203,6 @@ export default function Home() {
     const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
     if (!pk) {
       console.error("Missing NEXT_PUBLIC_EMAILJS_PUBLIC_KEY");
-      setEmailjsReady(false);
       return;
     }
   
@@ -735,9 +734,8 @@ export default function Home() {
           <div className="footer-grid">
             <div className="footer-brand">
               <div className="brand-name">BODDARING</div>
-              <p>
-                국내 최고 아비트라지 플랫폼.<br />
-                거래소 간 시세 차익을 초 단위로 포착합니다.
+              <p className="footer-desc">
+                국내 최고 아비트라지 플랫폼.<br />거래소 간 시세 차익을 초 단위로 포착합니다.
               </p>
             </div>
             <div className="footer-col">

@@ -1071,8 +1071,14 @@ footer {
   color: var(--muted2);
   transition: color .2s ease;
 }
-.footer-bottom-links a:hover { color: var(--text); }
-
+.footer-bottom-links a:hover { color: var(--text); 
+}
+.footer-desc{
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
 /* ── Scroll Reveal ── */
 .reveal {
   opacity: 0;
