@@ -373,14 +373,15 @@ export default function Home() {
                 <a href="#signal" className="btn-outline">
                   시그널 화면 보기
                 </a>
-              </div>
-              <div>
-                <div className="real-time-badge">
-                  <span className="real-dot" />
-                  Real-Time Data Acquisition
+                <br />
+                <div>
+                  <div className="real-time-badge">
+                    <span className="real-dot" />
+                    Real-Time Data Acquisition
+                  </div>
                 </div>
               </div>
-
+              
               <div className="hero-stats">
                 <div className="hero-stat">
                   <span className="hero-stat-val">15<span className="unit"> +</span></span>
