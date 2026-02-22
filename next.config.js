@@ -9,12 +9,16 @@ const nextConfig = {
       "base-uri 'self'",
       "object-src 'none'",
       "frame-ancestors 'self'",
-      "img-src 'self' data: blob:",
-      "font-src 'self' data:",
-      "style-src 'self' 'unsafe-inline'",
+    
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data: https:",
+    
+      "style-src 'self' 'unsafe-inline' https:",
+      "style-src-elem 'self' 'unsafe-inline' https:",
+
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:",
       "connect-src 'self' https: wss:",
-      "frame-src 'self'",
+      "frame-src 'self' https:",
     ].join("; ");
 
     return [

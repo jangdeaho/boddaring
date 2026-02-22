@@ -179,6 +179,7 @@ export default function Home() {
   const [formData, setFormData] = useState({ email: "", telegram: "", message: "" });
   const [formErrors, setFormErrors] = useState({});
   const [formStatus, setFormStatus] = useState("idle");
+  const [emailjsReady, setEmailjsReady] = useState(false);
 
   /* 스크롤 감지 */
   useEffect(() => {
@@ -229,11 +230,11 @@ export default function Home() {
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
       }
-  
-      if (typeof window === "undefined" || !window.emailjs) {
+
+      if (!emailjsReady || typeof window === "undefined" || !window.emailjs) {
         throw new Error("EmailJS not loaded");
       }
-  
+
       await window.emailjs.send(
         serviceId,
         templateId,
@@ -261,7 +262,11 @@ export default function Home() {
     if (formErrors[field]) setFormErrors((p) => ({ ...p, [field]: false }));
   };
 
-  const isSubmitDisabled = !formData.email.trim() || !formData.telegram.trim() || formStatus === "sending";
+  const isSubmitDisabled =
+    !formData.email.trim() ||
+    !formData.telegram.trim() ||
+    formStatus === "sending" ||
+    !emailjsReady;
 
   /* 거래소 무한 스크롤용 복제 */
   const doubledExchanges = [...EXCHANGES, ...EXCHANGES];
@@ -759,11 +764,15 @@ export default function Home() {
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"
         strategy="afterInteractive"
         onLoad={() => {
-          if (window.emailjs) {
-            const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-            if (pk) window.emailjs.init(pk);
+          const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+          if (window.emailjs && pk) {
+            window.emailjs.init(pk);
+            setEmailjsReady(true);
+          } else {
+            setEmailjsReady(false);
           }
         }}
+        onError={() => setEmailjsReady(false)}
       />
     </>
   );
