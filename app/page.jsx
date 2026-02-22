@@ -1,7 +1,8 @@
 "use client";
-import emailjs from "@emailjs/browser";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Script from "next/script";
 
 /* ── 거래소 데이터 (이미지 로고 준비) ── */
 const EXCHANGES = [
@@ -210,31 +211,40 @@ export default function Home() {
   /* 폼 제출 */
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const errs = validate();
-    if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
+    if (Object.keys(errs).length > 0) {
+      setFormErrors(errs);
+      return;
+    }
+  
     setFormErrors({});
     setFormStatus("sending");
-
+  
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
       }
-
-      await emailjs.send(
+  
+      if (typeof window === "undefined" || !window.emailjs) {
+        throw new Error("EmailJS not loaded");
+      }
+  
+      await window.emailjs.send(
         serviceId,
         templateId,
         {
+          // 템플릿 변수명과 1:1로 맞춰야 함
           from_email: formData.email,
           telegram_id: formData.telegram,
           message: formData.message || "(메시지 없음)",
-
           name: "BODDARING 문의",
         },
-        { publicKey }
+        publicKey // ✅ CDN 방식은 4번째 인자에 publicKey 문자열
       );
 
       setFormStatus("sent");
@@ -745,12 +755,13 @@ export default function Home() {
       </footer>
 
       {/* EmailJS 스크립트 로드 */}
-      <script
+      <Script
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"
-        async
+        strategy="afterInteractive"
         onLoad={() => {
           if (window.emailjs) {
-            window.emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "public_key");
+            const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+            if (pk) window.emailjs.init(pk);
           }
         }}
       />
