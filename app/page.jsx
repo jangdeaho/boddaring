@@ -420,7 +420,8 @@ export default function Home() {
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
               BODDARING은 단순히 많은 거래소를 나열하지 않습니다.<br />
-              국내외 주요 거래소를 대부분 연동하였으며, 유의미한 차익 신호 선별을 위해 거래량이 낮거나 신뢰도가 떨어지는 거래소는 제외하고 있습니다.<br />
+              국내외 주요 거래소를 대부분 연동하였으며, 유의미한 차익 신호 선별을 위해<br />
+              거래량이 낮거나 신뢰도가 떨어지는 거래소는 제외하고 있습니다.<br />
               데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가됩니다.
             </p>
           </div>
@@ -526,25 +527,29 @@ export default function Home() {
                 데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
               </h2>
               <p className="section-desc">
-                아비트라지는 속도와 정보의 싸움입니다.
+                아비트라지는 속도와 정보의 싸움입니다.<br />
                 BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
               </p>
 
               <div className="check-list">
                 <div className="check-item">
-                  국내·해외 주요 거래소의 가격을 1초 단위로 실시간 비교
+                  국내·해외 주요 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교
                 </div>              
                 <div className="check-item">
-                  테더(USDT) 실거래 환율 기반 김프 계산 — 단순 원·달러 환율이 아닌 실질 수익 기준 반영
+                  테더(USDT) 실거래 환율 기반 프리미엄 계산<br />
+                    └─ 단순 원·달러 환율이 아닌 비트코인 환율 기반 실질 수익 기준 반영
                 </div>              
                 <div className="check-item">
-                  오더북 유동성 기반 실행 가능성 검증 — 표시되는 수치가 아닌 실제 체결 가능한 기회만 선별
+                  오더북 유동성 기반 실행 가능성 검증<br />
+                    └─ 표시되는 단순 퍼센트 수치가 아닌 실제 체결 가능한 기회만 선별
                 </div>              
                 <div className="check-item">
-                  입출금 상태 실시간 모니터링 — 차익 발생 시 즉시 실행 가능한 환경인지 사전 확인
+                  입출금 상태 실시간 모니터링<br />
+                    └─ 차익 발생 시 즉시 실행 가능한 환경인지 사전 확인
                 </div>              
                 <div className="check-item">
-                  텔레그램 프라이빗 알림 시스템 — 개인 봇 설정을 통한 안전하고 독립적인 시그널 관리
+                  텔레그램 프라이빗 알림 시스템<br />
+                    └─ 개인 봇 설정을 통한 안전하고 독립적인 시그널 관리
                 </div>
               </div>
             </div>
@@ -563,7 +568,8 @@ export default function Home() {
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
             <p className="section-desc">
-              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다. 프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />
+              프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
             </p>
           </div>
 
@@ -710,7 +716,7 @@ export default function Home() {
                   </button>
                   {formStatus === "error" && (
                     <p style={{ color: "#ff6b6b", fontSize: "13px", marginTop: "10px", textAlign: "center" }}>
-                      전송에 실패했습니다. 이메일로 직접 문의해 주세요.
+                      ❌ 전송에 실패했습니다. 이메일로 직접 문의해 주세요.
                     </p>
                   )}
                 </form>
