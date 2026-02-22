@@ -1,5 +1,5 @@
 "use client";
-
+import emailjs from "@emailjs/browser";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
@@ -207,7 +207,7 @@ export default function Home() {
     return errs;
   };
 
-  /* EmailJS를 이용한 폼 제출 */
+  /* 폼 제출 */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
@@ -216,22 +216,25 @@ export default function Home() {
     setFormStatus("sending");
 
     try {
-      /* EmailJS 초기화 및 전송 */
-      if (!window.emailjs) {
-        throw new Error("EmailJS not loaded");
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
       }
 
-      await window.emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_boddaring",
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_boddaring",
+      await emailjs.send(
+        serviceId,
+        templateId,
         {
-          to_email: "boddaring@endholdings.com",
           from_email: formData.email,
-          from_name: "BODDARING 문의",
           telegram_id: formData.telegram,
           message: formData.message || "(메시지 없음)",
+
+          name: "BODDARING 문의",
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "public_key"
+        { publicKey }
       );
 
       setFormStatus("sent");
@@ -394,7 +397,9 @@ export default function Home() {
             <div className="section-label">Supported Exchanges</div>
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
-              BODDARING은 단순히 많은 거래소를 나열하지 않습니다. 국내외 주요 거래소를 대부분 연동하였으며, 유의미한 차익 신호 선별을 위해 거래량이 낮거나 신뢰도가 떨어지는 거래소는 제외하고 있습니다. 데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가됩니다.
+              BODDARING은 단순히 많은 거래소를 나열하지 않습니다.<br />
+              국내외 주요 거래소를 대부분 연동하였으며, 유의미한 차익 신호 선별을 위해 거래량이 낮거나 신뢰도가 떨어지는 거래소는 제외하고 있습니다.<br />
+              데이터 완성도를 높이기 위해 필요한 거래소는 지속적으로 추가됩니다.
             </p>
           </div>
         </div>
