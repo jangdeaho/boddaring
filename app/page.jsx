@@ -297,7 +297,7 @@ export default function Home() {
               <img src="/icon.png" alt="BODDARING" className="brand-icon" />
               <div className="brand-text">
                 <span className="brand-name">BODDARING</span>
-                <span className="brand-sub">국내 최고 아비트라지 플랫폼</span>
+                <span className="brand-sub">대한민국 최고 아비트라지 플랫폼</span>
               </div>
             </a>
 
@@ -374,6 +374,12 @@ export default function Home() {
                   시그널 화면 보기
                 </a>
               </div>
+              <div>
+                <div className="real-time-badge">
+                  <span className="real-dot" />
+                  Real-Time Data Acquisition
+                </div>
+              </div>
 
               <div className="hero-stats">
                 <div className="hero-stat">
@@ -389,6 +395,11 @@ export default function Home() {
                 <div className="hero-stat">
                   <span className="hero-stat-val">1<span className="unit"> 초</span></span>
                   <span className="hero-stat-label">시그널 갱신 주기</span>
+                </div>
+                <div className="hero-stat-divider" />
+                <div className="hero-stat">
+                  <span className="hero-stat-val">300,000<span className="unit"> 회  ⬆ ⭡ ⤴</span></span>
+                  <span className="hero-stat-label">종목·페어 초당 계산</span>
                 </div>
               </div>
             </div>
@@ -489,7 +500,7 @@ export default function Home() {
               <h3>호가 스카우터</h3>
               <p>
                 거래소 간 차익 시그널과 함께 From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교 제공합니다.
-                국내-해외 간 아비트라지 발생 시 평단가 계산 없이 To 거래소에 맞춰 평단가를 표기하여 즉시 수익 판단이 가능합니다.
+                국내·해외 간 아비트라지 발생 시 평단가 계산 없이 To 거래소에 맞춰 평단가를 표기하여 즉시 수익 판단이 가능합니다.
               </p>
             </div>
             <div className="feature-card reveal reveal-delay-3">
@@ -533,7 +544,8 @@ export default function Home() {
 
               <div className="check-list">
                 <div className="check-item">
-                  국내·해외 주요 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교
+                  압도적인 데이터 수집
+                    └─ 연동 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교 
                 </div>              
                 <div className="check-item">
                   테더(USDT) 실거래 환율 기반 프리미엄 계산<br />
@@ -741,7 +753,7 @@ export default function Home() {
             <div className="footer-brand">
               <div className="brand-name">BODDARING</div>
               <p className="footer-desc">
-                국내 최고 아비트라지 플랫폼.<br />거래소 간 시세 차익을 초 단위로 포착합니다.
+                대한민국 최고 아비트라지 플랫폼.<br />거래소 간 시세 차익을 초 단위로 포착합니다.
               </p>
             </div>
             <div className="footer-col">

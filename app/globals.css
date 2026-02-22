@@ -270,7 +270,9 @@ img { max-width: 100%; display: block; }
   gap: 48px;
   align-items: center;
 }
-.hero-left { }
+.hero-left {
+ font-size: 12px; 
+}
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -509,6 +511,29 @@ img { max-width: 100%; display: block; }
   color: var(--good);
 }
 .live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--good);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.real-time-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.5);
+  border: 1px solid rgba(255,255,255,.12);
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  color: var(--good);
+}
+.real-dot {
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--good);
