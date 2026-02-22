@@ -398,7 +398,7 @@ export default function Home() {
                 </div>
                 <div className="hero-stat-divider" />
                 <div className="hero-stat">
-                  <span className="hero-stat-val">300,000<span className="unit"> 회  ⬆ ⭡ ⤴</span></span>
+                  <span className="hero-stat-val">300,000<span className="unit"> 회⤴</span></span>
                   <span className="hero-stat-label">종목·페어 초당 계산</span>
                 </div>
               </div>
@@ -544,7 +544,7 @@ export default function Home() {
 
               <div className="check-list">
                 <div className="check-item">
-                  압도적인 데이터 수집
+                  압도적인 데이터 수집<br />
                     └─ 연동 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교 
                 </div>              
                 <div className="check-item">
