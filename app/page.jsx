@@ -324,7 +324,7 @@ export default function Home() {
             <div className="hero-left reveal">
               <div className="hero-badge">
                 <span className="hero-badge-dot" />
-                실시간 시세차익 데이터 · 데이터수집 끝판왕
+                실시간 시세차익 데이터 수집 · 구조화 끝판왕
               </div>
 
               <h1 className="hero-title">
@@ -445,33 +445,30 @@ export default function Home() {
               <div className="feature-icon">📡</div>
               <h3>실시간 데이터 수집</h3>
               <p>
-                국내외 주요 거래소의 오더북 데이터를 초 단위로 수집합니다.
-                실제 체결 가능한 가격 기준의 유동성 데이터만을 반영합니다.
+                국내외 주요 거래소별 전종목 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영합니다.
               </p>
             </div>
             <div className="feature-card reveal reveal-delay-1">
               <div className="feature-icon">⚡</div>
               <h3>정밀 차익 계산 시스템</h3>
               <p>
-                수수료, 환율, 슬리피지까지 반영하여
-                실질 순수익 기준의 아비트라지 기회만을 선별합니다.
+                수수료, 환율, 슬리피지까지 반영하여 실질 순수익 기준의 아비트라지 기회만을 선별합니다.
+                - 종목별 최종거래가 기준으로 시그널이 발생하는 것이 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, Amount만큼의 수익률 계산 공식이 작동됩니다.
               </p>
             </div>
             <div className="feature-card reveal reveal-delay-2">
               <div className="feature-icon">🎯</div>
               <h3>호가 스카우터</h3>
               <p>
-                거래소 간 차익 시그널과 함께 From 거래소의 평균 매수가와 To 거래소의 현재가를
-                실시간으로 비교 제공합니다.
-                별도의 평단 계산 없이 즉시 수익 판단이 가능합니다.
+                거래소 간 차익 시그널과 함께 From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교 제공합니다.
+                국내-해외 간 아비트라지 발생 시 평단가 계산 없이 To 거래소에 맞춰 평단가를 표기하여 즉시 수익 판단이 가능합니다.
               </p>
             </div>
             <div className="feature-card reveal reveal-delay-3">
               <div className="feature-icon">🤖</div>
               <h3>커스터마이징 필터</h3>
               <p>
-                Per(수익률)과 Amount(거래 규모)를 직접 설정하여
-                원하는 조건의 시그널만 확인할 수 있습니다.
+                최소 Per(수익률) 및 Amount(거래 규모)를 직접 설정하여 원하는 조건의 시그널만 확인할 수 있습니다.
                 거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.
               </p>
             </div>
@@ -503,7 +500,7 @@ export default function Home() {
               </h2>
               <p className="section-desc">
                 아비트라지는 속도와 정보의 싸움입니다.
-                BODDARING은 국내 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
               </p>
 
               <div className="check-list">
