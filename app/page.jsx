@@ -756,7 +756,7 @@ export default function Home() {
             <div className="footer-brand">
               <div className="brand-name">BODDARING</div>
               <p className="footer-desc">
-                대한민국 최고 아비트라지 플랫폼.<br />거래소 간 시세 차익을 초 단위로 포착합니다.
+                아비트라지 데이터 플랫폼.
               </p>
             </div>
             <div className="footer-col">
