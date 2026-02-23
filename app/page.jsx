@@ -498,8 +498,8 @@ const handleDevSubmit = async (e) => {
               </div>
 
               <div className="hero-bottom-info">
-                <div className="hero-stats-wrap">
-                  <div className="hero-stats-wrap">
+                <div className="real-time-badge">
+                  <div className="real-time-badge">
                     <span className="real-dot" />
                     Real-Time Data Acquisition
                   </div>
