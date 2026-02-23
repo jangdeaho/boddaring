@@ -385,18 +385,18 @@ const handleDevSubmit = async (e) => {
                       <div className="dropdown-item-desc">실시간 차익 시그널 시스템</div>
                     </div>
                   </a>
-                  <a href="#exchanges" className="dropdown-item" onClick={() => setServiceOpen(false)}>
-                    <span className="dropdown-item-icon">🏦</span>
-                    <div>
-                      <div className="dropdown-item-title">연동 거래소</div>
-                      <div className="dropdown-item-desc">국내·해외 주요 거래소 현황</div>
-                    </div>
-                  </a>
                   <a href="#bot" className="dropdown-item" onClick={() => setServiceOpen(false)}>
                     <span className="dropdown-item-icon">🤖</span>
                     <div>
                       <div className="dropdown-item-title">BOT 소개</div>
                       <div className="dropdown-item-desc">자동화 보조 프로그램</div>
+                    </div>
+                  </a>
+                  <a href="#exchanges" className="dropdown-item" onClick={() => setServiceOpen(false)}>
+                    <span className="dropdown-item-icon">🏦</span>
+                    <div>
+                      <div className="dropdown-item-title">연동 거래소</div>
+                      <div className="dropdown-item-desc">국내·해외 주요 거래소 현황</div>
                     </div>
                   </a>
                   <a href="#contact" className="dropdown-item" onClick={() => setServiceOpen(false)}>
@@ -672,7 +672,7 @@ const handleDevSubmit = async (e) => {
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
             <p className="section-desc">
-              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다. 프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
             </p>
           </div>
 
@@ -723,7 +723,8 @@ const handleDevSubmit = async (e) => {
             <div className="section-label">Supported Exchanges</div>
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
-              BODDARING은 단순히 거래소 수를 늘리는 것이 아닌, 데이터 신뢰성을 기준으로 거래소를 선별합니다. 현재 국내 및 글로벌 주요 거래소를 통해 KRW / USDT 시장 간 가격 격차 데이터를 제공하며, 해당 데이터는 공개 API 기반으로 수집·계산된 참고 정보입니다. 유의미한 차익 신호 선별을 위해 데이터 신뢰도가 낮은 거래소는 제외하고 있으며, 데이터 완성도를 높이기 위해 검증된 거래소를 지속적으로 추가하고 있습니다.
+              BODDARING은 데이터 신뢰성을 기준으로 거래소를 선별합니다.<br />
+              국내·글로벌 주요 거래소의 공개 API 데이터를 기반으로 KRW / USDT 시장 간 가격 격차 정보를 제공합니다.
             </p>
           </div>
         </div>
@@ -780,24 +781,25 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="quote-item">
                 비트코인 가격을 왜 '예측'하려고 하시나요?<br />
-                시황 뉴스는 대부분 이미 가격에 반영된 뒤 도착합니다.
+                대부분의 뉴스와 시황은 이미 가격에 반영된 뒤 도착합니다.
               </div>
               <div className="quote-item">
                 뒤늦은 해석과 감정적인 추격 대신,<br />
-                <strong>거래소 간 가격 격차라는 '구조'</strong>를 보세요.
+                <strong>거래소 간 가격 격차라는 '구조'</strong>를 확인할 수 있습니다.
               </div>
               <div className="quote-item">
-                아비트라지는 예측의 영역이 아닌,<br />
-                <strong>가격 구조 데이터를 이해하는 과정</strong>입니다.
+                아비트라지는 예측의 영역이 아니라,<br />
+                <strong>가격 구조 데이터를 해석하는 과정</strong>입니다.
               </div>
               <div className="quote-item">
                 하루 종일 차트를 붙잡고<br />
                 평단가에 흔들리는 스트레스와<br />
                 기약 없는 기다림의 포지션 종료 대신,<br />
-                짧은 사이클로 구조를 확인하는 아비트라지가 있습니다.
+                짧은 구간에서 형성되는 가격 구조를 데이터로 확인하는 방식도 존재합니다.
               </div>
               <div className="quote-item">
-                BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
+                BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계된<br />
+                가격 격차 데이터 플랫폼입니다.
               </div>
               <div className="quote-author">
                 BODDARING · 아비트라지 데이터 플랫폼
@@ -848,8 +850,7 @@ const handleDevSubmit = async (e) => {
                   <h3>문의하기</h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
-                    최대한 빠르게 답변 드리겠습니다.<br />
-                    <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
+                    최대한 빠르게 답변 드리겠습니다. <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
                   </p>
 
                   {formStatus === "sent" ? (
@@ -925,7 +926,7 @@ const handleDevSubmit = async (e) => {
                   <h3>개발 문의</h3>
                   <p>
                     전문적인 투자 프로그램 개발이 필요하신가요?<br />
-                    맞춤형 솔루션을 제공해 드립니다.<br />
+                    맞춤형 솔루션을 제공해 드립니다.{" "}
                     <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
                   </p>
 
@@ -950,6 +951,7 @@ const handleDevSubmit = async (e) => {
                           onChange={handleDevInput("email")}
                         />
                       </div>
+
                       <div className="form-group">
                         <label className="form-label">
                           텔레그램 ID <span className="req">*</span>
@@ -962,17 +964,22 @@ const handleDevSubmit = async (e) => {
                           onChange={handleDevInput("telegram")}
                         />
                       </div>
+
                       <div className="form-group">
                         <label className="form-label">어떤 프로그램 개발을 원하시나요?</label>
                         <textarea
                           className="form-textarea"
-                          placeholder="참고해 주세요!
-                          개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 천만원부터 시작합니다.
-                          컨설팅 이후 프로그램 제작 확정 시 총액에서 컨설팅 비용은 차감합니다."
+                          placeholder="원하시는 기능·요건을 자유롭게 작성해 주세요. (예: 거래소, 전략, 알림 방식, UI 등)"
                           value={devFormData.program}
                           onChange={handleDevInput("program")}
                         />
+                        {/* ✅ 긴 안내는 placeholder 대신 아래에 별도 표기 */}
+                        <p className="form-note">
+                          ※ 개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 1,000만원부터 시작합니다.
+                          　　컨설팅 이후 프로그램 제작 확정 시 해당 비용은 총액에서 차감됩니다.
+                        </p>
                       </div>
+
                       <button
                         type="submit"
                         className="btn-submit"
@@ -980,6 +987,7 @@ const handleDevSubmit = async (e) => {
                       >
                         {devFormStatus === "sending" ? "전송 중..." : "개발 문의 등록하기"}
                       </button>
+
                       {devFormStatus === "error" && (
                         <p style={{ color: "#ff6b6b", fontSize: "13px", marginTop: "10px", textAlign: "center" }}>
                           ❌ 전송에 실패했습니다. 이메일로 직접 문의해 주세요.
@@ -1016,8 +1024,8 @@ const handleDevSubmit = async (e) => {
               <h4>서비스</h4>
               <ul>
                 <li><a href="#signal">시그널 소개</a></li>
-                <li><a href="#exchanges">연동 거래소</a></li>
                 <li><a href="#bot">BOT 소개</a></li>
+                <li><a href="#exchanges">연동 거래소</a></li>
                 <li><Link href="/apply">서비스 신청</Link></li>
               </ul>
             </div>
