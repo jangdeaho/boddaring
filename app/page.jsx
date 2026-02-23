@@ -302,14 +302,13 @@ const handleDevSubmit = async (e) => {
         telegram_id: devFormData.telegram,
         program_request: devFormData.program || "(내용 없음)",
         to_email: "development@endholdings.com",
-      },
-      publicKey
-    );
+      });
 
     setDevFormStatus("sent");
     setDevFormData({ email: "", telegram: "", program: "" });
     setTimeout(() => setDevFormStatus("idle"), 5000);
   } catch (error) {
+    const res = await emailjs.send(serviceId, templateId, params);
     console.error("EmailJS Error:", error);
     setDevFormStatus("error");
   }
