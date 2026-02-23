@@ -1218,6 +1218,11 @@ footer {
    기존 globals.css 파일 맨 아래에 붙여넣기 하세요.
    ================================================================ */
 
+/* ================================================================
+   globals.css 에 추가할 스타일
+   기존 globals.css 파일 맨 아래에 붙여넣기 하세요.
+   ================================================================ */
+
 /* ── 네비게이션 드롭다운 ── */
 .nav-dropdown {
   position: relative;
@@ -1721,4 +1726,49 @@ footer {
   .learn-content {
     padding: 32px 20px;
   }
+}
+
+/* ── 너비 확장 및 텍스트 짤림 방지 ── */
+.container {
+  max-width: 1440px !important;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.no-break {
+  max-width: 100% !important;
+  white-space: normal !important;
+  word-break: keep-all;
+}
+
+/* ── 히어로 하단 정보 영역 ── */
+.hero-bottom-info {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero-rtbadge-row {
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.hero-stats {
+  margin-top: 0 !important;
+}
+
+.hero-video-large {
+  min-height: 420px;
+  margin-top: 24px; /* 타이틀과 높이 밸런스 조정 */
+}
+
+/* ── 섹션 너비 최적화 ── */
+.section-desc {
+  max-width: 900px; /* 너무 길어지지 않게 조정하되 짤리지 않게 */
+}
+
+.section-desc.no-break {
+  max-width: 100% !important;
 }

@@ -1,290 +1,215 @@
 "use client";
-
+import emailjs from "@emailjs/browser";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const PLANS = [
-  { id: "basic", label: "Basic", desc: "시그널 알림 서비스", price: "2,200,000 KRW" },
-  { id: "pro", label: "Pro", desc: "시그널 + 종합 BOT", price: "3,000,000 KRW" },
-  { id: "bot", label: "BOT", desc: "종합 BOT", price: "880,000 KRW" },
-];
-
 export default function ApplyPage() {
-  const [scrolled, setScrolled] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState("pro");
+  const [activeTab, setActiveTab] = useState("monthly"); // monthly, yearly, vip
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     telegram: "",
-    phone: "",
-    plan: "pro",
-    experience: "",
-    capital: "",
+    plan: "BASIC",
     message: "",
   });
-  const [formErrors, setFormErrors] = useState({});
   const [formStatus, setFormStatus] = useState("idle");
+  const [emailjsReady, setEmailjsReady] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (pk) {
+      emailjs.init(pk);
+      setEmailjsReady(true);
+    }
   }, []);
-
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add("on");
-      }),
-      { threshold: 0.1 }
-    );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  const handleInput = (field) => (e) => {
-    const val = e.target.value;
-    setFormData((p) => ({ ...p, [field]: val }));
-    if (formErrors[field]) setFormErrors((p) => ({ ...p, [field]: false }));
-    if (field === "plan") setSelectedPlan(val);
-  };
-
-  const validate = () => {
-    const errs = {};
-    if (!formData.name.trim()) errs.name = true;
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errs.email = true;
-    if (!formData.telegram.trim()) errs.telegram = true;
-    return errs;
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length > 0) { setFormErrors(errs); return; }
-    setFormErrors({});
+    if (!emailjsReady) return;
+
     setFormStatus("sending");
+
     try {
-      await new Promise((r) => setTimeout(r, 1400));
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+
+      await emailjs.send(serviceId, templateId, {
+        from_name: formData.name,
+        from_email: formData.email,
+        telegram_id: formData.telegram,
+        selected_plan: `${activeTab.toUpperCase()} - ${formData.plan}`,
+        message: formData.message || "(메시지 없음)",
+        to_name: "BODDARING 관리자",
+      });
+
       setFormStatus("sent");
-    } catch {
+      setTimeout(() => setFormStatus("idle"), 5000);
+    } catch (error) {
+      console.error("EmailJS Error:", error);
       setFormStatus("error");
     }
   };
 
-  const isDisabled = !formData.name.trim() || !formData.email.trim() || !formData.telegram.trim() || formStatus === "sending";
+  const handleInput = (field) => (e) => {
+    setFormData((p) => ({ ...p, [field]: e.target.value }));
+  };
+
+  const plans = {
+    monthly: [
+      { name: "BASIC", price: "월 220만원", desc: "실시간 시그널" },
+      { name: "PRO", price: "월 300만원", desc: "시그널 + 종합 BOT" },
+      { name: "BOT", price: "월 88만원", desc: "종합 BOT" },
+    ],
+    yearly: [
+      { name: "BASIC (1년)", price: "연 2000만원", desc: "2개월 할인 혜택" },
+      { name: "PRO (1년)", price: "연 3000만원", desc: "2개월 할인 혜택" },
+      { name: "BOT (1년)", price: "연 800만원", desc: "2개월 할인 혜택" },
+    ],
+    vip: [
+      { name: "VIP", price: "별도 문의", desc: "커스텀 전략 및 전용 인프라 구축" },
+    ],
+  };
 
   return (
-    <>
-      {/* 배경 */}
-      <div className="nebula-wrap" aria-hidden="true">
-        <div className="nebula nebula-1" />
-        <div className="nebula nebula-2" />
+    <div className="apply-container" style={{ padding: "120px 20px", maxWidth: "1000px", margin: "0 auto", color: "#fff" }}>
+      <div style={{ textAlign: "center", marginBottom: "60px" }}>
+        <h1 style={{ fontSize: "42px", fontWeight: 800, marginBottom: "16px" }}>서비스 신청하기</h1>
+        <p style={{ color: "#a0a0c0" }}>원하시는 플랜을 선택하고 신청서를 작성해 주세요.</p>
+        <span style={{ color: "var(--muted2)", fontSize: "13px" }}>* 표시는 필수 입력 항목입니다.</span>
+        <span style={{ color: "var(--muted2)", fontSize: "13px" }}>* 모든 플랜은 부가세 포함입니다.</span>
       </div>
 
-      {/* 네비게이션 */}
-      <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
-        <div className="container">
-          <div className="navbar-inner">
-            <Link href="/" className="brand">
-              <img src="/icon.png" alt="BODDARING" className="brand-icon" />
-              <div className="brand-text">
-                <span className="brand-name">BODDARING</span>
-                <span className="brand-sub">아비트라지 데이터 플랫폼</span>
-              </div>
-            </Link>
-            <div className="nav-links">
-              <Link href="/#signal" className="nav-link">시그널 소개</Link>
-              <Link href="/#exchanges" className="nav-link">연동 거래소</Link>
-              <Link href="/#bot" className="nav-link">BOT 소개</Link>
-              <Link href="/#contact" className="nav-link">문의하기</Link>
-            </div>
-            <div className="nav-cta">
-              <Link href="/apply" className="btn-apply active" style={{ opacity: .7, pointerEvents: "none" }}>
-                신청하기
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* 탭 메뉴 */}
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "40px" }}>
+        {["monthly", "yearly", "vip"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => {
+              setActiveTab(tab);
+              setFormData(p => ({ ...p, plan: plans[tab][0].name }));
+            }}
+            style={{
+              padding: "12px 30px",
+              borderRadius: "30px",
+              border: "1px solid rgba(120, 100, 255, 0.3)",
+              background: activeTab === tab ? "linear-gradient(135deg, #7c3aed, #a78bfa)" : "rgba(255,255,255,0.05)",
+              color: "#fff",
+              cursor: "pointer",
+              fontWeight: 600,
+              transition: "all 0.3s"
+            }}
+          >
+            {tab === "monthly" ? "월 플랜" : tab === "yearly" ? "연 플랜" : "VIP"}
+          </button>
+        ))}
+      </div>
 
-      {/* 신청서 */}
-      <div className="apply-wrap">
-        <Link href="/" className="back-link">← 메인으로</Link>
-
-        <h1>서비스 <span className="hero-grad">신청하기</span></h1>
-        <p className="apply-sub">
-          아래 양식을 작성해 주시면 검토 후 빠르게 연락 드리겠습니다.<br />
-          <span style={{ color: "var(--muted2)", fontSize: "13px" }}>* 표시는 필수 입력 항목입니다.</span>
-        </p>
-
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
         {/* 플랜 선택 */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "32px" }}>
-          {PLANS.map((plan) => (
-            <button
-              key={plan.id}
-              onClick={() => { setSelectedPlan(plan.id); setFormData((p) => ({ ...p, plan: plan.id })); }}
-              style={{
-                padding: "16px",
-                borderRadius: "14px",
-                border: selectedPlan === plan.id
-                  ? "2px solid var(--accent)"
-                  : "1px solid var(--stroke)",
-                background: selectedPlan === plan.id
-                  ? "rgba(108,79,255,.12)"
-                  : "var(--panel)",
-                cursor: "pointer",
-                textAlign: "left",
-                transition: "all .2s ease",
-              }}
-            >
-              <div style={{ fontSize: "15px", fontWeight: 800, color: selectedPlan === plan.id ? "var(--text)" : "var(--muted)", marginBottom: "4px" }}>
-                {plan.label}
-              </div>
-              <div style={{ fontSize: "12px", color: "var(--muted2)", marginBottom: "8px" }}>{plan.desc}</div>
-              <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--accent2)" }}>{plan.price}</div>
-            </button>
-          ))}
-        </div>
-
-        {formStatus === "sent" ? (
-          <div className="apply-form-card" style={{ textAlign: "center", padding: "48px 36px" }}>
-            <div style={{ fontSize: "48px", marginBottom: "16px" }}>✅</div>
-            <h2 style={{ fontSize: "22px", fontWeight: 800, marginBottom: "10px" }}>신청이 완료되었습니다!</h2>
-            <p style={{ color: "var(--muted)", fontSize: "15px", lineHeight: 1.7, marginBottom: "24px" }}>
-              입력하신 이메일 및 텔레그램으로 빠른 시일 내에 연락 드리겠습니다.
-            </p>
-            <Link href="/" className="btn-primary" style={{ display: "inline-flex" }}>
-              메인으로 돌아가기
-            </Link>
-          </div>
-        ) : (
-          <div className="apply-form-card reveal">
-            <form onSubmit={handleSubmit} noValidate>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                <div className="form-group">
-                  <label className="form-label">이름 <span className="req">*</span></label>
-                  <input
-                    type="text"
-                    className={`form-input${formErrors.name ? " error" : ""}`}
-                    placeholder="홍길동"
-                    value={formData.name}
-                    onChange={handleInput("name")}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">연락처</label>
-                  <input
-                    type="tel"
-                    className="form-input"
-                    placeholder="010-0000-0000"
-                    value={formData.phone}
-                    onChange={handleInput("phone")}
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">이메일 <span className="req">*</span></label>
-                <input
-                  type="email"
-                  className={`form-input${formErrors.email ? " error" : ""}`}
-                  placeholder="이메일을 입력해 주세요."
-                  value={formData.email}
-                  onChange={handleInput("email")}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">텔레그램 ID <span className="req">*</span></label>
-                <input
-                  type="text"
-                  className={`form-input${formErrors.telegram ? " error" : ""}`}
-                  placeholder="예) @username"
-                  value={formData.telegram}
-                  onChange={handleInput("telegram")}
-                />
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-                <div className="form-group">
-                  <label className="form-label">코인 투자 경험</label>
-                  <select
-                    className="form-input"
-                    value={formData.experience}
-                    onChange={handleInput("experience")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <option value="">선택해 주세요</option>
-                    <option value="none">없음 (입문자)</option>
-                    <option value="under1">1년 미만</option>
-                    <option value="1to3">1~3년</option>
-                    <option value="over3">3년 이상</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">예상 운용 자금</label>
-                  <select
-                    className="form-input"
-                    value={formData.capital}
-                    onChange={handleInput("capital")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <option value="">선택해 주세요</option>
-                    <option value="under500">500만원 미만</option>
-                    <option value="500to1000">500만~1,000만원</option>
-                    <option value="1000to3000">1,000만~3,000만원</option>
-                    <option value="over3000">3,000만원 이상</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">문의 사항</label>
-                <textarea
-                  className="form-textarea"
-                  placeholder="궁금한 점이나 요청 사항을 자유롭게 작성해 주세요."
-                  value={formData.message}
-                  onChange={handleInput("message")}
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn-submit"
-                disabled={isDisabled}
+        <div>
+          <h3 style={{ marginBottom: "20px", color: "#e0d7ff" }}>플랜 선택</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+            {plans[activeTab].map((p) => (
+              <label
+                key={p.name}
+                style={{
+                  padding: "20px",
+                  borderRadius: "16px",
+                  border: `2px solid ${formData.plan === p.name ? "#7c3aed" : "rgba(255,255,255,0.1)"}`,
+                  background: formData.plan === p.name ? "rgba(124, 58, 237, 0.1)" : "rgba(255,255,255,0.02)",
+                  cursor: "pointer",
+                  transition: "all 0.2s"
+                }}
               >
-                {formStatus === "sending" ? "제출 중..." : "신청서 제출하기"}
-              </button>
-
-              {formStatus === "error" && (
-                <p style={{ color: "#ff6b6b", fontSize: "13px", marginTop: "12px", textAlign: "center" }}>
-                  제출에 실패했습니다. boddaring@endholdings.com으로 직접 문의해 주세요.
-                </p>
-              )}
-            </form>
-          </div>
-        )}
-
-        <p style={{ textAlign: "center", fontSize: "13px", color: "var(--muted2)", marginTop: "20px" }}>
-          또는{" "}
-          <a href="mailto:boddaring@endholdings.com" style={{ color: "var(--accent2)", fontWeight: 700 }}>
-            boddaring@endholdings.com
-          </a>
-          {" "}으로 직접 문의해 주세요.
-        </p>
-      </div>
-
-      {/* 푸터 */}
-      <footer>
-        <div className="container">
-          <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} BODDARING. All rights reserved.</span>
-            <div className="footer-bottom-links">
-              <Link href="/">메인으로</Link>
-            </div>
+                <input
+                  type="radio"
+                  name="plan"
+                  value={p.name}
+                  checked={formData.plan === p.name}
+                  onChange={handleInput("plan")}
+                  style={{ display: "none" }}
+                />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: "18px" }}>{p.name}</div>
+                    <div style={{ fontSize: "13px", color: "#a0a0c0", marginTop: "4px" }}>{p.desc}</div>
+                  </div>
+                  <div style={{ fontWeight: 800, color: "#c4b5fd" }}>{p.price}</div>
+                </div>
+              </label>
+            ))}
           </div>
         </div>
-      </footer>
-    </>
+
+        {/* 신청서 폼 */}
+        <form onSubmit={handleSubmit} style={{ background: "rgba(255,255,255,0.03)", padding: "30px", borderRadius: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ marginBottom: "20px" }}>
+            <label style={{ display: "block", marginBottom: "8px", fontSize: "14px" }}>성함 / 닉네임</label>
+            <input
+              type="text"
+              required
+              value={formData.name}
+              onChange={handleInput("name")}
+              style={{ width: "100%", padding: "12px", borderRadius: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff" }}
+              placeholder="홍길동"
+            />
+          </div>
+          <div style={{ marginBottom: "20px" }}>
+            <label style={{ display: "block", marginBottom: "8px", fontSize: "14px" }}>이메일</label>
+            <input
+              type="email"
+              required
+              value={formData.email}
+              onChange={handleInput("email")}
+              style={{ width: "100%", padding: "12px", borderRadius: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff" }}
+              placeholder="example@email.com"
+            />
+          </div>
+          <div style={{ marginBottom: "20px" }}>
+            <label style={{ display: "block", marginBottom: "8px", fontSize: "14px" }}>텔레그램 ID</label>
+            <input
+              type="text"
+              required
+              value={formData.telegram}
+              onChange={handleInput("telegram")}
+              style={{ width: "100%", padding: "12px", borderRadius: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff" }}
+              placeholder="@username"
+            />
+          </div>
+          <div style={{ marginBottom: "25px" }}>
+            <label style={{ display: "block", marginBottom: "8px", fontSize: "14px" }}>추가 문의사항 (선택)</label>
+            <textarea
+              value={formData.message}
+              onChange={handleInput("message")}
+              style={{ width: "100%", padding: "12px", borderRadius: "8px", background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", minHeight: "100px" }}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={formStatus === "sending"}
+            style={{
+              width: "100%",
+              padding: "16px",
+              borderRadius: "12px",
+              background: "linear-gradient(135deg, #7c3aed, #a78bfa)",
+              color: "#fff",
+              border: "none",
+              fontWeight: 700,
+              fontSize: "16px",
+              cursor: "pointer"
+            }}
+          >
+            {formStatus === "sending" ? "전송 중..." : "신청서 제출하기"}
+          </button>
+
+          {formStatus === "sent" && <p style={{ color: "#4ade80", marginTop: "15px", textAlign: "center" }}>✅ 신청서가 성공적으로 제출되었습니다!</p>}
+          {formStatus === "error" && <p style={{ color: "#ff6b6b", marginTop: "15px", textAlign: "center" }}>❌ 전송 실패. 다시 시도해 주세요.</p>}
+        </form>
+      </div>
+      <div style={{ textAlign: "center", marginTop: "40px" }}>
+        <Link href="/" style={{ color: "#a0a0c0", textDecoration: "none", fontSize: "14px" }}>← 메인으로 돌아가기</Link>
+      </div>
+    </div>
   );
 }
