@@ -256,6 +256,8 @@ export default function ApplyPage() {
                 />
               </div>
               <div>
+                <p>
+                </p>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
                   <span style={{ color: "#e0d7ff" }}>연락처</span>
                   <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Phone)</span>
