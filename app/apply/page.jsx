@@ -510,10 +510,12 @@ export default function ApplyPage() {
                 const price = lang === "ko" ? p.priceKo : p.priceEn;
                 const desc = lang === "ko" ? p.descKo : p.descEn;
 
+                const isVip = String(p.id).toUpperCase() === "VIP";
+
                 return (
                   <label
                     key={`${activeTab}-${p.id}`}
-                    className={`planCard ${selected ? "selected" : ""}`}
+                    className={`planCard ${selected ? "selected" : ""} ${isYearly ? "yearly" : ""} ${isVip ? "vip" : ""}`}
                     style={{
                       padding: "24px",
                       borderRadius: "16px",
@@ -538,18 +540,21 @@ export default function ApplyPage() {
                       style={{ display: "none" }}
                     />
 
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div>
-                        <div style={{ fontWeight: 900, fontSize: "18px", color: "#e0d7ff" }}>{p.id}</div>
-                        <div style={{ fontSize: "13px", color: "#8080b0", marginTop: "6px" }}>{desc}</div>
+                    {/* 상단 */}
+                    <div>
+                      <div style={{ fontWeight: 900, fontSize: "18px", color: "#e0d7ff" }}>{p.id}</div>
+                      <div style={{ fontSize: "13px", color: "#8080b0", marginTop: "6px" }}>{desc}</div>
 
-                        {isYearly && (
-                          <div className="discountTag">
-                            ✨ {T.yearlyBadge}
-                          </div>
-                        )}
-                      </div>
-                      <div style={{ fontWeight: 900, color: "#a78bfa", fontSize: "16px", textAlign: "right" }}>{price}</div>
+                      {isYearly && (
+                        <div className="discountTag" style={{ marginTop: "10px" }}>
+                          ✨ {T.yearlyBadge}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 하단 */}
+                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "14px" }}>
+                      <div className="planPrice">{price}</div>
                     </div>
                   </label>
                 );
