@@ -259,7 +259,7 @@ export default function Home() {
     setDevFormErrors({});
     setDevFormStatus("sending");
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID2;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_DEVELOPMENT || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
       if (!serviceId || !templateId || !publicKey) {
