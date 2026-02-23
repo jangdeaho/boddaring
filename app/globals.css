@@ -2200,3 +2200,62 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+/* ================= APPLY PLAN UI FIX ================= */
+
+.planCard {
+  position: relative;
+  overflow: hidden;
+  transition: all .25s ease;
+}
+
+/* 우측 신청서 배열 안맞는 문제 해결 */
+.planCard > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* 가격 스타일 정리 */
+.planPrice{
+  font-weight: 900;
+  font-size: 16px;
+  color: #a78bfa;
+  text-align: right;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+/* 선택 시 price만 살짝 확대 */
+.planCard.selected .planPrice{
+  transform: scale(1.08);
+  filter: brightness(1.15);
+}
+
+/* ================= YEARLY SHIMMER ================= */
+.planCard.yearly.selected{
+  border: 2px solid transparent;
+  background:
+    linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08)) padding-box,
+    linear-gradient(
+      120deg,
+      rgba(167,139,250,0.15),
+      rgba(0,200,245,0.45),
+      rgba(167,139,250,0.15)
+    ) border-box;
+  background-size: auto, 240% 100%;
+  animation: yearlyShimmer 1.8s linear infinite;
+}
+
+@keyframes yearlyShimmer{
+  0% { background-position: 0 0, 0% 50%; }
+  100% { background-position: 0 0, 240% 50%; }
+}
+
+/* ================= VIP GOLD ================= */
+.planCard.vip.selected{
+  border-color: rgba(255,199,92,0.55);
+  box-shadow:
+    0 0 20px rgba(255,199,92,0.25),
+    0 0 50px rgba(255,199,92,0.15);
+  background: linear-gradient(135deg, rgba(255,199,92,0.12), rgba(167,139,250,0.06));
+}
