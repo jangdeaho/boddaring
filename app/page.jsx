@@ -372,7 +372,7 @@ const handleDevSubmit = async (e) => {
                 onMouseLeave={() => setServiceOpen(false)}
               >
                 <button className="nav-link nav-dropdown-trigger">
-                  서비스
+                  대표 서비스 
                   <svg className="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
