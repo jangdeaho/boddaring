@@ -1248,7 +1248,7 @@ footer {
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 14px);
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   min-width: 240px;
@@ -1281,7 +1281,8 @@ footer {
   border-right: 1px solid rgba(120, 100, 255, 0.2);
 }
 
-.nav-dropdown.open .dropdown-menu {
+.nav-dropdown.open .dropdown-menu,
+.nav-dropdown:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -1465,10 +1466,14 @@ footer {
   box-shadow: 0 0 60px rgba(120, 100, 255, 0.15), 0 30px 80px rgba(0,0,0,0.5);
 }
 
+.hero-video-large {
+  min-height: 420px;
+}
+
 .hero-video-placeholder {
   width: 100%;
   height: 100%;
-  min-height: 360px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -428,9 +428,7 @@ export default function Home() {
               </h1>
 
               <p className="hero-desc">
-                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여
-                가격을 비교해 차익을 계산하고, 실행 가능한 기회만 선별해{" "}
-                <span className="pulse">초 단위로 시그널</span>을 제공합니다.
+                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고, 실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.
               </p>
 
               <div className="hero-actions">
@@ -475,7 +473,7 @@ export default function Home() {
 
             {/* 우측 — 영상 영역 */}
             <div className="hero-right reveal reveal-delay-2">
-              <div className="hero-video-wrap">
+              <div className="hero-video-wrap hero-video-large">
                 <div className="hero-video-badge">
                   <span className="live-dot" />
                   LIVE Signal
@@ -622,8 +620,7 @@ export default function Home() {
                 데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
               </h2>
               <p className="section-desc">
-                아비트라지는 속도와 정보의 싸움입니다.<br />
-                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+                아비트라지는 속도와 정보의 싸움입니다. BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
               </p>
 
               <div className="check-list">
@@ -663,9 +660,8 @@ export default function Home() {
             <h2 className="section-title">
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
-            <p className="section-desc">
-              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />
-              프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+              <p className="section-desc">
+                사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다. 프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
             </p>
           </div>
 
