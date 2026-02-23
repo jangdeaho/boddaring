@@ -253,7 +253,7 @@ export default function Home() {
     setFormErrors({});
     setFormStatus("sending");
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID2;
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_INQUIRY || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
       if (!serviceId || !templateId || !publicKey) {
@@ -263,7 +263,7 @@ export default function Home() {
         from_email: formData.email,
         telegram_id: formData.telegram,
         message: formData.message || "(메시지 없음)",
-        to_email: "development@endholdings.com",
+        to_email: "boddaring@endholdings.com",
       });
       setFormStatus("sent");
       setFormData({ email: "", telegram: "", message: "" });
@@ -560,38 +560,48 @@ const handleDevSubmit = async (e) => {
               <span className="hero-grad">BODDARING</span>
             </h2>
             <p className="section-desc no-break">
-              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다. BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
+              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
+              BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
             </p>
           </div>
 
           {/* 기능 카드 — 타임라인 스타일 */}
           <div className="feature-timeline reveal">
-            <div className="timeline-item">
-              <div className="timeline-icon">📊</div>
-              <div className="timeline-content">
-                <h4>실시간 데이터 수집</h4>
-                <p>공개 오더북 데이터를 초 단위로 수집합니다.</p>
+            <div className="feature-timeline-item">
+              <div className="ftl-icon-wrap">
+                <div className="ftl-icon">📡</div>
+              </div>
+              <div className="ftl-content">
+                <h3 className="ftl-title">실시간 데이터 수집</h3>
+                <p className="ftl-desc">공개 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영하여 정확도를 높입니다.</p>
               </div>
             </div>
-            <div className="timeline-item">
-              <div className="timeline-icon">💰</div>
-              <div className="timeline-content">
-                <h4>비용 반영 계산 시스템</h4>
-                <p>수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. (투자 수익 보장을 의미하지 않습니다.)</p>
+            <div className="feature-timeline-item">
+              <div className="ftl-icon-wrap">
+                <div className="ftl-icon">⚡</div>
+              </div>
+              <div className="ftl-content">
+                <h3 className="ftl-title">비용 반영 계산 시스템</h3>
+                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
+                <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
               </div>
             </div>
-            <div className="timeline-item">
-              <div className="timeline-icon">📈</div>
-              <div className="timeline-content">
-                <h4>오더북 기반 유동성 분석</h4>
-                <p>체결 가능 범위 기준의 가격 데이터를 제공합니다.</p>
+            <div className="feature-timeline-item">
+              <div className="ftl-icon-wrap">
+                <div className="ftl-icon">🎯</div>
+              </div>
+              <div className="ftl-content">
+                <h3 className="ftl-title">오더북 기반 유동성 분석</h3>
+                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 즉시 수익 판단이 가능합니다.</p>
               </div>
             </div>
-            <div className="timeline-item">
-              <div className="timeline-icon">🎯</div>
-              <div className="timeline-content">
-                <h4>사용자 조건 필터</h4>
-                <p>Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다.</p>
+            <div className="feature-timeline-item">
+              <div className="ftl-icon-wrap">
+                <div className="ftl-icon">🤖</div>
+              </div>
+              <div className="ftl-content">
+                <h3 className="ftl-title">사용자 조건 필터</h3>
+                <p className="ftl-desc">Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다. 거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.</p>
               </div>
             </div>
           </div>
