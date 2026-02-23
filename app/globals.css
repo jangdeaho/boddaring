@@ -1429,10 +1429,28 @@ footer {
 }
 
 /* ── Real-Time Badge 위치 조정 ── */
-.hero-rtbadge-row {
-  margin: 16px 0 0 0;
-  display: flex;
-  align-items: center;
+.hero-stats-wrap{
+  position: relative;
+  margin-top: 34px; /* 뱃지 자리 확보 */
+}
+
+.hero-rtbadge{
+  position: absolute;
+  top: -34px;   /* 스탯 바로 위 */
+  left: 0;      /* 왼쪽 정렬 (스크린샷처럼) */
+  z-index: 2;
+}
+
+/* 모바일에서는 겹침 방지: absolute 해제 */
+@media (max-width: 768px){
+  .hero-stats-wrap{
+    margin-top: 16px;
+  }
+  .hero-rtbadge{
+    position: static;
+    margin-bottom: 12px;
+    display: inline-flex;
+  }
 }
 
 /* ── 거래소 섹션 하단 고지 ── */

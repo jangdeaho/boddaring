@@ -498,9 +498,8 @@ const handleDevSubmit = async (e) => {
               </div>
 
               <div className="hero-bottom-info">
-                {/* Real-Time Badge */}
-                <div className="hero-rtbadge-row">
-                  <div className="real-time-badge">
+                <div className="hero-stats-wrap">
+                  <div className="hero-stats-wrap">
                     <span className="real-dot" />
                     Real-Time Data Acquisition
                   </div>
@@ -850,7 +849,7 @@ const handleDevSubmit = async (e) => {
                   <h3>문의하기</h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
-                    최대한 빠르게 답변 드리겠습니다. <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
+                    최대한 빠르게 답변 드리겠습니다. <span className="ftl-note"> (*는 필수 항목입니다.)</span><br />
                   </p>
 
                   {formStatus === "sent" ? (

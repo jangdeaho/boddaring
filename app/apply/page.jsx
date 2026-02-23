@@ -38,7 +38,7 @@ export default function ApplyPage() {
         yearlyBadge: "2개월 할인",
         selectedBadge: "선택됨",
 
-        formRequiredNote: "* 는 필수 입력 항목입니다.",
+        formRequiredNote: " 는 필수 입력 항목입니다.",
         name: "이름",
         phone: "연락처",
         email: "이메일",
@@ -83,7 +83,7 @@ export default function ApplyPage() {
         yearlyBadge: "2-Month Discount",
         selectedBadge: "Selected",
 
-        formRequiredNote: "* Required fields.",
+        formRequiredNote: " Required fields.",
         name: "Name",
         phone: "Phone",
         email: "Email",
