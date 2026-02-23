@@ -225,8 +225,14 @@ export default function ApplyPage() {
             {/* 이름 / 연락처 */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
               <div>
+                <p style={{
+                  fontSize: "13px",
+                  color: "#8080b0",
+                  marginBottom: "20px"
+                }}>
+                  <span style={{ color: "#ff6b6b" }}>*</span> 는 필수 입력 항목입니다.
+                </p>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>* 표시는 필수 입력 항목입니다</span><br />
                   <span style={{ color: "#e0d7ff" }}>이름</span>
                   <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Name)</span>
                   <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
@@ -348,7 +354,7 @@ export default function ApplyPage() {
                   }}
                 >
                   {experienceOptions.map(opt => (
-                    <option key={opt.label} value={opt.label} style={{ background: "#1a1a2e", color: "#fff" }}>
+                    <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
                       {opt.label}
                     </option>
                   ))}
@@ -376,7 +382,7 @@ export default function ApplyPage() {
                   }}
                 >
                   {fundOptions.map(opt => (
-                    <option key={opt.label} value={opt.label} style={{ background: "#1a1a2e", color: "#fff" }}>
+                    <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
                       {opt.label}
                     </option>
                   ))}
