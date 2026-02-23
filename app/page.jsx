@@ -96,52 +96,77 @@ function StarCanvas() {
         grad.addColorStop(0, `rgba(255,255,255,0)`);
         grad.addColorStop(0.6, `rgba(180,160,255,${this.alpha * 0.4})`);
         grad.addColorStop(1, `rgba(255,255,255,${this.alpha * 0.9})`);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(tailX, tailY);
         ctx.lineTo(this.x, this.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.lineCap = "round";
         ctx.stroke();
+        const glow = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 6);
+        glow.addColorStop(0, `rgba(255,255,255,${this.alpha * 0.8})`);
+        glow.addColorStop(1, `rgba(180,160,255,0)`);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
       }
     }
 
-    const meteors = Array.from({ length: 8 }, () => new Meteor());
+    const meteors = Array.from({ length: 6 }, () => new Meteor());
 
-    const animate = () => {
-      ctx.fillStyle = "rgba(10, 10, 30, 0.1)";
-      ctx.fillRect(0, 0, W, H);
+    let frame = 0;
+    let raf;
 
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      frame++;
+
+      /* 별 */
       stars.forEach((s) => {
-        s.phase += s.speed;
-        s.a = 0.15 + Math.sin(s.phase) * 0.55;
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.a})`;
+        const a = s.a * (0.6 + 0.4 * Math.sin(frame * s.speed + s.phase));
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220,230,255,${a})`;
         ctx.fill();
       });
 
+      /* 별똥별 */
       meteors.forEach((m) => {
         m.update();
         m.draw(ctx);
       });
 
-      requestAnimationFrame(animate);
-    };
+      raf = requestAnimationFrame(draw);
+    }
 
-    animate();
+    draw();
 
-    const handleResize = () => {
+    const onResize = () => {
       W = window.innerWidth;
       H = window.innerHeight;
       canvas.width = W;
       canvas.height = H;
+      stars.forEach((s) => {
+        s.x = Math.random() * W;
+        s.y = Math.random() * H;
+      });
     };
+    window.addEventListener("resize", onResize);
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
-  return <canvas ref={canvasRef} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      id="star-canvas"
+      aria-hidden="true"
+    />
+  );
 }
 
 export default function Home() {
