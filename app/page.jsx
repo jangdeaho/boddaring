@@ -480,20 +480,24 @@ const handleDevSubmit = async (e) => {
               </div>
 
               <h1 className="hero-title">
-                거래소 간 <span className="hero-grad">시세 차익</span>을<br />한눈에, 빠르게!
+                거래소 간 <span className="hero-grad">시세 차익</span>을<br />한눈에, 빠르게!<br />
                 <span className="line2 hero-title-animated">데이터수집의 새로운 기준</span>
               </h1>
 
               <p className="hero-desc">
-                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여<br />가격을 비교해 차익을 계산하고,<br />실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.
+                수많은 아비트라지 서비스들, 그동안 실망만 하셨나요?<br />
+                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고,<br />실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.<br />
+                <span className="highlight">단 하루면 충분합니다!</span> BODDARING의 차원이 다른 압도적인 데이터 수집 속도와 정교한 계산 시스템을 직접 경험해 보세요!
+                <strong>지금 바로 24시간 무료 체험</strong>으로 체험해 보세요!
               </p>
 
               <div className="hero-actions">
                 <a href="#contact" className="btn-primary">
                   지금 문의하기
                 </a>
-                <a href="#signal" className="btn-outline">
-                  시그널 화면 보기
+                <a href="/apply" className="btn-free-trial">
+                  24시간 무료체험 신청하기 🚀
+                  <span className="btn-shine"></span>
                 </a>
               </div>
 
