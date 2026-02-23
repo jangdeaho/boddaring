@@ -62,14 +62,14 @@ export default function ApplyPage() {
 
   const plans = {
     monthly: [
-      { name: "BASIC", price: "월 220만원", desc: "실시간 시그널" },
-      { name: "PRO", price: "월 300만원", desc: "시그널 + 종합 BOT" },
-      { name: "BOT", price: "월 88만원", desc: "종합 BOT" },
+      { name: "BASIC", price: "월 2,200,000 KRW", desc: "실시간 시그널" },
+      { name: "PRO", price: "월 3,000,000 KRW", desc: "시그널 + 종합 BOT" },
+      { name: "BOT", price: "월 880,000 KRW", desc: "종합 BOT" },
     ],
     yearly: [
-      { name: "BASIC (1년)", price: "연 2000만원", desc: "2개월 할인 혜택" },
-      { name: "PRO (1년)", price: "연 3000만원", desc: "2개월 할인 혜택" },
-      { name: "BOT (1년)", price: "연 800만원", desc: "2개월 할인 혜택" },
+      { name: "BASIC (1년)", price: "연 20,000,000 KRW", desc: "2개월 할인 혜택!" },
+      { name: "PRO (1년)", price: "연 30,000,000 KRW", desc: "2개월 할인 혜택!" },
+      { name: "BOT (1년)", price: "연 8,000,000 KRW", desc: "2개월 할인 혜택!" },
     ],
     vip: [
       { name: "VIP", price: "별도 문의", desc: "커스텀 전략 및 전용 인프라 구축" },
@@ -177,7 +177,7 @@ export default function ApplyPage() {
                   whiteSpace: "nowrap",
                 }}
               >
-                * 모든 플랜은 부가세 포함입니다.
+                * 모든 플랜은 부가세(VAT) 포함입니다.
               </span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
