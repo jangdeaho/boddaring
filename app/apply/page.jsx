@@ -111,10 +111,6 @@ export default function ApplyPage() {
           <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "24px", lineHeight: 1.6 }}>
             원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.<br />
           </p>
-          <div style={{ fontSize: "13px", color: "#7080a0", display: "flex", justifyContent: "center", gap: "24px", flexWrap: "wrap" }}>
-            <span>* 표시는 필수 입력 항목입니다.</span><br />
-            <span>* 모든 플랜은 부가세 포함입니다.</span>
-          </div>
         </div>
 
         {/* 탭 메뉴 */}
@@ -148,7 +144,42 @@ export default function ApplyPage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "50px" }}>
           {/* 플랜 선택 */}
           <div>
-            <h3 style={{ marginBottom: "24px", color: "#e0d7ff", fontSize: "20px", fontWeight: 700 }}>플랜 선택</h3>
+            {}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                justifyContent: "space-between",
+                marginBottom: "24px",
+                gap: "16px",
+              }}
+            >
+              <h3
+                style={{
+                  color: "#e0d7ff",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  margin: 0,
+                }}
+              >
+                플랜 선택
+              </h3>
+
+              {}
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "#9aa8c7",
+                  background: "rgba(112,128,160,0.12)",
+                  border: "1px solid rgba(112,128,160,0.18)",
+                  padding: "5px 10px",
+                  borderRadius: "999px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                * 모든 플랜은 부가세 포함입니다.
+              </span>
+            </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {plans[activeTab].map((p) => (
                 <label
@@ -195,6 +226,7 @@ export default function ApplyPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
               <div>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>* 표시는 필수 입력 항목입니다</span>
                   <span style={{ color: "#e0d7ff" }}>이름</span>
                   <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Name)</span>
                   <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
