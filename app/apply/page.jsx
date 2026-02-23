@@ -338,7 +338,6 @@ export default function ApplyPage() {
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
                   <span style={{ color: "#e0d7ff" }}>코인 투자 경험</span>
                   <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Experience)</span>
-                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
                 </label>
                 <select
                   required
@@ -366,7 +365,6 @@ export default function ApplyPage() {
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
                   <span style={{ color: "#e0d7ff" }}>예상 운용 자금</span>
                   <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Fund Size)</span>
-                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
                 </label>
                 <select
                   required
