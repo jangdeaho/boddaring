@@ -533,6 +533,7 @@ export default function Home() {
               * Traders in Thailand, India, and other countries who require a professional arbitrage data system tailored to their local market are welcome to contact us.
             </p>
             <p className="exchange-disclaimer">
+              이 플랫폼은 상장된 거래소와 공식적인 제휴 관계가 없습니다. 모든 데이터는 공개 API를 통해 독립적으로 수집되며 정보 제공 목적으로만 제공되며, 모든 상표는 각자의 소유주에게 속합니다.
               This platform has no official affiliation with any listed exchange. All data is independently collected via public APIs and provided solely for informational purposes. All trademarks belong to their respective owners.
             </p>
           </div>
@@ -551,7 +552,8 @@ export default function Home() {
               <span className="hero-grad">BODDARING</span>
             </h2>
             <p className="section-desc">
-              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다. BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
+              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
+              BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.<br />
             </p>
           </div>
 
@@ -572,7 +574,8 @@ export default function Home() {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">비용 반영 계산 시스템</h3>
-                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다. <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
+                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
+                <span className="ftl-note">(* 투자 수익 보장을 의미하지 않습니다.)</span></p>
               </div>
             </div>
             <div className="feature-timeline-item">
@@ -620,7 +623,8 @@ export default function Home() {
                 데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
               </h2>
               <p className="section-desc">
-                아비트라지는 속도와 정보의 싸움입니다. BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+                아비트라지는 속도와 정보의 싸움입니다.<br />
+                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
               </p>
 
               <div className="check-list">
@@ -661,7 +665,8 @@ export default function Home() {
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
               <p className="section-desc">
-                사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다. 프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+                사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />
+                프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
             </p>
           </div>
 
@@ -740,9 +745,6 @@ export default function Home() {
                 ※ 본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
                    정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
               </div>
-              <div className="quote-author">
-                BODDARING · 아비트라지 데이터 플랫폼
-              </div>
             </div>
 
             {/* 우측 — 문의 폼 */}
@@ -750,7 +752,8 @@ export default function Home() {
               <h3>문의하기</h3>
               <p>
                 궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
-                최대한 빠르게 답변 드리겠습니다.
+                최대한 빠르게 답변 드리겠습니다.<br />
+                <span style={{ color: "var(--muted2)", fontSize: "13px" }}>* 표시는 필수 입력 항목입니다.</span><br />
               </p>
 
               {formStatus === "sent" ? (

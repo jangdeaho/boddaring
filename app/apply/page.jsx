@@ -6,7 +6,7 @@ import Link from "next/link";
 const PLANS = [
   { id: "basic", label: "Basic", desc: "시그널 알림 서비스", price: "2,200,000 KRW" },
   { id: "pro", label: "Pro", desc: "시그널 + 종합 BOT", price: "3,000,000 KRW" },
-  { id: "vip", label: "VIP", desc: "전체 서비스", price: "문의" },
+  { id: "bot", label: "BOT", desc: "종합 BOT", price: "880,000 KRW" },
 ];
 
 export default function ApplyPage() {
