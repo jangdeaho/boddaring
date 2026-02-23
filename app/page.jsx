@@ -259,13 +259,13 @@ export default function Home() {
     setDevFormErrors({});
     setDevFormStatus("sending");
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID2;
+      const serviceId2 = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID2;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_DEVELOPMENT || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-      if (!serviceId || !templateId || !publicKey) {
+      if (!serviceId2 || !templateId || !publicKey) {
         throw new Error("EmailJS env missing");
       }
-      await emailjs.send(serviceId, templateId, {
+      await emailjs.send(serviceId2, templateId, {
         from_email: devFormData.email,
         telegram_id: devFormData.telegram,
         program_request: devFormData.program || "(내용 없음)",
