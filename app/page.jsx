@@ -263,7 +263,7 @@ export default function Home() {
         from_email: formData.email,
         telegram_id: formData.telegram,
         message: formData.message || "(메시지 없음)",
-        to_email: "boddaring@endholdings.com",
+        to_email: "development@endholdings.com",
       });
       setFormStatus("sent");
       setFormData({ email: "", telegram: "", message: "" });
