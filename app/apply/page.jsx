@@ -1,9 +1,10 @@
 "use client";
 import emailjs from "@emailjs/browser";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 export default function ApplyPage() {
+  const [lang, setLang] = useState("ko"); // "ko" | "en"
   const [activeTab, setActiveTab] = useState("monthly"); // monthly, yearly, vip
   const [formData, setFormData] = useState({
     name: "",
@@ -15,9 +16,187 @@ export default function ApplyPage() {
     plan: "BASIC",
     message: "",
   });
+
   const [formStatus, setFormStatus] = useState("idle");
   const [emailjsReady, setEmailjsReady] = useState(false);
 
+  // -----------------------------
+  // i18n dictionary
+  // -----------------------------
+  const T = useMemo(() => {
+    const dict = {
+      ko: {
+        pageTitle: "서비스 신청하기",
+        pageDesc: "원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.",
+        tabMonthly: "월 플랜",
+        tabYearly: "연 플랜",
+        tabVIP: "VIP",
+        plansTitle: "플랜 선택",
+        vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
+        yearlyPromoTitle: "연 플랜 혜택",
+        yearlyPromoDesc: "연 플랜은 2개월 할인 혜택이 적용됩니다.",
+        yearlyBadge: "2개월 할인",
+        selectedBadge: "선택됨",
+
+        formRequiredNote: " 는 필수 입력 항목입니다.",
+        name: "이름",
+        phone: "연락처",
+        email: "이메일",
+        telegram: "텔레그램 ID",
+        experience: "코인 투자 경험",
+        fundSize: "예상 운용 자금",
+        message: "문의사항",
+
+        phName: "홍길동",
+        phPhone: "010-0000-0000",
+        phEmail: "example@email.com",
+        phTelegram: "@username",
+        phMessage: "추가 문의사항이 있으시면 입력해 주세요.",
+
+        btnSending: "전송 중...",
+        btnSubmit: "신청서 제출하기",
+        success: "✅ 신청서가 성공적으로 제출되었습니다! 빠르게 연락드리겠습니다.",
+        error: "❌ 전송 실패. 다시 시도해 주세요.",
+        backHome: "← 메인으로 돌아가기",
+
+        labelName: "(Name)",
+        labelPhone: "(Phone)",
+        labelEmail: "(E-mail)",
+        labelTelegram: "(Telegram ID)",
+        labelExperience: "(Experience)",
+        labelFund: "(Fund Size)",
+        labelMessage: "(Message)",
+
+        langKOR: "KOR",
+        langENG: "ENG",
+      },
+      en: {
+        pageTitle: "Apply for Service",
+        pageDesc: "Select a plan and submit the application. We’ll review it and get back to you shortly.",
+        tabMonthly: "Monthly",
+        tabYearly: "Yearly",
+        tabVIP: "VIP",
+        plansTitle: "Select a Plan",
+        vatNote: "* All prices include VAT.",
+        yearlyPromoTitle: "Yearly Benefit",
+        yearlyPromoDesc: "Yearly plans include a 2-month discount.",
+        yearlyBadge: "2-Month Discount",
+        selectedBadge: "Selected",
+
+        formRequiredNote: " Required fields.",
+        name: "Name",
+        phone: "Phone",
+        email: "Email",
+        telegram: "Telegram ID",
+        experience: "Crypto Experience",
+        fundSize: "Estimated Capital",
+        message: "Message",
+
+        phName: "John Doe",
+        phPhone: "+82 10-0000-0000",
+        phEmail: "example@email.com",
+        phTelegram: "@username",
+        phMessage: "Write any additional details here.",
+
+        btnSending: "Sending...",
+        btnSubmit: "Submit Application",
+        success: "✅ Submitted successfully! We’ll contact you shortly.",
+        error: "❌ Failed to send. Please try again.",
+        backHome: "← Back to Home",
+
+        labelName: "(Name)",
+        labelPhone: "(Phone)",
+        labelEmail: "(E-mail)",
+        labelTelegram: "(Telegram ID)",
+        labelExperience: "(Experience)",
+        labelFund: "(Fund Size)",
+        labelMessage: "(Message)",
+
+        langKOR: "KOR",
+        langENG: "ENG",
+      },
+    };
+    return dict[lang];
+  }, [lang]);
+
+  // persist language
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("boddaring_lang");
+      if (saved === "ko" || saved === "en") setLang(saved);
+    } catch {}
+  }, []);
+
+  const setLanguage = (next) => {
+    setLang(next);
+    try {
+      localStorage.setItem("boddaring_lang", next);
+    } catch {}
+  };
+
+  // -----------------------------
+  // Options (value + label)
+  // -----------------------------
+  const experienceOptions = useMemo(
+    () => [
+      { value: "beginner", labelKo: "1년 미만", labelEn: "Less than 1 year" },
+      { value: "intermediate", labelKo: "1~3년", labelEn: "1–3 years" },
+      { value: "advanced", labelKo: "3년 이상", labelEn: "3+ years" },
+    ],
+    []
+  );
+
+  const fundOptions = useMemo(
+    () => [
+      { value: "small", labelKo: "1,000만원 이하", labelEn: "Under ₩10M" },
+      { value: "medium", labelKo: "1,000만원 ~ 1억원", labelEn: "₩10M–₩100M" },
+      { value: "large", labelKo: "1억원 이상", labelEn: "₩100M+" },
+    ],
+    []
+  );
+
+  // -----------------------------
+  // Plans (use stable ids, localize display)
+  // -----------------------------
+  const plans = useMemo(
+    () => ({
+      monthly: [
+        { id: "BASIC", priceKo: "월 2,200,000 KRW", priceEn: "₩2,200,000 / mo", descKo: "실시간 시그널", descEn: "Real-time signals" },
+        { id: "PRO", priceKo: "월 3,000,000 KRW", priceEn: "₩3,000,000 / mo", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "BOT", priceKo: "월 880,000 KRW", priceEn: "₩880,000 / mo", descKo: "종합 BOT", descEn: "Execution BOT" },
+      ],
+      yearly: [
+        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "₩20,000,000 / yr", descKo: "2개월 할인 혜택!", descEn: "2-month discount included!" },
+        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "₩30,000,000 / yr", descKo: "2개월 할인 혜택!", descEn: "2-month discount included!" },
+        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "₩8,000,000 / yr", descKo: "2개월 할인 혜택!", descEn: "2-month discount included!" },
+      ],
+      vip: [{ id: "VIP", priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
+    }),
+    []
+  );
+
+  const getPlanLabel = (tab, planId) => {
+    const found = (plans[tab] || []).find((p) => p.id === planId);
+    if (!found) return planId;
+    // plan display name (keep BASIC/PRO/BOT/VIP)
+    return planId;
+  };
+
+  const getExperienceLabel = (val) => {
+    const found = experienceOptions.find((o) => o.value === val);
+    if (!found) return val;
+    return lang === "ko" ? found.labelKo : found.labelEn;
+  };
+
+  const getFundLabel = (val) => {
+    const found = fundOptions.find((o) => o.value === val);
+    if (!found) return val;
+    return lang === "ko" ? found.labelKo : found.labelEn;
+  };
+
+  // -----------------------------
+  // EmailJS init
+  // -----------------------------
   useEffect(() => {
     const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
     if (pk) {
@@ -25,6 +204,20 @@ export default function ApplyPage() {
       setEmailjsReady(true);
     }
   }, []);
+
+  // -----------------------------
+  // Handlers
+  // -----------------------------
+  const handleInput = (field) => (e) => {
+    setFormData((p) => ({ ...p, [field]: e.target.value }));
+  };
+
+  const onTabClick = (tab) => {
+    setActiveTab(tab);
+    // default to first plan in tab
+    const first = plans[tab]?.[0]?.id;
+    if (first) setFormData((p) => ({ ...p, plan: first }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,16 +229,29 @@ export default function ApplyPage() {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
 
+      const experienceLabel = getExperienceLabel(formData.experience);
+      const fundLabel = getFundLabel(formData.fundSize);
+
       await emailjs.send(serviceId, templateId, {
         from_name: formData.name,
         from_phone: formData.phone,
         from_email: formData.email,
         telegram_id: formData.telegram,
-        experience: formData.experience,
-        fund_size: formData.fundSize,
-        selected_plan: `${activeTab.toUpperCase()} - ${formData.plan}`,
-        message: formData.message || "(메시지 없음)",
-        to_name: "BODDARING 관리자",
+
+        // ✅ label로 전송
+        experience: experienceLabel,
+        fund_size: fundLabel,
+
+        // 선택 플랜도 사람이 읽기 쉽게
+        selected_plan: `${activeTab.toUpperCase()} - ${getPlanLabel(activeTab, formData.plan)}`,
+
+        // 참고로 value도 필요하면 템플릿에 추가로 써도 됨(선택)
+        experience_value: formData.experience,
+        fund_size_value: formData.fundSize,
+
+        message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
+        to_name: lang === "ko" ? "BODDARING 관리자" : "BODDARING Admin",
+        ui_lang: lang,
       });
 
       setFormStatus("sent");
@@ -56,116 +262,222 @@ export default function ApplyPage() {
     }
   };
 
-  const handleInput = (field) => (e) => {
-    setFormData((p) => ({ ...p, [field]: e.target.value }));
-  };
-
-  const plans = {
-    monthly: [
-      { name: "BASIC", price: "월 2,200,000 KRW", desc: "실시간 시그널" },
-      { name: "PRO", price: "월 3,000,000 KRW", desc: "시그널 + 종합 BOT" },
-      { name: "BOT", price: "월 880,000 KRW", desc: "종합 BOT" },
-    ],
-    yearly: [
-      { name: "BASIC (1년)", price: "연 20,000,000 KRW", desc: "2개월 할인 혜택!" },
-      { name: "PRO (1년)", price: "연 30,000,000 KRW", desc: "2개월 할인 혜택!" },
-      { name: "BOT (1년)", price: "연 8,000,000 KRW", desc: "2개월 할인 혜택!" },
-    ],
-    vip: [
-      { name: "VIP", price: "별도 문의", desc: "커스텀 전략 및 전용 인프라 구축" },
-    ],
-  };
-
-  const experienceOptions = [
-    { value: "beginner", label: "1년 미만" },
-    { value: "intermediate", label: "1~3년" },
-    { value: "advanced", label: "3년 이상" },
-  ];
-
-  const fundOptions = [
-    { value: "small", label: "1,000만원 이하" },
-    { value: "medium", label: "1,000만원 ~ 1억원" },
-    { value: "large", label: "1억원 이상" },
-  ];
+  const isYearly = activeTab === "yearly";
 
   return (
-    <div style={{ padding: "120px 40px", maxWidth: "1400px", margin: "0 auto", color: "#fff", position: "relative", overflow: "hidden" }}>
-      {/* 배경 애니메이션 */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "radial-gradient(circle at 20% 50%, rgba(120,100,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(100,120,255,0.06) 0%, transparent 50%)",
-        pointerEvents: "none",
-        zIndex: 0
-      }} />
+    <div
+      style={{
+        padding: "120px 40px",
+        maxWidth: "1400px",
+        margin: "0 auto",
+        color: "#fff",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* keyframes / classes */}
+      <style jsx global>{`
+        @keyframes bod_pop {
+          0% { transform: scale(0.98); }
+          45% { transform: scale(1.03); }
+          100% { transform: scale(1.0); }
+        }
+        @keyframes bod_pulse {
+          0%, 100% { transform: scale(1); opacity: 0.85; }
+          50% { transform: scale(1.06); opacity: 1; }
+        }
+        @keyframes bod_shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .planCard {
+          position: relative;
+          will-change: transform, box-shadow, border;
+        }
+        .planCard.selected {
+          animation: bod_pop 320ms ease-out;
+          transform: translateZ(0) scale(1.01);
+        }
+        .planCard .selectedBadge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          font-size: 12px;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.22);
+          background: rgba(124,58,237,0.18);
+          color: #d9ccff;
+          opacity: 0;
+          transform: translateY(-4px);
+          transition: all 220ms ease;
+          pointer-events: none;
+        }
+        .planCard.selected .selectedBadge {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .yearlyBanner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 14px 16px;
+          border-radius: 14px;
+          border: 1px solid rgba(167,139,250,0.18);
+          background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
+          box-shadow: 0 0 24px rgba(124,58,237,0.16);
+          margin-bottom: 14px;
+        }
+        .yearlyBadge {
+          font-size: 12px;
+          font-weight: 800;
+          padding: 7px 10px;
+          border-radius: 999px;
+          color: #f1eaff;
+          background: linear-gradient(90deg, rgba(124,58,237,0.35), rgba(167,139,250,0.18));
+          border: 1px solid rgba(167,139,250,0.24);
+          animation: bod_pulse 1.6s ease-in-out infinite;
+          white-space: nowrap;
+        }
+        .discountTag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.22);
+          color: #e9ddff;
+          background: rgba(124,58,237,0.14);
+          animation: bod_pulse 1.8s ease-in-out infinite;
+          margin-top: 10px;
+          width: fit-content;
+        }
+        .langToggleWrap {
+          position: absolute;
+          top: 26px;
+          right: 26px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          z-index: 5;
+        }
+        .langBtn {
+          padding: 9px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(120,100,255,0.18);
+          background: rgba(255,255,255,0.03);
+          color: #a7b0c8;
+          font-weight: 800;
+          font-size: 12px;
+          cursor: pointer;
+          transition: all 180ms ease;
+          letter-spacing: 0.5px;
+        }
+        .langBtn.active {
+          color: #e0d7ff;
+          border-color: rgba(167,139,250,0.35);
+          background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
+          box-shadow: 0 0 18px rgba(124,58,237,0.18);
+        }
+        .yearlyTabShimmer {
+          background-size: 200% 100%;
+          background-image: linear-gradient(
+            90deg,
+            rgba(124,58,237,0.10),
+            rgba(167,139,250,0.18),
+            rgba(124,58,237,0.10)
+          );
+          animation: bod_shimmer 1.8s linear infinite;
+        }
+      `}</style>
+
+      {/* 배경 */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background:
+            "radial-gradient(circle at 20% 50%, rgba(120,100,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(100,120,255,0.06) 0%, transparent 50%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
 
       <div style={{ position: "relative", zIndex: 1 }}>
+        {/* 언어 토글 */}
+        <div className="langToggleWrap" aria-label="Language selector">
+          <button className={`langBtn ${lang === "ko" ? "active" : ""}`} onClick={() => setLanguage("ko")} type="button">
+            {T.langKOR}
+          </button>
+          <button className={`langBtn ${lang === "en" ? "active" : ""}`} onClick={() => setLanguage("en")} type="button">
+            {T.langENG}
+          </button>
+        </div>
+
         {/* 헤더 */}
         <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <h1 style={{ fontSize: "48px", fontWeight: 800, marginBottom: "16px", background: "linear-gradient(135deg, #e0d7ff, #a78bfa)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            서비스 신청하기
+          <h1
+            style={{
+              fontSize: "48px",
+              fontWeight: 800,
+              marginBottom: "16px",
+              background: "linear-gradient(135deg, #e0d7ff, #a78bfa)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {T.pageTitle}
           </h1>
           <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "24px", lineHeight: 1.6 }}>
-            원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.<br />
+            {T.pageDesc}
           </p>
         </div>
 
         {/* 탭 메뉴 */}
         <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "50px" }}>
-          {["monthly", "yearly", "vip"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => {
-                setActiveTab(tab);
-                setFormData(p => ({ ...p, plan: plans[tab][0].name }));
-              }}
-              style={{
-                padding: "14px 36px",
-                borderRadius: "30px",
-                border: `2px solid ${activeTab === tab ? "#7c3aed" : "rgba(120, 100, 255, 0.2)"}`,
-                background: activeTab === tab ? "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(167,139,250,0.1))" : "rgba(255,255,255,0.02)",
-                color: activeTab === tab ? "#c4b5fd" : "#8080b0",
-                cursor: "pointer",
-                fontWeight: 700,
-                fontSize: "15px",
-                transition: "all 0.3s ease",
-                boxShadow: activeTab === tab ? "0 0 20px rgba(124,58,237,0.3)" : "none"
-              }}
-            >
-              {tab === "monthly" ? "월 플랜" : tab === "yearly" ? "연 플랜" : "VIP"}
-            </button>
-          ))}
+          {["monthly", "yearly", "vip"].map((tab) => {
+            const isActive = activeTab === tab;
+            const isYearlyTab = tab === "yearly";
+            return (
+              <button
+                key={tab}
+                onClick={() => onTabClick(tab)}
+                type="button"
+                className={isYearlyTab && isActive ? "yearlyTabShimmer" : ""}
+                style={{
+                  padding: "14px 36px",
+                  borderRadius: "30px",
+                  border: `2px solid ${isActive ? "#7c3aed" : "rgba(120, 100, 255, 0.2)"}`,
+                  background: isActive
+                    ? "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(167,139,250,0.1))"
+                    : "rgba(255,255,255,0.02)",
+                  color: isActive ? "#c4b5fd" : "#8080b0",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  transition: "all 0.3s ease",
+                  boxShadow: isActive ? "0 0 20px rgba(124,58,237,0.3)" : "none",
+                }}
+              >
+                {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : T.tabVIP}
+              </button>
+            );
+          })}
         </div>
 
-        {/* 메인 콘텐츠 */}
+        {/* 메인 */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "50px" }}>
           {/* 플랜 선택 */}
           <div>
-            {}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                justifyContent: "space-between",
-                marginBottom: "24px",
-                gap: "16px",
-              }}
-            >
-              <h3
-                style={{
-                  color: "#e0d7ff",
-                  fontSize: "20px",
-                  fontWeight: 700,
-                  margin: 0,
-                }}
-              >
-                플랜 선택
-              </h3>
-
-              {}
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "16px", gap: "16px" }}>
+              <h3 style={{ color: "#e0d7ff", fontSize: "20px", fontWeight: 700, margin: 0 }}>{T.plansTitle}</h3>
               <span
                 style={{
                   fontSize: "12px",
@@ -177,64 +489,100 @@ export default function ApplyPage() {
                   whiteSpace: "nowrap",
                 }}
               >
-                * 모든 플랜은 부가세(VAT) 포함입니다.
+                {T.vatNote}
               </span>
             </div>
+
+            {/* 연 플랜 강조 배너 */}
+            {isYearly && (
+              <div className="yearlyBanner" role="note" aria-label="Yearly promotion">
+                <div>
+                  <div style={{ fontWeight: 900, color: "#e7ddff", marginBottom: "4px" }}>{T.yearlyPromoTitle}</div>
+                  <div style={{ fontSize: "13px", color: "#b2b6d6", lineHeight: 1.4 }}>{T.yearlyPromoDesc}</div>
+                </div>
+                <div className="yearlyBadge">{T.yearlyBadge}</div>
+              </div>
+            )}
+
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {plans[activeTab].map((p) => (
-                <label
-                  key={p.name}
-                  className={`planCard ${formData.plan === p.name ? "selected" : ""} ${activeTab === "yearly" ? "yearly" : ""} ${String(p.name).toUpperCase().includes("VIP") ? "vip" : ""}`}
-                >
-                  <span className="selectedBadge">✓ Selected</span>
+              {plans[activeTab].map((p) => {
+                const selected = formData.plan === p.id;
+                const price = lang === "ko" ? p.priceKo : p.priceEn;
+                const desc = lang === "ko" ? p.descKo : p.descEn;
 
-                  <input
-                    type="radio"
-                    name="plan"
-                    value={p.name}
-                    checked={formData.plan === p.name}
-                    onChange={handleInput("plan")}
-                    style={{ display: "none" }}
-                  />
+                const isVip = String(p.id).toUpperCase() === "VIP";
 
-                  <div className="planTopRow">
-                    <div className="planText">
-                      <div className="planName">{p.name}</div>
-                      <div className="planDesc">{p.desc}</div>
+                return (
+                  <label
+                    key={`${activeTab}-${p.id}`}
+                    className={`planCard ${selected ? "selected" : ""} ${isYearly ? "yearly" : ""} ${isVip ? "vip" : ""}`}
+                    style={{
+                      padding: "24px",
+                      borderRadius: "16px",
+                      border: `2px solid ${selected ? "#7c3aed" : "rgba(255,255,255,0.08)"}`,
+                      background: selected
+                        ? "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08))"
+                        : "rgba(255,255,255,0.02)",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      boxShadow: selected ? "0 0 30px rgba(124,58,237,0.2)" : "none",
+                      transform: selected ? "scale(1.01)" : "scale(1.0)",
+                    }}
+                  >
+                    <span className="selectedBadge">✓ {T.selectedBadge}</span>
 
-                      {activeTab === "yearly" && (
-                        <div className="discountTag">✨ Yearly discount applied</div>
+                    <input
+                      type="radio"
+                      name="plan"
+                      value={p.id}
+                      checked={selected}
+                      onChange={handleInput("plan")}
+                      style={{ display: "none" }}
+                    />
+
+                    {/* 상단 */}
+                    <div>
+                      <div style={{ fontWeight: 900, fontSize: "18px", color: "#e0d7ff" }}>{p.id}</div>
+                      <div style={{ fontSize: "13px", color: "#8080b0", marginTop: "6px" }}>{desc}</div>
+
+                      {isYearly && (
+                        <div className="discountTag" style={{ marginTop: "10px" }}>
+                          ✨ {T.yearlyBadge}
+                        </div>
                       )}
                     </div>
-                  </div>
 
-                  <div className="planPrice">{p.price}</div>
-                </label>
-              ))}
+                    {/* 하단 */}
+                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "14px" }}>
+                      <div className="planPrice">{price}</div>
+                    </div>
+                  </label>
+                );
+              })}
             </div>
           </div>
 
-          {/* 신청서 폼 */}
-          <form onSubmit={handleSubmit} style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(120,100,255,0.03))",
-            padding: "40px",
-            borderRadius: "20px",
-            border: "1px solid rgba(120,100,255,0.15)",
-            backdropFilter: "blur(10px)"
-          }}>
+          {/* 폼 */}
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(120,100,255,0.03))",
+              padding: "40px",
+              borderRadius: "20px",
+              border: "1px solid rgba(120,100,255,0.15)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
             {/* 이름 / 연락처 */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
               <div>
-                <p style={{
-                  fontSize: "13px",
-                  color: "#8080b0",
-                  marginBottom: "20px"
-                }}>
-                  <span style={{ color: "#ff6b6b" }}>*</span> 는 필수 입력 항목입니다.
+                <p style={{ fontSize: "13px", color: "#8080b0", marginBottom: "20px" }}>
+                  <span style={{ color: "#ff6b6b" }}>*</span> {T.formRequiredNote}
                 </p>
+
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>이름</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Name)</span>
+                  <span style={{ color: "#e0d7ff" }}>{T.name}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelName}</span>
                   <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
                 </label>
                 <input
@@ -250,17 +598,18 @@ export default function ApplyPage() {
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "#fff",
                     fontSize: "14px",
-                    transition: "all 0.2s"
+                    transition: "all 0.2s",
                   }}
-                  placeholder="홍길동"
+                  placeholder={T.phName}
                 />
               </div>
+
               <div>
-                <p>
-                </p>
+                <p style={{ marginBottom: "20px", opacity: 0 }}>&nbsp;</p>
+
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>연락처</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Phone)</span>
+                  <span style={{ color: "#e0d7ff" }}>{T.phone}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelPhone}</span>
                   <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
                 </label>
                 <input
@@ -275,9 +624,9 @@ export default function ApplyPage() {
                     background: "rgba(0,0,0,0.2)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "#fff",
-                    fontSize: "14px"
+                    fontSize: "14px",
                   }}
-                  placeholder="010-0000-0000"
+                  placeholder={T.phPhone}
                 />
               </div>
             </div>
@@ -286,8 +635,8 @@ export default function ApplyPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
               <div>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>이메일</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(E-mail)</span>
+                  <span style={{ color: "#e0d7ff" }}>{T.email}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelEmail}</span>
                   <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
                 </label>
                 <input
@@ -302,15 +651,15 @@ export default function ApplyPage() {
                     background: "rgba(0,0,0,0.2)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "#fff",
-                    fontSize: "14px"
+                    fontSize: "14px",
                   }}
-                  placeholder="example@email.com"
+                  placeholder={T.phEmail}
                 />
               </div>
               <div>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>텔레그램 ID</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Telegram ID)</span>
+                  <span style={{ color: "#e0d7ff" }}>{T.telegram}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelTelegram}</span>
                   <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
                 </label>
                 <input
@@ -325,19 +674,19 @@ export default function ApplyPage() {
                     background: "rgba(0,0,0,0.2)",
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "#fff",
-                    fontSize: "14px"
+                    fontSize: "14px",
                   }}
-                  placeholder="@username"
+                  placeholder={T.phTelegram}
                 />
               </div>
             </div>
 
-            {/* 투자 경험 / 운용 자금 */}
+            {/* 경험 / 자금 */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
               <div>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>코인 투자 경험</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Experience)</span>
+                  <span style={{ color: "#e0d7ff" }}>{T.experience}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelExperience}</span>
                 </label>
                 <select
                   required
@@ -351,20 +700,21 @@ export default function ApplyPage() {
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "#fff",
                     fontSize: "14px",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                 >
-                  {experienceOptions.map(opt => (
+                  {experienceOptions.map((opt) => (
                     <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
-                      {opt.label}
+                      {lang === "ko" ? opt.labelKo : opt.labelEn}
                     </option>
                   ))}
                 </select>
               </div>
+
               <div>
                 <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>예상 운용 자금</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Fund Size)</span>
+                  <span style={{ color: "#e0d7ff" }}>{T.fundSize}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelFund}</span>
                 </label>
                 <select
                   required
@@ -378,23 +728,23 @@ export default function ApplyPage() {
                     border: "1px solid rgba(255,255,255,0.1)",
                     color: "#fff",
                     fontSize: "14px",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                 >
-                  {fundOptions.map(opt => (
+                  {fundOptions.map((opt) => (
                     <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
-                      {opt.label}
+                      {lang === "ko" ? opt.labelKo : opt.labelEn}
                     </option>
                   ))}
                 </select>
               </div>
             </div>
 
-            {/* 문의사항 */}
+            {/* 메시지 */}
             <div style={{ marginBottom: "24px" }}>
               <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                <span style={{ color: "#e0d7ff" }}>문의사항</span>
-                <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>(Message)</span>
+                <span style={{ color: "#e0d7ff" }}>{T.message}</span>
+                <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelMessage}</span>
               </label>
               <textarea
                 value={formData.message}
@@ -409,13 +759,13 @@ export default function ApplyPage() {
                   fontSize: "14px",
                   minHeight: "100px",
                   fontFamily: "inherit",
-                  resize: "vertical"
+                  resize: "vertical",
                 }}
-                placeholder="추가 문의사항이 있으시면 입력해 주세요."
+                placeholder={T.phMessage}
               />
             </div>
 
-            {/* 제출 버튼 */}
+            {/* 제출 */}
             <button
               type="submit"
               disabled={formStatus === "sending"}
@@ -426,24 +776,24 @@ export default function ApplyPage() {
                 background: formStatus === "sending" ? "rgba(124, 58, 237, 0.5)" : "linear-gradient(135deg, #7c3aed, #a78bfa)",
                 color: "#fff",
                 border: "none",
-                fontWeight: 700,
+                fontWeight: 800,
                 fontSize: "16px",
                 cursor: formStatus === "sending" ? "not-allowed" : "pointer",
                 transition: "all 0.3s",
-                boxShadow: "0 0 20px rgba(124, 58, 237, 0.3)"
+                boxShadow: "0 0 20px rgba(124, 58, 237, 0.3)",
               }}
             >
-              {formStatus === "sending" ? "전송 중..." : "신청서 제출하기"}
+              {formStatus === "sending" ? T.btnSending : T.btnSubmit}
             </button>
 
             {formStatus === "sent" && (
-              <p style={{ color: "#4ade80", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 600 }}>
-                ✅ 신청서가 성공적으로 제출되었습니다! 빠르게 연락드리겠습니다.
+              <p style={{ color: "#4ade80", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}>
+                {T.success}
               </p>
             )}
             {formStatus === "error" && (
-              <p style={{ color: "#ff6b6b", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 600 }}>
-                ❌ 전송 실패. 다시 시도해 주세요.
+              <p style={{ color: "#ff6b6b", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}>
+                {T.error}
               </p>
             )}
           </form>
@@ -451,8 +801,8 @@ export default function ApplyPage() {
 
         {/* 하단 링크 */}
         <div style={{ textAlign: "center", marginTop: "60px" }}>
-          <Link href="/" style={{ color: "#8080b0", textDecoration: "none", fontSize: "14px", fontWeight: 600, transition: "color 0.2s" }}>
-            ← 메인으로 돌아가기
+          <Link href="/" style={{ color: "#8080b0", textDecoration: "none", fontSize: "14px", fontWeight: 700, transition: "color 0.2s" }}>
+            {T.backHome}
           </Link>
         </div>
       </div>
