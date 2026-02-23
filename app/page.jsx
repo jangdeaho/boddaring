@@ -610,34 +610,52 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 경쟁력 섹션 ── */}
-      <section style={{ padding: "100px 0" }}>
+      {/* ── 사이트 상세 소개 ── */}
+      <section id="about" className="about-section">
         <div className="container">
-          <div className="section-head center reveal">
-            <div className="section-label">Why BODDARING</div>
-            <h2 className="section-title">
-              데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
-            </h2>
-            <p className="section-desc no-break">
-              아비트라지는 속도와 정보의 싸움입니다. BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
-            </p>
+          <div className="about-grid">
+            {/* 좌측 — 영상 */}
+            <div className="reveal">
+              <div className="about-video-wrap">
+                <div className="about-video-placeholder">
+                  <div className="video-icon">▶</div>
+                  <span className="video-label">상세 소개 영상</span>
+                </div>
+              </div>
+            </div>
 
-            <div className="check-list">
-              <div className="check-item">
-                압도적인 데이터 수집<br />
-                <span className="check-desc">국내·해외 모든 주요 거래소의 오더북을 초 단위로 수집</span>
-              </div>
-              <div className="check-item">
-                신뢰성 높은 계산 엔진<br />
-                <span className="check-desc">수수료, 환율, 슬리피지를 반영한 실질 수익률 계산</span>
-              </div>
-              <div className="check-item">
-                즉각적인 시그널 전달<br />
-                <span className="check-desc">조건 부합 시 텔레그램을 통해 실시간 알림</span>
-              </div>
-              <div className="check-item">
-                24/7 무중단 운영<br />
-                <span className="check-desc">시장 개장 시간에 관계없이 지속적인 데이터 수집 및 분석</span>
+            {/* 우측 — 설명 */}
+            <div className="reveal reveal-delay-1">
+              <div className="section-label">Why BODDARING</div>
+              <h2 className="section-title">
+                데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
+              </h2>
+              <p className="section-desc no-break">
+                아비트라지는 속도와 정보의 싸움입니다.<br />
+                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+              </p>
+
+              <div className="check-list">
+                <div className="check-item">
+                  압도적인 데이터 수집<br />
+                    └─ 연동 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교 
+                </div>              
+                <div className="check-item">
+                  테더(USDT) 실거래 환율 기반 프리미엄 계산<br />
+                    └─ 단순 원·달러 환율이 아닌 비트코인 환율 기반 실질 차익 기준 반영
+                </div>              
+                <div className="check-item">
+                  오더북 유동성 기반 실행 가능성 검증<br />
+                    └─ 표시되는 단순 퍼센트 수치가 아닌 실제 체결 가능한 기회만 선별
+                </div>              
+                <div className="check-item">
+                  입출금 상태 실시간 모니터링<br />
+                    └─ 차익 발생 시 즉시 실행 가능한 환경인지 사전 확인
+                </div>              
+                <div className="check-item">
+                  텔레그램 프라이빗 알림 시스템<br />
+                    └─ 개인 봇 설정을 통한 안전하고 독립적인 시그널 관리
+                </div>
               </div>
             </div>
           </div>
@@ -783,10 +801,6 @@ const handleDevSubmit = async (e) => {
                 BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
               </div>
               <div className="quote-author">
-                ※ 본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
-                   정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
-              </div>
-              <div className="quote-author">
                 BODDARING · 아비트라지 데이터 플랫폼
               </div>
             </div>
@@ -835,7 +849,8 @@ const handleDevSubmit = async (e) => {
                   <h3>문의하기</h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
-                    최대한 빠르게 답변 드리겠습니다.
+                    최대한 빠르게 답변 드리겠습니다.<br />
+                    <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
                   </p>
 
                   {formStatus === "sent" ? (
@@ -911,7 +926,8 @@ const handleDevSubmit = async (e) => {
                   <h3>개발 문의</h3>
                   <p>
                     전문적인 투자 프로그램 개발이 필요하신가요?<br />
-                    맞춤형 솔루션을 제공해 드립니다.
+                    맞춤형 솔루션을 제공해 드립니다.<br />
+                    <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
                   </p>
 
                   {devFormStatus === "sent" ? (
@@ -951,7 +967,9 @@ const handleDevSubmit = async (e) => {
                         <label className="form-label">어떤 프로그램 개발을 원하시나요?</label>
                         <textarea
                           className="form-textarea"
-                          placeholder="개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 천만원부터 시작합니다. 컨설팅 이후 프로그램 제작 확정 시 총액에서 컨설팅 비용은 차감합니다."
+                          placeholder="참고해 주세요!
+                          개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 천만원부터 시작합니다.
+                          컨설팅 이후 프로그램 제작 확정 시 총액에서 컨설팅 비용은 차감합니다."
                           value={devFormData.program}
                           onChange={handleDevInput("program")}
                         />
