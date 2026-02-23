@@ -34,7 +34,7 @@ export default function ApplyPage() {
 
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
 
       await emailjs.send(serviceId, templateId, {
         from_name: formData.name,

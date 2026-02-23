@@ -1,9 +1,9 @@
 "use client";
-import emailjs from "@emailjs/browser"
+import emailjs from "@emailjs/browser";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-/* ── 거래소 데이터 (이미지 로고 준비) ── */
+/* ── 거래소 데이터 ── */
 const EXCHANGES = [
   { name: "업비트", logo: "upbit.png", color: "#1763B6" },
   { name: "빗썸", logo: "bithumb.png", color: "#F7A600" },
@@ -45,7 +45,6 @@ function StarCanvas() {
     canvas.width = W;
     canvas.height = H;
 
-    /* 정적 별 */
     const stars = Array.from({ length: 220 }, () => ({
       x: Math.random() * W,
       y: Math.random() * H,
@@ -55,7 +54,6 @@ function StarCanvas() {
       phase: Math.random() * Math.PI * 2,
     }));
 
-    /* 별똥별 */
     class Meteor {
       constructor() { this.reset(); }
       reset() {
@@ -98,89 +96,74 @@ function StarCanvas() {
         grad.addColorStop(0, `rgba(255,255,255,0)`);
         grad.addColorStop(0.6, `rgba(180,160,255,${this.alpha * 0.4})`);
         grad.addColorStop(1, `rgba(255,255,255,${this.alpha * 0.9})`);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(tailX, tailY);
         ctx.lineTo(this.x, this.y);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.5;
-        ctx.lineCap = "round";
         ctx.stroke();
-        /* 헤드 글로우 */
-        const glow = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 6);
-        glow.addColorStop(0, `rgba(255,255,255,${this.alpha * 0.8})`);
-        glow.addColorStop(1, `rgba(180,160,255,0)`);
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 6, 0, Math.PI * 2);
-        ctx.fillStyle = glow;
-        ctx.fill();
       }
     }
 
-    const meteors = Array.from({ length: 6 }, () => new Meteor());
+    const meteors = Array.from({ length: 8 }, () => new Meteor());
 
-    let frame = 0;
-    let raf;
+    const animate = () => {
+      ctx.fillStyle = "rgba(10, 10, 30, 0.1)";
+      ctx.fillRect(0, 0, W, H);
 
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      frame++;
-
-      /* 별 */
       stars.forEach((s) => {
-        const a = s.a * (0.6 + 0.4 * Math.sin(frame * s.speed + s.phase));
+        s.phase += s.speed;
+        s.a = 0.15 + Math.sin(s.phase) * 0.55;
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.a})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220,230,255,${a})`;
         ctx.fill();
       });
 
-      /* 별똥별 */
       meteors.forEach((m) => {
         m.update();
         m.draw(ctx);
       });
 
-      raf = requestAnimationFrame(draw);
-    }
+      requestAnimationFrame(animate);
+    };
 
-    draw();
+    animate();
 
-    const onResize = () => {
+    const handleResize = () => {
       W = window.innerWidth;
       H = window.innerHeight;
       canvas.width = W;
       canvas.height = H;
-      stars.forEach((s) => {
-        s.x = Math.random() * W;
-        s.y = Math.random() * H;
-      });
     };
-    window.addEventListener("resize", onResize);
 
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      id="star-canvas"
-      aria-hidden="true"
-    />
-  );
+  return <canvas ref={canvasRef} style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />;
 }
 
-/* ── 메인 컴포넌트 ── */
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
-  const [formData, setFormData] = useState({ email: "", telegram: "", message: "" });
-  const [formErrors, setFormErrors] = useState({});
+  const [contactTab, setContactTab] = useState("inquiry"); // inquiry, development
+  const [formData, setFormData] = useState({
+    email: "",
+    telegram: "",
+    message: "",
+  });
+  const [devFormData, setDevFormData] = useState({
+    email: "",
+    telegram: "",
+    program: "",
+  });
   const [formStatus, setFormStatus] = useState("idle");
+  const [devFormStatus, setDevFormStatus] = useState("idle");
+  const [formErrors, setFormErrors] = useState({});
+  const [devFormErrors, setDevFormErrors] = useState({});
   const [emailjsReady, setEmailjsReady] = useState(false);
   const serviceRef = useRef(null);
 
@@ -191,7 +174,7 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* 드롭다운 외부 클릭 닫기 */
+  /* 드롭다운 외부 클릭 감지 */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (serviceRef.current && !serviceRef.current.contains(e.target)) {
@@ -214,6 +197,7 @@ export default function Home() {
     return () => io.disconnect();
   }, []);
 
+  /* EmailJS 초기화 */
   useEffect(() => {
     const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
     if (!pk) {
@@ -233,7 +217,7 @@ export default function Home() {
     return errs;
   };
 
-  /* 폼 제출 */
+  /* 폼 제출 — 일반 문의 */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
@@ -245,16 +229,16 @@ export default function Home() {
     setFormStatus("sending");
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_INQUIRY || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error("EmailJS env missing (SERVICE_ID / TEMPLATE_ID / PUBLIC_KEY)");
+        throw new Error("EmailJS env missing");
       }
       await emailjs.send(serviceId, templateId, {
         from_email: formData.email,
         telegram_id: formData.telegram,
         message: formData.message || "(메시지 없음)",
-        name: "BODDARING 문의",
+        to_email: "boddaring@endholdings.com",
       });
       setFormStatus("sent");
       setFormData({ email: "", telegram: "", message: "" });
@@ -265,9 +249,45 @@ export default function Home() {
     }
   };
 
+  /* 폼 제출 — 개발 문의 */
+  const handleDevSubmit = async (e) => {
+    e.preventDefault();
+    if (!devFormData.email.trim() || !devFormData.telegram.trim()) {
+      setDevFormErrors({ email: !devFormData.email.trim(), telegram: !devFormData.telegram.trim() });
+      return;
+    }
+    setDevFormErrors({});
+    setDevFormStatus("sending");
+    try {
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_DEVELOPMENT || process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("EmailJS env missing");
+      }
+      await emailjs.send(serviceId, templateId, {
+        from_email: devFormData.email,
+        telegram_id: devFormData.telegram,
+        program_request: devFormData.program || "(내용 없음)",
+        to_email: "development@endholdings.com",
+      });
+      setDevFormStatus("sent");
+      setDevFormData({ email: "", telegram: "", program: "" });
+      setTimeout(() => setDevFormStatus("idle"), 5000);
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setDevFormStatus("error");
+    }
+  };
+
   const handleInput = (field) => (e) => {
     setFormData((p) => ({ ...p, [field]: e.target.value }));
     if (formErrors[field]) setFormErrors((p) => ({ ...p, [field]: false }));
+  };
+
+  const handleDevInput = (field) => (e) => {
+    setDevFormData((p) => ({ ...p, [field]: e.target.value }));
+    if (devFormErrors[field]) setDevFormErrors((p) => ({ ...p, [field]: false }));
   };
 
   const isSubmitDisabled =
@@ -276,7 +296,12 @@ export default function Home() {
     !formData.telegram.trim() ||
     formStatus === "sending";
 
-  /* 거래소 무한 스크롤용 복제 */
+  const isDevSubmitDisabled =
+    !emailjsReady ||
+    !devFormData.email.trim() ||
+    !devFormData.telegram.trim() ||
+    devFormStatus === "sending";
+
   const doubledExchanges = [...EXCHANGES, ...EXCHANGES];
 
   return (
@@ -499,48 +524,38 @@ export default function Home() {
               <span className="hero-grad">BODDARING</span>
             </h2>
             <p className="section-desc no-break">
-              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
-              BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
+              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다. BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
             </p>
           </div>
 
           {/* 기능 카드 — 타임라인 스타일 */}
           <div className="feature-timeline reveal">
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">📡</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">실시간 데이터 수집</h3>
-                <p className="ftl-desc">공개 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영하여 정확도를 높입니다.</p>
+            <div className="timeline-item">
+              <div className="timeline-icon">📊</div>
+              <div className="timeline-content">
+                <h4>실시간 데이터 수집</h4>
+                <p>공개 오더북 데이터를 초 단위로 수집합니다.</p>
               </div>
             </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">⚡</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">비용 반영 계산 시스템</h3>
-                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
-                <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
+            <div className="timeline-item">
+              <div className="timeline-icon">💰</div>
+              <div className="timeline-content">
+                <h4>비용 반영 계산 시스템</h4>
+                <p>수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. (투자 수익 보장을 의미하지 않습니다.)</p>
               </div>
             </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">🎯</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">오더북 기반 유동성 분석</h3>
-                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 즉시 수익 판단이 가능합니다.</p>
+            <div className="timeline-item">
+              <div className="timeline-icon">📈</div>
+              <div className="timeline-content">
+                <h4>오더북 기반 유동성 분석</h4>
+                <p>체결 가능 범위 기준의 가격 데이터를 제공합니다.</p>
               </div>
             </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
-                <div className="ftl-icon">🤖</div>
-              </div>
-              <div className="ftl-content">
-                <h3 className="ftl-title">사용자 조건 필터</h3>
-                <p className="ftl-desc">Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다. 거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.</p>
+            <div className="timeline-item">
+              <div className="timeline-icon">🎯</div>
+              <div className="timeline-content">
+                <h4>사용자 조건 필터</h4>
+                <p>Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다.</p>
               </div>
             </div>
           </div>
@@ -549,52 +564,34 @@ export default function Home() {
 
       <div className="divider" />
 
-      {/* ── 사이트 상세 소개 ── */}
-      <section id="about" className="about-section">
+      {/* ── 경쟁력 섹션 ── */}
+      <section style={{ padding: "100px 0" }}>
         <div className="container">
-          <div className="about-grid">
-            {/* 좌측 — 영상 */}
-            <div className="reveal">
-              <div className="about-video-wrap">
-                <div className="about-video-placeholder">
-                  <div className="video-icon">▶</div>
-                  <span className="video-label">상세 소개 영상</span>
-                </div>
+          <div className="section-head center reveal">
+            <div className="section-label">Why BODDARING</div>
+            <h2 className="section-title">
+              데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
+            </h2>
+            <p className="section-desc no-break">
+              아비트라지는 속도와 정보의 싸움입니다. BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+            </p>
+
+            <div className="check-list">
+              <div className="check-item">
+                압도적인 데이터 수집<br />
+                <span className="check-desc">국내·해외 모든 주요 거래소의 오더북을 초 단위로 수집</span>
               </div>
-            </div>
-
-            {/* 우측 — 설명 */}
-            <div className="reveal reveal-delay-1">
-              <div className="section-label">Why BODDARING</div>
-              <h2 className="section-title">
-                데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
-              </h2>
-              <p className="section-desc no-break">
-                아비트라지는 속도와 정보의 싸움입니다.<br />
-                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
-              </p>
-
-              <div className="check-list">
-                <div className="check-item">
-                  압도적인 데이터 수집<br />
-                    └─ 연동 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교 
-                </div>              
-                <div className="check-item">
-                  테더(USDT) 실거래 환율 기반 프리미엄 계산<br />
-                    └─ 단순 원·달러 환율이 아닌 비트코인 환율 기반 실질 차익 기준 반영
-                </div>              
-                <div className="check-item">
-                  오더북 유동성 기반 실행 가능성 검증<br />
-                    └─ 표시되는 단순 퍼센트 수치가 아닌 실제 체결 가능한 기회만 선별
-                </div>              
-                <div className="check-item">
-                  입출금 상태 실시간 모니터링<br />
-                    └─ 차익 발생 시 즉시 실행 가능한 환경인지 사전 확인
-                </div>              
-                <div className="check-item">
-                  텔레그램 프라이빗 알림 시스템<br />
-                    └─ 개인 봇 설정을 통한 안전하고 독립적인 시그널 관리
-                </div>
+              <div className="check-item">
+                신뢰성 높은 계산 엔진<br />
+                <span className="check-desc">수수료, 환율, 슬리피지를 반영한 실질 수익률 계산</span>
+              </div>
+              <div className="check-item">
+                즉각적인 시그널 전달<br />
+                <span className="check-desc">조건 부합 시 텔레그램을 통해 실시간 알림</span>
+              </div>
+              <div className="check-item">
+                24/7 무중단 운영<br />
+                <span className="check-desc">시장 개장 시간에 관계없이 지속적인 데이터 수집 및 분석</span>
               </div>
             </div>
           </div>
@@ -611,9 +608,8 @@ export default function Home() {
             <h2 className="section-title">
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
-              <p className="section-desc">
-                사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />
-                프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+            <p className="section-desc">
+              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다. 프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
             </p>
           </div>
 
@@ -701,7 +697,7 @@ export default function Home() {
             </p>
             <p className="exchange-disclaimer">
               * This platform has no official affiliation with any listed exchange. All data is independently collected via public APIs and provided solely for informational purposes. All trademarks belong to their respective owners.<br />
-              * 이 플랫폼은 상장된 거래소와 공식적인 제휴 관계가 없습니다. 모든 데이터는 공개 API를 통해 독립적으로 수집되며 정보 제공 목적으로만 제공됩니다. 모든 상표는 각자의 소유주에게 속합니다.
+              * This service does not solicit or broker the sale of financial investment products. As an information provision platform, it assumes no legal responsibility for investment results.
             </p>
           </div>
         </div>
@@ -741,86 +737,203 @@ export default function Home() {
                 BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
               </div>
               <div className="quote-author">
-                ※  본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
-                　　정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
+                ※ 본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
+                   정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
               </div>
               <div className="quote-author">
                 BODDARING · 아비트라지 데이터 플랫폼
               </div>
             </div>
 
-            {/* 우측 — 문의 폼 */}
+            {/* 우측 — 문의 폼 (탭 시스템) */}
             <div className="contact-box reveal reveal-delay-1">
-              <h3>문의하기</h3>
-              <p>
-                궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
-                최대한 빠르게 답변 드리겠습니다.
-              </p>
+              {/* 탭 버튼 */}
+              <div style={{ display: "flex", gap: "12px", marginBottom: "24px", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "12px" }}>
+                <button
+                  onClick={() => setContactTab("inquiry")}
+                  style={{
+                    padding: "8px 16px",
+                    background: contactTab === "inquiry" ? "rgba(120,100,255,0.2)" : "transparent",
+                    border: contactTab === "inquiry" ? "1px solid rgba(120,100,255,0.5)" : "1px solid transparent",
+                    borderRadius: "8px",
+                    color: contactTab === "inquiry" ? "#c4b5fd" : "#8080b0",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  문의하기
+                </button>
+                <button
+                  onClick={() => setContactTab("development")}
+                  style={{
+                    padding: "8px 16px",
+                    background: contactTab === "development" ? "rgba(120,100,255,0.2)" : "transparent",
+                    border: contactTab === "development" ? "1px solid rgba(120,100,255,0.5)" : "1px solid transparent",
+                    borderRadius: "8px",
+                    color: contactTab === "development" ? "#c4b5fd" : "#8080b0",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  개발 문의
+                </button>
+              </div>
 
-              {formStatus === "sent" ? (
-                <div className="form-success show">
-                  ✅ 문의가 성공적으로 등록되었습니다!<br />
-                  <span style={{ fontSize: "13px", color: "var(--muted2)", fontWeight: 600 }}>
-                    빠른 시일 내에 연락 드리겠습니다.
-                  </span>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate>
-                  <div className="form-group">
-                    <label className="form-label">
-                      이메일 <span className="req">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      className={`form-input${formErrors.email ? " error" : ""}`}
-                      placeholder="이메일을 입력해 주세요."
-                      value={formData.email}
-                      onChange={handleInput("email")}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">
-                      텔레그램 ID <span className="req">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className={`form-input${formErrors.telegram ? " error" : ""}`}
-                      placeholder="예) @username"
-                      value={formData.telegram}
-                      onChange={handleInput("telegram")}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">궁금한 게 있으신가요?</label>
-                    <textarea
-                      className="form-textarea"
-                      placeholder="문의 사항을 작성해 주세요."
-                      value={formData.message}
-                      onChange={handleInput("message")}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn-submit"
-                    disabled={isSubmitDisabled}
-                  >
-                    {formStatus === "sending" ? "전송 중..." : "문의 등록하기"}
-                  </button>
-                  {formStatus === "error" && (
-                    <p style={{ color: "#ff6b6b", fontSize: "13px", marginTop: "10px", textAlign: "center" }}>
-                      ❌ 전송에 실패했습니다. 이메일로 직접 문의해 주세요.
-                    </p>
+              {/* 탭 1: 일반 문의 */}
+              {contactTab === "inquiry" && (
+                <>
+                  <h3>문의하기</h3>
+                  <p>
+                    궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
+                    최대한 빠르게 답변 드리겠습니다.
+                  </p>
+
+                  {formStatus === "sent" ? (
+                    <div className="form-success show">
+                      ✅ 문의가 성공적으로 등록되었습니다!<br />
+                      <span style={{ fontSize: "13px", color: "var(--muted2)", fontWeight: 600 }}>
+                        빠른 시일 내에 연락 드리겠습니다.
+                      </span>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} noValidate>
+                      <div className="form-group">
+                        <label className="form-label">
+                          이메일 <span className="req">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          className={`form-input${formErrors.email ? " error" : ""}`}
+                          placeholder="이메일을 입력해 주세요."
+                          value={formData.email}
+                          onChange={handleInput("email")}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">
+                          텔레그램 ID <span className="req">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className={`form-input${formErrors.telegram ? " error" : ""}`}
+                          placeholder="예) @username"
+                          value={formData.telegram}
+                          onChange={handleInput("telegram")}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">궁금한 게 있으신가요?</label>
+                        <textarea
+                          className="form-textarea"
+                          placeholder="문의 사항을 작성해 주세요."
+                          value={formData.message}
+                          onChange={handleInput("message")}
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="btn-submit"
+                        disabled={isSubmitDisabled}
+                      >
+                        {formStatus === "sending" ? "전송 중..." : "문의 등록하기"}
+                      </button>
+                      {formStatus === "error" && (
+                        <p style={{ color: "#ff6b6b", fontSize: "13px", marginTop: "10px", textAlign: "center" }}>
+                          ❌ 전송에 실패했습니다. 이메일로 직접 문의해 주세요.
+                        </p>
+                      )}
+                    </form>
                   )}
-                </form>
+
+                  <p className="contact-alt">
+                    또는{" "}
+                    <a href="mailto:boddaring@endholdings.com">
+                      boddaring@endholdings.com
+                    </a>
+                    {" "}으로 문의해 주세요.
+                  </p>
+                </>
               )}
 
-              <p className="contact-alt">
-                또는{" "}
-                <a href="mailto:boddaring@endholdings.com">
-                  boddaring@endholdings.com
-                </a>
-                {" "}으로 문의해 주세요.
-              </p>
+              {/* 탭 2: 개발 문의 */}
+              {contactTab === "development" && (
+                <>
+                  <h3>개발 문의</h3>
+                  <p>
+                    전문적인 투자 프로그램 개발이 필요하신가요?<br />
+                    맞춤형 솔루션을 제공해 드립니다.
+                  </p>
+
+                  {devFormStatus === "sent" ? (
+                    <div className="form-success show">
+                      ✅ 개발 문의가 성공적으로 등록되었습니다!<br />
+                      <span style={{ fontSize: "13px", color: "var(--muted2)", fontWeight: 600 }}>
+                        담당자가 빠르게 연락드리겠습니다.
+                      </span>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleDevSubmit} noValidate>
+                      <div className="form-group">
+                        <label className="form-label">
+                          이메일 <span className="req">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          className={`form-input${devFormErrors.email ? " error" : ""}`}
+                          placeholder="이메일을 입력해 주세요."
+                          value={devFormData.email}
+                          onChange={handleDevInput("email")}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">
+                          텔레그램 ID <span className="req">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className={`form-input${devFormErrors.telegram ? " error" : ""}`}
+                          placeholder="예) @username"
+                          value={devFormData.telegram}
+                          onChange={handleDevInput("telegram")}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">어떤 프로그램 개발을 원하시나요?</label>
+                        <textarea
+                          className="form-textarea"
+                          placeholder="개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 천만원부터 시작합니다. 컨설팅 이후 프로그램 제작 확정 시 총액에서 컨설팅 비용은 차감합니다."
+                          value={devFormData.program}
+                          onChange={handleDevInput("program")}
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        className="btn-submit"
+                        disabled={isDevSubmitDisabled}
+                      >
+                        {devFormStatus === "sending" ? "전송 중..." : "개발 문의 등록하기"}
+                      </button>
+                      {devFormStatus === "error" && (
+                        <p style={{ color: "#ff6b6b", fontSize: "13px", marginTop: "10px", textAlign: "center" }}>
+                          ❌ 전송에 실패했습니다. 이메일로 직접 문의해 주세요.
+                        </p>
+                      )}
+                    </form>
+                  )}
+
+                  <p className="contact-alt">
+                    또는{" "}
+                    <a href="mailto:development@endholdings.com">
+                      development@endholdings.com
+                    </a>
+                    {" "}으로 문의해 주세요.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -856,7 +969,8 @@ export default function Home() {
           <div className="footer-bottom">
             <span>© {new Date().getFullYear()} BODDARING. All rights reserved.</span>
             <div className="footer-bottom-links">
-              <a href="#top">맨 위로</a>
+              <a href="/learn">더 알아보기</a>
+              <a href="#contact">문의하기</a>
             </div>
           </div>
         </div>
