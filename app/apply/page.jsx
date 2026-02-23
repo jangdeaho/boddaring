@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const PLANS = [
-  { id: "basic", label: "Basic", desc: "시그널 알림 서비스", price: "문의" },
-  { id: "pro", label: "Pro", desc: "시그널 + BOT 자동화", price: "문의" },
-  { id: "premium", label: "Premium", desc: "전체 서비스 + 1:1 컨설팅", price: "문의" },
+  { id: "basic", label: "Basic", desc: "시그널 알림 서비스", price: "2,200,000 KRW" },
+  { id: "pro", label: "Pro", desc: "시그널 + 종합 BOT", price: "3,000,000 KRW" },
+  { id: "vip", label: "VIP", desc: "전체 서비스", price: "문의" },
 ];
 
 export default function ApplyPage() {
@@ -89,7 +89,7 @@ export default function ApplyPage() {
               <img src="/icon.png" alt="BODDARING" className="brand-icon" />
               <div className="brand-text">
                 <span className="brand-name">BODDARING</span>
-                <span className="brand-sub">국내 최고 아비트라지 플랫폼</span>
+                <span className="brand-sub">아비트라지 데이터 플랫폼</span>
               </div>
             </Link>
             <div className="nav-links">
