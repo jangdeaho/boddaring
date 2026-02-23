@@ -420,12 +420,12 @@ export default function Home() {
               </div>
 
               <h1 className="hero-title">
-                거래소 간 <span className="hero-grad">시세 차익</span>을 한눈에, 빠르게!
+                거래소 간 <span className="hero-grad">시세 차익</span>을<br />한눈에, 빠르게!
                 <span className="line2 hero-title-animated">데이터수집의 새로운 기준</span>
               </h1>
 
               <p className="hero-desc">
-                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고, 실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.
+                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고,<br />실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.
               </p>
 
               <div className="hero-actions">
@@ -496,7 +496,9 @@ export default function Home() {
             <div className="section-label">Supported Exchanges</div>
             <h2 className="section-title">연동된 거래소</h2>
             <p className="section-desc">
-              BODDARING은 단순히 거래소 수를 늘리는 것이 아닌, 데이터 신뢰성을 기준으로 거래소를 선별합니다. 현재 국내 및 글로벌 주요 거래소를 통해 KRW / USDT 시장 간 가격 격차 데이터를 제공하며, 해당 데이터는 공개 API 기반으로 수집·계산된 참고 정보입니다. 유의미한 차익 신호 선별을 위해 데이터 신뢰도가 낮은 거래소는 제외하고 있으며, 데이터 완성도를 높이기 위해 검증된 거래소를 지속적으로 추가하고 있습니다.
+              BODDARING은 단순히 거래소 수를 늘리는 것이 아닌, 데이터 신뢰성을 기준으로 거래소를 선별합니다.<br />
+              현재 국내 및 글로벌 주요 거래소를 통해 KRW / USDT 시장 간 가격 격차 데이터를 제공하며, 해당 데이터는 공개 API 기반으로 수집·계산된 참고 정보입니다.<br />
+              유의미한 차익 신호 선별을 위해 데이터 신뢰도가 낮은 거래소는 제외하고 있으며, 데이터 완성도를 높이기 위해 검증된 거래소를 지속적으로 추가하고 있습니다.
             </p>
           </div>
         </div>
@@ -532,7 +534,8 @@ export default function Home() {
               * Traders in Thailand, India, and other countries who require a professional arbitrage data system tailored to their local market are welcome to contact us.
             </p>
             <p className="exchange-disclaimer">
-              This platform has no official affiliation with any listed exchange. All data is independently collected via public APIs and provided solely for informational purposes. All trademarks belong to their respective owners.
+              * This platform has no official affiliation with any listed exchange. All data is independently collected via public APIs and provided solely for informational purposes. All trademarks belong to their respective owners.<br />
+              * 이 플랫폼은 상장된 거래소와 공식적인 제휴 관계가 없습니다. 모든 데이터는 공개 API를 통해 독립적으로 수집되며 정보 제공 목적으로만 제공됩니다. 모든 상표는 각자의 소유주에게 속합니다.
             </p>
           </div>
         </div>
@@ -550,7 +553,8 @@ export default function Home() {
               <span className="hero-grad">BODDARING</span>
             </h2>
             <p className="section-desc no-break">
-              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다. BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
+              거래소 간 가격 비교를 자동화하여, 차트 분석 없이도 가격 격차 구간을 직관적으로 확인할 수 있습니다.<br />
+              BODDARING은 실시간 데이터 기반으로 가격 차이가 형성된 구간을 탐지·구조화하여 제공하며, 해당 정보는 투자 판단을 보조하기 위한 참고 자료로 활용됩니다.
             </p>
           </div>
 
@@ -571,7 +575,8 @@ export default function Home() {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">비용 반영 계산 시스템</h3>
-                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다. <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
+                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
+                <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
               </div>
             </div>
             <div className="feature-timeline-item">
@@ -619,7 +624,8 @@ export default function Home() {
                 데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
               </h2>
               <p className="section-desc no-break">
-                아비트라지는 속도와 정보의 싸움입니다. BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+                아비트라지는 속도와 정보의 싸움입니다.<br />
+                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
               </p>
 
               <div className="check-list">
@@ -660,7 +666,8 @@ export default function Home() {
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
               <p className="section-desc">
-                사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다. 프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+                사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />
+                프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
             </p>
           </div>
 
@@ -723,21 +730,21 @@ export default function Home() {
                 <strong>거래소 간 가격 격차라는 '구조'</strong>를 보세요.
               </div>
               <div className="quote-item">
-                아비트라지는 예측의 영역이 아닌<br />
+                아비트라지는 예측의 영역이 아닌,<br />
                 <strong>가격 구조 데이터를 이해하는 과정</strong>입니다.
               </div>
               <div className="quote-item">
-                하루 종일 차트를 붙잡고
-                평단가에 흔들리는 스트레스와
-                기약 없는 기다림의 포지션 종료 대신,
+                하루 종일 차트를 붙잡고<br />
+                평단가에 흔들리는 스트레스와<br />
+                기약 없는 기다림의 포지션 종료 대신,<br />
                 짧은 사이클로 구조를 확인하는 아비트라지가 있습니다.
               </div>
               <div className="quote-item">
                 BODDARING은 다년간의 데이터 분석 경험을 바탕으로 설계되었습니다.
               </div>
               <div className="quote-author">
-                ※ 본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
-                   정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
+                ※  본 서비스는 금융투자상품의 매매를 권유하거나 중개하지 않으며,<br />
+                　　정보 제공 플랫폼으로서 투자 결과에 대한 법적 책임을 지지 않습니다.
               </div>
               <div className="quote-author">
                 BODDARING · 아비트라지 데이터 플랫폼
