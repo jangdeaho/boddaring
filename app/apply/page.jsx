@@ -35,7 +35,7 @@ export default function ApplyPage() {
         vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
         yearlyPromoTitle: "연 플랜 혜택",
         yearlyPromoDesc: "연 플랜은 2개월 할인 혜택이 적용됩니다.",
-        yearlyBadge: "2개월 할인",
+        yearlyBadge: "2개월 할인 혜택!",
         selectedBadge: "선택됨",
 
         formRequiredNote: " 는 필수 입력 항목입니다.",
@@ -59,14 +59,6 @@ export default function ApplyPage() {
         error: "❌ 전송 실패. 다시 시도해 주세요.",
         backHome: "← 메인으로 돌아가기",
 
-        labelName: "(Name)",
-        labelPhone: "(Phone)",
-        labelEmail: "(E-mail)",
-        labelTelegram: "(Telegram ID)",
-        labelExperience: "(Experience)",
-        labelFund: "(Fund Size)",
-        labelMessage: "(Message)",
-
         langKOR: "KOR",
         langENG: "ENG",
       },
@@ -80,7 +72,7 @@ export default function ApplyPage() {
         vatNote: "* All prices include VAT.",
         yearlyPromoTitle: "Yearly Benefit",
         yearlyPromoDesc: "Yearly plans include a 2-month discount.",
-        yearlyBadge: "2-Month Discount",
+        yearlyBadge: "2-Month Discount Included!",
         selectedBadge: "Selected",
 
         formRequiredNote: " Required fields.",
@@ -104,13 +96,7 @@ export default function ApplyPage() {
         error: "❌ Failed to send. Please try again.",
         backHome: "← Back to Home",
 
-        labelName: "(Name)",
-        labelPhone: "(Phone)",
-        labelEmail: "(E-mail)",
-        labelTelegram: "(Telegram ID)",
-        labelExperience: "(Experience)",
         labelFund: "(Fund Size)",
-        labelMessage: "(Message)",
 
         langKOR: "KOR",
         langENG: "ENG",
@@ -148,9 +134,9 @@ export default function ApplyPage() {
 
   const fundOptions = useMemo(
     () => [
-      { value: "small", labelKo: "1,000만원 이하", labelEn: "Under ₩10M" },
-      { value: "medium", labelKo: "1,000만원 ~ 1억원", labelEn: "₩10M–₩100M" },
-      { value: "large", labelKo: "1억원 이상", labelEn: "₩100M+" },
+      { value: "small", labelKo: "1,000만원 이하", labelEn: "Under $ 10M" },
+      { value: "medium", labelKo: "1,000만원 ~ 1억원", labelEn: "$ 10M ~ $ 100M" },
+      { value: "large", labelKo: "1억원 이상", labelEn: "$ 100M+" },
     ],
     []
   );
@@ -161,14 +147,14 @@ export default function ApplyPage() {
   const plans = useMemo(
     () => ({
       monthly: [
-        { id: "BASIC", priceKo: "월 2,200,000 KRW", priceEn: "₩2,200,000 / mo", descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", priceKo: "월 3,000,000 KRW", priceEn: "₩3,000,000 / mo", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
-        { id: "BOT", priceKo: "월 880,000 KRW", priceEn: "₩880,000 / mo", descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", priceKo: "월 2,200,000 KRW", priceEn: "$ 1,522 / mo", descKo: "실시간 시그널", descEn: "Real-time signals" },
+        { id: "PRO", priceKo: "월 3,000,000 KRW", priceEn: "$ 2,076 / mo", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "BOT", priceKo: "월 880,000 KRW", priceEn: "$ 609 / mo", descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
-        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "₩20,000,000 / yr", descKo: "2개월 할인 혜택!", descEn: "2-month discount included!" },
-        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "₩30,000,000 / yr", descKo: "2개월 할인 혜택!", descEn: "2-month discount included!" },
-        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "₩8,000,000 / yr", descKo: "2개월 할인 혜택!", descEn: "2-month discount included!" },
+        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "$ 13,840 / yr", descKo: "2개월 할인 혜택!"},
+        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "$ 20,761 / yr", descKo: "2개월 할인 혜택!"},
+        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "$ 5,536 / yr", descKo: "2개월 할인 혜택!"},
       ],
       vip: [{ id: "VIP", priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
     }),
