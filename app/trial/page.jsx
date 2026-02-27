@@ -1,102 +1,94 @@
 "use client";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import Link from "next/link";
 
-export default function TrialPage() {
+export default function Trial() {
+  const [formStatus, setFormStatus] = useState("idle");
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    telegram: "",
-    message: ""
+    name: "", phone: "", email: "", telegram: "", experience: "1년 미만", message: ""
   });
-  const [status, setStatus] = useState("idle");
-
-  useEffect(() => {
-    const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-    if (pk) emailjs.init(pk);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("sending");
+    setFormStatus("sending");
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
-      await emailjs.send(serviceId, templateId, {
-        plan_type: "TRIAL",
-        plan_name: "24시간 무료체험",
-        user_name: formData.name,
-        user_phone: formData.phone,
-        user_email: formData.email,
-        user_telegram: formData.telegram,
-        user_message: formData.message || "24시간 무료체험 신청"
-      });
-      setStatus("sent");
-    } catch (err) {
-      setStatus("error");
-    }
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION,
+        {
+          ...formData,
+          plan_name: "24시간 무료체험 신청",
+          to_email: "boddaring@endholdings.com"
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      );
+      setFormStatus("sent");
+      setTimeout(() => setFormStatus("idle"), 5000);
+    } catch (e) { setFormStatus("error"); }
   };
 
   return (
-    <div className="trial-page" style={{ paddingTop: '140px', paddingBottom: '100px', minHeight: '100vh' }}>
-      <div className="container" style={{ maxWidth: '800px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <div style={{ display: 'inline-block', padding: '8px 16px', borderRadius: '20px', background: 'rgba(108,79,255,0.1)', border: '1px solid var(--accent)', color: 'var(--accent2)', fontSize: '14px', fontWeight: 800, marginBottom: '20px' }}>LIMITED OFFER</div>
-          <h1 style={{ fontSize: '42px', fontWeight: 900, marginBottom: '20px', color: '#fff' }}>24시간 무료체험 신청</h1>
-          <p style={{ color: 'var(--muted)', fontSize: '18px', lineHeight: '1.6' }}>
-            BODDARING의 압도적인 데이터 속도를 직접 경험해 보세요.<br />
-            신청 후 승인이 완료되면 24시간 동안 모든 기능을 제한 없이 이용하실 수 있습니다.
-          </p>
+    <div className="apply-wrap container">
+      <Link href="/" className="brand" style={{ marginBottom: '40px' }}>
+        <img src="/doge.png" alt="BODDARING" className="brand-icon" />
+        <span className="brand-name">BODDARING</span>
+      </Link>
+
+      <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+        <h1 className="hero-title" style={{ fontSize: '36px' }}>24시간 무료체험 신청</h1>
+        <p className="hero-desc" style={{ margin: '0 auto' }}>BODDARING의 압도적인 기술력을 단 하루 동안 제한 없이 경험해 보세요.</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="contact-form" style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <h3 className="timeline-title" style={{ marginBottom: '24px', textAlign: 'center' }}>무료체험 신청서 <span style={{ fontSize: '12px', color: '#ff4d4d', fontWeight: 'normal' }}>* 필수 입력</span></h3>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>이름 (Name) <span style={{ color: '#ff4d4d' }}>*</span></label>
+            <input type="text" className="form-input" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+          </div>
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>연락처 (Phone) <span style={{ color: '#ff4d4d' }}>*</span></label>
+            <input type="text" className="form-input" required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ background: 'rgba(255,255,255,0.03)', padding: '40px', borderRadius: '24px', border: '1px solid var(--stroke)', backdropFilter: 'blur(20px)' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-            <div className="input-group">
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 700 }}>이름 *</label>
-              <input type="text" required placeholder="실명 입력" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--stroke)', color: '#fff' }} />
-            </div>
-            <div className="input-group">
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 700 }}>연락처 *</label>
-              <input type="text" required placeholder="010-0000-0000" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--stroke)', color: '#fff' }} />
-            </div>
-            <div className="input-group">
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 700 }}>이메일 *</label>
-              <input type="email" required placeholder="example@email.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--stroke)', color: '#fff' }} />
-            </div>
-            <div className="input-group">
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 700 }}>텔레그램 ID *</label>
-              <input type="text" required placeholder="@username" value={formData.telegram} onChange={e => setFormData({...formData, telegram: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--stroke)', color: '#fff' }} />
-            </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>이메일 (E-mail) <span style={{ color: '#ff4d4d' }}>*</span></label>
+            <input type="email" className="form-input" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
           </div>
-          <div style={{ marginTop: '24px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: 700 }}>신청 메시지 (선택)</label>
-            <textarea rows="3" placeholder="간단한 인사말이나 요청사항을 적어주세요" value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} style={{ width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--stroke)', color: '#fff' }} />
+          <div>
+            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>텔레그램 ID <span style={{ color: '#ff4d4d' }}>*</span></label>
+            <input type="text" className="form-input" required value={formData.telegram} onChange={e => setFormData({...formData, telegram: e.target.value})} />
           </div>
-          
-          <button type="submit" className="btn-shine-wrap" style={{ width: '100%', marginTop: '32px', border: 'none', cursor: 'pointer' }} disabled={status === 'sending'}>
-            <div className="btn-shine-inner" style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '18px' }}>
-              {status === 'sending' ? '신청 중...' : '24시간 무료체험 신청하기 🚀'}
-            </div>
-            <div className="btn-shine-effect"></div>
-          </button>
-          
-          {status === 'sent' && <p style={{ color: '#10b981', textAlign: 'center', marginTop: '16px', fontWeight: 700 }}>신청이 완료되었습니다! 검토 후 연락드리겠습니다.</p>}
-          {status === 'error' && <p style={{ color: '#ef4444', textAlign: 'center', marginTop: '16px' }}>오류가 발생했습니다. 다시 시도해 주세요.</p>}
-          
-          <div style={{ marginTop: '30px', padding: '20px', borderRadius: '12px', background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.2)' }}>
-            <p style={{ fontSize: '13px', color: 'var(--accent3)', lineHeight: '1.6', textAlign: 'center' }}>
-              * 무료체험은 1인당 1회만 가능하며, 중복 신청 시 거절될 수 있습니다.<br />
-              * 허위 정보 기재 시 승인이 취소될 수 있습니다.
-            </p>
-          </div>
-        </form>
-        
-        <div style={{ textAlign: 'center', marginTop: '40px' }}>
-          <Link href="/" style={{ color: 'var(--muted2)', fontSize: '14px', textDecoration: 'underline' }}>메인으로 돌아가기</Link>
         </div>
-      </div>
+
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>코인 투자 경험</label>
+          <select className="form-input" value={formData.experience} onChange={e => setFormData({...formData, experience: e.target.value})}>
+            <option>1년 미만</option><option>1~3년</option><option>3~5년</option><option>5년 이상</option>
+          </select>
+        </div>
+
+        <div style={{ marginBottom: '24px' }}>
+          <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>추가 문의사항</label>
+          <textarea className="form-input" style={{ minHeight: '120px' }} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} />
+        </div>
+
+        <button type="submit" className="btn-primary" style={{ width: '100%', padding: '16px' }}>
+          {formStatus === "sending" ? "신청서 제출 중..." : formStatus === "sent" ? "제출 완료! 곧 연락드리겠습니다." : "24시간 무료체험 신청하기 🚀"}
+        </button>
+      </form>
+
+      <style jsx>{`
+        .apply-wrap { position: relative; z-index: 1; }
+        .contact-form { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 24px; border: 1px solid var(--stroke); }
+        .form-input { width: 100%; padding: 14px 20px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--stroke); color: #fff; font-size: 15px; outline: none; transition: all 0.2; }
+        .form-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+        select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 18px; }
+      `}</style>
     </div>
   );
 }
