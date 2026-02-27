@@ -190,8 +190,10 @@
   }
   
   /* CTA Button */
-  .nav-cta {
-    flex-shrink: 0;
+  .nav-cta{
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
   }
   .btn-apply {
     display: inline-flex;
@@ -220,6 +222,48 @@
   }
   .btn-apply:hover .arrow { transform: translateX(3px); }
   
+  /* ✅ NAV CTA: 버튼 간격 (너무 붙지 않게) */
+.nav-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ✅ 공통 CTA 버튼 테마 (메인/learn 동일 적용) */
+.btn-cta{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: #fff;
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 0 22px rgba(236,72,153,.18), 0 0 22px rgba(124,58,237,.18), 0 4px 16px rgba(0,0,0,.28);
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+  white-space: nowrap;
+}
+.btn-cta:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 0 34px rgba(236,72,153,.26), 0 0 34px rgba(124,58,237,.26), 0 10px 26px rgba(0,0,0,.32);
+}
+
+/* ✅ 보조(신청하기)도 동일 테마 유지 */
+.btn-cta--apply{}
+
+/* ✅ Learn 하단/히어로 큰 버튼 버전 */
+.btn-cta--lg{
+  height: 46px;
+  padding: 0 22px;
+  font-size: 15px;
+}
+
   /* Mobile Hamburger */
   .hamburger {
     display: none;
@@ -2186,7 +2230,7 @@
   transition: all 0.6s;
   animation: shine 3s infinite;
 }
-
+.btn-shine { display: none !important; }
 @keyframes shine {
   0% { left: -100%; }
   20% { left: 100%; }
