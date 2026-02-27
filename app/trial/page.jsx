@@ -1,94 +1,582 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Link from "next/link";
 
 export default function Trial() {
   const [formStatus, setFormStatus] = useState("idle");
   const [formData, setFormData] = useState({
-    name: "", phone: "", email: "", telegram: "", experience: "1년 미만", message: ""
+    name: "",
+    phone: "",
+    email: "",
+    telegram: "",
+    experience: "beginner",
+    message: ""
   });
+  const [emailjsReady, setEmailjsReady] = useState(false);
+
+  // EmailJS init
+  useEffect(() => {
+    const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (pk) {
+      emailjs.init(pk);
+      setEmailjsReady(true);
+    }
+  }, []);
+
+  const isFormValid = Object.values(formData).slice(0, 4).every(v => String(v).trim().length > 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!emailjsReady || !isFormValid) return;
+    
     setFormStatus("sending");
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION,
-        {
-          ...formData,
-          plan_name: "24시간 무료체험 신청",
-          to_email: "boddaring@endholdings.com"
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
+      if (!serviceId || !templateId) throw new Error("Missing EmailJS env vars.");
+
+      await emailjs.send(serviceId, templateId, {
+        from_name: formData.name,
+        from_phone: formData.phone,
+        from_email: formData.email,
+        telegram_id: formData.telegram,
+        experience: formData.experience,
+        selected_plan: "24시간 무료체험",
+        message: formData.message || "(메시지 없음)",
+        to_name: "BODDARING 관리자",
+        ui_lang: "ko",
+      });
       setFormStatus("sent");
       setTimeout(() => setFormStatus("idle"), 5000);
-    } catch (e) { setFormStatus("error"); }
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setFormStatus("error");
+    }
   };
 
   return (
-    <div className="apply-wrap container">
-      <Link href="/" className="brand" style={{ marginBottom: '40px' }}>
-        <img src="/doge.png" alt="BODDARING" className="brand-icon" />
-        <span className="brand-name">BODDARING</span>
-      </Link>
+    <div className="trialWrap">
+      <style jsx global>{`
+        /* =========================
+           Aurora Background (Trial Page)
+           ========================= */
+        .trialWrap {
+          position: relative;
+          padding: 100px 40px;
+          max-width: 1200px;
+          margin: 0 auto;
+          color: #fff;
+          overflow: hidden;
+          background: #0a0e27;
+          min-height: 100vh;
+        }
+        @media (max-width: 1024px) {
+          .trialWrap { padding: 80px 20px; }
+        }
 
-      <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-        <h1 className="hero-title" style={{ fontSize: '36px' }}>24시간 무료체험 신청</h1>
-        <p className="hero-desc" style={{ margin: '0 auto' }}>BODDARING의 압도적인 기술력을 단 하루 동안 제한 없이 경험해 보세요.</p>
-      </div>
+        .trialAurora {
+          position: absolute;
+          inset: -160px;
+          pointer-events: none;
+          z-index: 0;
+          opacity: 1;
+        }
+        .trialAurora::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(55% 55% at 18% 28%, rgba(124,58,237,0.35) 0%, transparent 62%),
+            radial-gradient(52% 52% at 88% 38%, rgba(236,72,153,0.28) 0%, transparent 64%),
+            radial-gradient(46% 46% at 72% 86%, rgba(59,130,246,0.22) 0%, transparent 62%),
+            radial-gradient(40% 40% at 22% 84%, rgba(167,139,250,0.20) 0%, transparent 64%),
+            radial-gradient(35% 35% at 45% 45%, rgba(34,197,94,0.12) 0%, transparent 68%);
+          filter: blur(50px);
+          mix-blend-mode: screen;
+          animation: auroraMove1 14s ease-in-out infinite;
+          transform: translateZ(0);
+        }
+        .trialAurora::after {
+          content: "";
+          position: absolute;
+          inset: -60px;
+          background:
+            conic-gradient(from 210deg at 50% 50%,
+              rgba(124,58,237,0.12),
+              rgba(236,72,153,0.14),
+              rgba(59,130,246,0.12),
+              rgba(34,197,94,0.08),
+              rgba(124,58,237,0.12));
+          filter: blur(70px);
+          opacity: 0.65;
+          mix-blend-mode: screen;
+          animation: auroraMove2 20s ease-in-out infinite reverse;
+        }
+        @keyframes auroraMove1 {
+          0% { transform: translate(-1%, -1%) scale(1); }
+          45% { transform: translate(2%, 1%) scale(1.06); }
+          75% { transform: translate(1%, 2%) scale(1.04); }
+          100% { transform: translate(-1%, -1%) scale(1); }
+        }
+        @keyframes auroraMove2 {
+          0% { transform: translate(0%, 0%) scale(1); }
+          50% { transform: translate(-2%, 1%) scale(1.03); }
+          100% { transform: translate(0%, 0%) scale(1); }
+        }
+        .trialNoise {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          opacity: 0.15;
+          background-image:
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 3px),
+            repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 4px);
+          mix-blend-mode: overlay;
+        }
+        .trialContent { position: relative; z-index: 1; }
 
-      <form onSubmit={handleSubmit} className="contact-form" style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <h3 className="timeline-title" style={{ marginBottom: '24px', textAlign: 'center' }}>무료체험 신청서 <span style={{ fontSize: '12px', color: '#ff4d4d', fontWeight: 'normal' }}>* 필수 입력</span></h3>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>이름 (Name) <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="text" className="form-input" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>연락처 (Phone) <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="text" className="form-input" required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-          </div>
-        </div>
+        .backLink {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: rgba(205, 216, 255, 0.72);
+          font-weight: 800;
+          font-size: 13px;
+          text-decoration: none;
+          padding: 10px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.10);
+          background: rgba(0,0,0,0.18);
+          backdrop-filter: blur(10px);
+          transition: all 0.18s ease;
+          margin-bottom: 40px;
+        }
+        .backLink:hover {
+          transform: translateY(-1px);
+          color: rgba(232, 238, 255, 0.92);
+          border-color: rgba(167,139,250,0.30);
+        }
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>이메일 (E-mail) <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="email" className="form-input" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>텔레그램 ID <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="text" className="form-input" required value={formData.telegram} onChange={e => setFormData({...formData, telegram: e.target.value})} />
-          </div>
-        </div>
+        .trialHeader {
+          text-align: center;
+          margin-bottom: 60px;
+        }
+        .trialTitle {
+          font-size: 48px;
+          font-weight: 900;
+          margin-bottom: 16px;
+          background: linear-gradient(135deg, #e0d7ff, #a78bfa);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .trialSubtitle {
+          font-size: 16px;
+          color: #a0a0c0;
+          margin-bottom: 24px;
+          line-height: 1.65;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>코인 투자 경험</label>
-          <select className="form-input" value={formData.experience} onChange={e => setFormData({...formData, experience: e.target.value})}>
-            <option>1년 미만</option><option>1~3년</option><option>3~5년</option><option>5년 이상</option>
-          </select>
-        </div>
+        .trialBenefits {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 16px;
+          margin-bottom: 48px;
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .benefitCard {
+          padding: 16px;
+          border-radius: 12px;
+          border: 1px solid rgba(167,139,250,0.18);
+          background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(167,139,250,0.04));
+          text-align: center;
+          transition: all 0.25s ease;
+        }
+        .benefitCard:hover {
+          border-color: rgba(167,139,250,0.35);
+          background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
+          transform: translateY(-2px);
+        }
+        .benefitIcon {
+          font-size: 24px;
+          margin-bottom: 8px;
+        }
+        .benefitTitle {
+          font-size: 13px;
+          font-weight: 800;
+          color: #e0d7ff;
+          margin-bottom: 4px;
+        }
+        .benefitDesc {
+          font-size: 12px;
+          color: rgba(200,206,235,0.72);
+        }
 
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>추가 문의사항</label>
-          <textarea className="form-input" style={{ minHeight: '120px' }} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} />
-        </div>
+        .trialFormContainer {
+          max-width: 700px;
+          margin: 0 auto;
+        }
 
-        <button type="submit" className="btn-primary" style={{ width: '100%', padding: '16px' }}>
-          {formStatus === "sending" ? "신청서 제출 중..." : formStatus === "sent" ? "제출 완료! 곧 연락드리겠습니다." : "24시간 무료체험 신청하기 🚀"}
-        </button>
-      </form>
+        .formSection {
+          background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(120,100,255,0.03));
+          padding: 40px;
+          border-radius: 20px;
+          border: 1px solid rgba(120,100,255,0.15);
+          backdrop-filter: blur(10px);
+          margin-bottom: 24px;
+        }
+        @media (max-width: 768px) {
+          .formSection { padding: 24px; }
+        }
 
-      <style jsx>{`
-        .apply-wrap { position: relative; z-index: 1; }
-        .contact-form { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 24px; border: 1px solid var(--stroke); }
-        .form-input { width: 100%; padding: 14px 20px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--stroke); color: #fff; font-size: 15px; outline: none; transition: all 0.2; }
-        .form-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
-        select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 18px; }
+        .formTitle {
+          font-size: 18px;
+          font-weight: 900;
+          color: #e0d7ff;
+          margin-bottom: 24px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .formTitleRequired {
+          font-size: 12px;
+          color: #ff6b6b;
+          font-weight: 900;
+        }
+
+        .formGrid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 16px;
+        }
+        @media (max-width: 640px) {
+          .formGrid { grid-template-columns: 1fr; }
+        }
+
+        .formGroup {
+          display: flex;
+          flex-direction: column;
+        }
+        .formLabel {
+          display: block;
+          font-size: 13px;
+          font-weight: 700;
+          color: #e0d7ff;
+          margin-bottom: 8px;
+        }
+        .formRequired {
+          color: #ff6b6b;
+          margin-left: 4px;
+        }
+
+        .formInput,
+        .formSelect,
+        .formTextarea {
+          width: 100%;
+          padding: 12px;
+          border-radius: 10px;
+          background: rgba(0,0,0,0.18);
+          border: 1px solid rgba(255,255,255,0.10);
+          color: #fff;
+          font-size: 14px;
+          font-family: inherit;
+          outline: none;
+          transition: all 0.18s ease;
+        }
+        .formInput:focus,
+        .formSelect:focus,
+        .formTextarea:focus {
+          border-color: rgba(167,139,250,0.38);
+          box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
+        }
+        .formSelect {
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          background-size: 18px;
+          padding-right: 40px;
+        }
+        .formTextarea {
+          min-height: 110px;
+          resize: none;
+        }
+
+        .warningBox {
+          background: linear-gradient(135deg, rgba(236,72,153,0.12), rgba(245,158,11,0.08));
+          border: 1px solid rgba(236,72,153,0.22);
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 24px;
+        }
+        .warningTitle {
+          font-size: 13px;
+          font-weight: 900;
+          color: #ffb3ba;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .warningList {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .warningList li {
+          font-size: 12px;
+          color: rgba(255,200,210,0.88);
+          margin-bottom: 8px;
+          padding-left: 20px;
+          position: relative;
+          line-height: 1.5;
+        }
+        .warningList li:before {
+          content: "•";
+          position: absolute;
+          left: 0;
+          color: rgba(236,72,153,0.6);
+          font-weight: bold;
+        }
+        .warningList li:last-child {
+          margin-bottom: 0;
+        }
+
+        .submitBtn {
+          width: 100%;
+          padding: 16px;
+          border-radius: 14px;
+          border: none;
+          font-weight: 900;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.18s ease;
+          background: linear-gradient(135deg, #7c3aed, #ec4899);
+          box-shadow: 0 0 20px rgba(124,58,237,0.24), 0 0 22px rgba(236,72,153,0.18);
+          color: #fff;
+        }
+        .submitBtn:hover:not(:disabled) {
+          transform: translateY(-1px);
+          filter: brightness(1.05);
+        }
+        .submitBtn:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+          transform: none;
+          filter: none;
+          box-shadow: none;
+        }
+
+        .statusMessage {
+          margin-top: 16px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 800;
+          border-radius: 10px;
+          padding: 12px;
+        }
+        .statusSuccess {
+          color: #4ade80;
+          background: rgba(74,222,128,0.12);
+          border: 1px solid rgba(74,222,128,0.22);
+        }
+        .statusError {
+          color: #ff6b6b;
+          background: rgba(255,107,107,0.12);
+          border: 1px solid rgba(255,107,107,0.22);
+        }
+
+        .trialFooter {
+          text-align: center;
+          margin-top: 48px;
+          padding-top: 24px;
+          border-top: 1px solid rgba(167,139,250,0.18);
+        }
+        .trialFooterText {
+          font-size: 12px;
+          color: rgba(186,196,230,0.72);
+          line-height: 1.6;
+        }
+        .trialFooterText strong {
+          color: rgba(167,139,250,0.9);
+        }
       `}</style>
+
+      <div className="trialAurora" />
+      <div className="trialNoise" />
+
+      <div className="trialContent">
+        <Link href="/" className="backLink">← 메인으로 돌아가기</Link>
+
+        <div className="trialHeader">
+          <h1 className="trialTitle">24시간 무료체험</h1>
+          <p className="trialSubtitle">
+            BODDARING의 압도적인 기술력을 제한 없이 경험해 보세요.<br />
+            실시간 시그널부터 자동화 BOT까지 모든 기능을 24시간 동안 무료로 이용할 수 있습니다.
+          </p>
+        </div>
+
+        <div className="trialBenefits">
+          <div className="benefitCard">
+            <div className="benefitIcon">⚡</div>
+            <div className="benefitTitle">실시간 시그널</div>
+            <div className="benefitDesc">초 단위 업데이트 데이터</div>
+          </div>
+          <div className="benefitCard">
+            <div className="benefitIcon">🤖</div>
+            <div className="benefitTitle">자동화 BOT</div>
+            <div className="benefitDesc">종합 매매 자동화 기능</div>
+          </div>
+          <div className="benefitCard">
+            <div className="benefitIcon">📊</div>
+            <div className="benefitTitle">고급 분석</div>
+            <div className="benefitDesc">15개+ 거래소 데이터</div>
+          </div>
+        </div>
+
+        <div className="trialFormContainer">
+          <div className="formSection">
+            <h2 className="formTitle">
+              무료체험 신청서
+              <span className="formTitleRequired">* 필수 입력</span>
+            </h2>
+
+            <form onSubmit={handleSubmit}>
+              <div className="formGrid">
+                <div className="formGroup">
+                  <label className="formLabel">
+                    이름 (Name)
+                    <span className="formRequired">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="formInput"
+                    required
+                    placeholder="홍길동"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  />
+                </div>
+                <div className="formGroup">
+                  <label className="formLabel">
+                    연락처 (Phone)
+                    <span className="formRequired">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    className="formInput"
+                    required
+                    placeholder="010-0000-0000"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="formGrid">
+                <div className="formGroup">
+                  <label className="formLabel">
+                    이메일 (E-mail)
+                    <span className="formRequired">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    className="formInput"
+                    required
+                    placeholder="example@email.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
+                </div>
+                <div className="formGroup">
+                  <label className="formLabel">
+                    텔레그램 ID
+                    <span className="formRequired">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="formInput"
+                    required
+                    placeholder="@username"
+                    value={formData.telegram}
+                    onChange={(e) => setFormData({...formData, telegram: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="formGroup" style={{ marginBottom: "16px" }}>
+                <label className="formLabel">코인 투자 경험</label>
+                <select
+                  className="formSelect"
+                  value={formData.experience}
+                  onChange={(e) => setFormData({...formData, experience: e.target.value})}
+                >
+                  <option value="beginner">1년 미만</option>
+                  <option value="intermediate">1~3년</option>
+                  <option value="advanced">3년 이상</option>
+                </select>
+              </div>
+
+              <div className="formGroup" style={{ marginBottom: "24px" }}>
+                <label className="formLabel">추가 문의사항</label>
+                <textarea
+                  className="formTextarea"
+                  placeholder="추가 문의사항이 있으시면 입력해 주세요."
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                />
+              </div>
+
+              <div className="warningBox">
+                <div className="warningTitle">
+                  ⚠️ 무료체험 이용 주의사항
+                </div>
+                <ul className="warningList">
+                  <li><strong>24시간 제한:</strong> 무료체험은 신청 후 정확히 24시간 동안만 이용 가능합니다.</li>
+                  <li><strong>실명 인증 필수:</strong> 정확한 개인정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.</li>
+                  <li><strong>텔레그램 필수:</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.</li>
+                  <li><strong>데이터 신뢰성:</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.</li>
+                  <li><strong>자동 종료:</strong> 24시간 경과 후 자동으로 서비스 접근이 차단되며, 계속 이용하려면 구독이 필요합니다.</li>
+                  <li><strong>기술 지원:</strong> 무료체험 기간 중 기술 지원은 제한될 수 있습니다.</li>
+                </ul>
+              </div>
+
+              <button
+                type="submit"
+                className="submitBtn"
+                disabled={formStatus === "sending" || !isFormValid}
+              >
+                {formStatus === "sending"
+                  ? "신청서 제출 중..."
+                  : formStatus === "sent"
+                  ? "제출 완료! 곧 연락드리겠습니다."
+                  : "24시간 무료체험 신청하기 🚀"}
+              </button>
+
+              {formStatus === "error" && (
+                <div className="statusMessage statusError">
+                  ❌ 전송 실패. 다시 시도해 주세요.
+                </div>
+              )}
+            </form>
+          </div>
+
+          <div className="trialFooter">
+            <p className="trialFooterText">
+              문의사항이 있으신가요?<br />
+              <strong>boddaring@endholdings.com</strong>으로 문의해 주세요.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
