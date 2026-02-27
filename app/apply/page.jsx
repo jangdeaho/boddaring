@@ -67,9 +67,7 @@ export default function ApplyPage() {
 
   const formatTime = (d) => {
     if (!d) return "-";
-    if (lang === "en") {
-      return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-    }
+    if (lang === "en") return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
     return d.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" });
   };
 
@@ -168,7 +166,6 @@ export default function ApplyPage() {
     } catch {}
   };
 
-  // Options
   const experienceOptions = useMemo(
     () => [
       { value: "beginner", labelKo: "1년 미만", labelEn: "Less than 1 year" },
@@ -187,7 +184,6 @@ export default function ApplyPage() {
     []
   );
 
-  // Plans
   const plans = useMemo(
     () => ({
       monthly: [
@@ -214,7 +210,6 @@ export default function ApplyPage() {
     []
   );
 
-  // compute max yearly saving %
   const yearlyMaxSavePct = useMemo(() => {
     const monthly = plans.monthly;
     const yearly = plans.yearly;
@@ -229,7 +224,6 @@ export default function ApplyPage() {
     return Math.max(0, ...pcts);
   }, [plans]);
 
-  // explicit yearly savings
   const yearlySavingsById = useMemo(
     () => ({
       BASIC: 6400000,
@@ -260,7 +254,6 @@ export default function ApplyPage() {
     }
   }, []);
 
-  // Handlers
   const handleInput = (field) => (e) => {
     setFormData((p) => ({ ...p, [field]: e.target.value }));
   };
@@ -271,7 +264,6 @@ export default function ApplyPage() {
     if (first) setFormData((p) => ({ ...p, plan: first }));
   };
 
-  // required fields gating
   const isFormValid = useMemo(() => {
     const req = ["name", "phone", "email", "telegram"];
     return req.every((k) => String(formData[k] || "").trim().length > 0);
@@ -332,6 +324,10 @@ export default function ApplyPage() {
   return (
     <div className="applyWrap">
       <style jsx global>{`
+        /* =========================
+           Aurora (TradingView-ish but unique)
+           - layered orbs + conic wash + subtle noise
+           ========================= */
         .applyWrap {
           position: relative;
           padding: 120px 40px;
@@ -345,35 +341,61 @@ export default function ApplyPage() {
         }
         .aurora {
           position: absolute;
-          inset: -120px;
+          inset: -160px;
           pointer-events: none;
           z-index: 0;
+          opacity: 1;
         }
-        .aurora::before,
-        .aurora::after {
-          content: "";
-          position: absolute;
-          inset: 0;
+        .aurora::before{
+          content:"";
+          position:absolute;
+          inset:0;
           background:
-            radial-gradient(60% 60% at 20% 30%, rgba(124,58,237,0.22) 0%, transparent 60%),
-            radial-gradient(55% 55% at 85% 35%, rgba(236,72,153,0.18) 0%, transparent 60%),
-            radial-gradient(55% 55% at 70% 85%, rgba(59,130,246,0.14) 0%, transparent 60%),
-            radial-gradient(45% 45% at 25% 85%, rgba(167,139,250,0.12) 0%, transparent 60%);
-          filter: blur(34px);
-          opacity: 0.95;
-          animation: auroraDrift 14s ease-in-out infinite;
+            radial-gradient(55% 55% at 18% 28%, rgba(124,58,237,0.28) 0%, transparent 62%),
+            radial-gradient(52% 52% at 88% 38%, rgba(236,72,153,0.22) 0%, transparent 64%),
+            radial-gradient(46% 46% at 72% 86%, rgba(59,130,246,0.18) 0%, transparent 62%),
+            radial-gradient(40% 40% at 22% 84%, rgba(167,139,250,0.16) 0%, transparent 64%);
+          filter: blur(44px);
+          mix-blend-mode: screen;
+          animation: auroraMove1 14s ease-in-out infinite;
+          transform: translateZ(0);
         }
-        .aurora::after {
-          opacity: 0.7;
-          filter: blur(54px);
-          animation-duration: 19s;
-          animation-direction: reverse;
+        .aurora::after{
+          content:"";
+          position:absolute;
+          inset:-60px;
+          background:
+            conic-gradient(from 210deg at 50% 50%,
+              rgba(124,58,237,0.08),
+              rgba(236,72,153,0.10),
+              rgba(59,130,246,0.08),
+              rgba(124,58,237,0.08));
+          filter: blur(60px);
+          opacity: 0.55;
+          mix-blend-mode: screen;
+          animation: auroraMove2 20s ease-in-out infinite reverse;
         }
-        @keyframes auroraDrift {
-          0%   { transform: translate(-1%, -1%) scale(1); }
-          40%  { transform: translate(2%, 1%) scale(1.05); }
-          70%  { transform: translate(1%, 2%) scale(1.03); }
-          100% { transform: translate(-1%, -1%) scale(1); }
+        @keyframes auroraMove1{
+          0%{ transform: translate(-1%, -1%) scale(1); }
+          45%{ transform: translate(2%, 1%) scale(1.06); }
+          75%{ transform: translate(1%, 2%) scale(1.04); }
+          100%{ transform: translate(-1%, -1%) scale(1); }
+        }
+        @keyframes auroraMove2{
+          0%{ transform: translate(0%, 0%) scale(1); }
+          50%{ transform: translate(-2%, 1%) scale(1.03); }
+          100%{ transform: translate(0%, 0%) scale(1); }
+        }
+        .auroraNoise{
+          position:absolute;
+          inset:0;
+          pointer-events:none;
+          z-index:0;
+          opacity:0.10;
+          background-image:
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0, rgba(255,255,255,0.10) 1px, transparent 1px, transparent 3px),
+            repeating-linear-gradient(90deg, rgba(0,0,0,0.16) 0, rgba(0,0,0,0.16) 1px, transparent 1px, transparent 4px);
+          mix-blend-mode: overlay;
         }
         .content { position: relative; z-index: 1; }
 
@@ -436,7 +458,7 @@ export default function ApplyPage() {
           border-radius: 14px;
           border: 1px solid rgba(167,139,250,0.18);
           background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.06));
-          box-shadow: 0 0 24px rgba(124,58,237,0.14);
+          box-shadow: 0 0 26px rgba(124,58,237,0.16);
           max-width: 860px;
           margin: 18px auto 0;
           flex-wrap: wrap;
@@ -444,12 +466,12 @@ export default function ApplyPage() {
         .rateBox .left { font-size: 12px; font-weight: 900; color: rgba(233, 221, 255, 0.92); }
         .rateBox .right { font-size: 12px; font-weight: 800; color: rgba(186, 196, 230, 0.88); }
 
-        .applyTabs {
-          display: flex;
-          justify-content: center;
-          gap: 12px;
-          margin: 46px 0 50px;
-          flex-wrap: wrap;
+        /* ✅ prevent clipping for floating bubbles */
+        .applyTabs { 
+          display: flex; justify-content: center; gap: 12px; 
+          margin: 54px 0 50px; flex-wrap: wrap; 
+          overflow: visible;
+          padding-top: 14px; /* headroom for bubble */
         }
         .tabBtn {
           position: relative;
@@ -462,6 +484,7 @@ export default function ApplyPage() {
           font-weight: 800;
           font-size: 15px;
           transition: all 0.25s ease;
+          overflow: visible;
         }
         .tabBtn.active {
           border-color: #7c3aed;
@@ -479,7 +502,7 @@ export default function ApplyPage() {
         }
         .yearlyBubble {
           position: absolute;
-          top: -30px;
+          top: -34px;
           left: 50%;
           transform: translateX(-50%);
           padding: 7px 10px;
@@ -492,6 +515,7 @@ export default function ApplyPage() {
           box-shadow: 0 0 18px rgba(236,72,153,0.18), 0 0 18px rgba(124,58,237,0.16);
           animation: floaty 2.6s ease-in-out infinite;
           white-space: nowrap;
+          z-index: 3;
         }
         .yearlyBubble:after{
           content:"";
@@ -522,56 +546,21 @@ export default function ApplyPage() {
           transition: all 0.25s ease;
           overflow: hidden;
         }
-        .planCard:hover {
-          border-color: rgba(167,139,250,0.22);
-          background: rgba(255,255,255,0.03);
-        }
-        .planCard.selected {
+        .planCard:hover { border-color: rgba(167,139,250,0.22); background: rgba(255,255,255,0.03); }
+
+        /* ✅ selected style (not VIP) */
+        .planCard.selected:not(.vip) {
           border-color: #7c3aed;
           background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08));
           box-shadow: 0 0 30px rgba(124,58,237,0.20);
           transform: scale(1.01);
         }
 
-        .planCard.vip {
-          border-color: rgba(245, 158, 11, 0.55);
-          background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(255,255,255,0.02));
-          box-shadow:
-            0 0 0 1px rgba(255, 215, 140, 0.12) inset,
-            0 0 22px rgba(245, 158, 11, 0.18),
-            0 0 34px rgba(234, 179, 8, 0.14);
-        }
-        .planCard.vip::before{
-          content:"";
-          position:absolute;
-          inset:-40%;
-          background:
-            radial-gradient(40% 40% at 30% 30%, rgba(245,158,11,0.26) 0%, transparent 60%),
-            radial-gradient(35% 35% at 70% 55%, rgba(255,215,140,0.18) 0%, transparent 62%),
-            radial-gradient(28% 28% at 55% 85%, rgba(236,72,153,0.10) 0%, transparent 60%);
-          filter: blur(32px);
-          opacity: 0.9;
-          animation: vipDrift 10s ease-in-out infinite;
-          pointer-events:none;
-        }
-        @keyframes vipDrift{
-          0%{ transform: translate(-1%, -1%) scale(1); }
-          50%{ transform: translate(2%, 1%) scale(1.06); }
-          100%{ transform: translate(-1%, -1%) scale(1); }
-        }
-        .planCard.vip.selected{
-          border-color: rgba(245, 158, 11, 0.78);
-          box-shadow:
-            0 0 0 1px rgba(255, 215, 140, 0.16) inset,
-            0 0 30px rgba(245, 158, 11, 0.24),
-            0 0 46px rgba(234, 179, 8, 0.18);
-          transform: scale(1.012);
-        }
-
+        /* ✅ "선택됨" pill moved to bottom-right so it won't collide with price */
         .selectedBadge {
           position: absolute;
-          top: 14px;
           right: 14px;
+          bottom: 14px;
           font-size: 12px;
           padding: 6px 10px;
           border-radius: 999px;
@@ -579,43 +568,77 @@ export default function ApplyPage() {
           background: rgba(124,58,237,0.18);
           color: #d9ccff;
           opacity: 0;
-          transform: translateY(-4px);
+          transform: translateY(4px);
           transition: all 220ms ease;
           pointer-events: none;
-          z-index: 2;
+          z-index: 3;
         }
         .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0); }
-        .planCard.vip .selectedBadge{
-          border-color: rgba(245,158,11,0.35);
-          background: rgba(245,158,11,0.16);
-          color: rgba(255, 235, 200, 0.95);
-        }
 
-        .planRowTop { position: relative; z-index: 1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+        .planRowTop { position: relative; z-index: 2; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-bottom: 24px; }
         .planTitle { font-weight: 900; font-size: 18px; color: #e0d7ff; }
-        .planCard.vip .planTitle{ color: rgba(255, 239, 205, 0.96); }
         .planDesc { font-size: 13px; color: rgba(200,206,235,0.62); margin-top: 10px; font-weight: 700; }
-        .planCard.vip .planDesc{ color: rgba(255, 233, 200, 0.70); }
         .planPrice { text-align:right; font-weight: 900; color:#e0d7ff; }
         .planPriceMain { font-size: 15px; white-space: nowrap; }
         .planPriceSub { margin-top: 6px; font-size: 12px; font-weight: 900; color: rgba(168,148,255,0.95); white-space: nowrap; }
-        .planCard.vip .planPriceMain{ color: rgba(255, 239, 205, 0.92); }
-        .planCard.vip .planPriceSub{ color: rgba(255, 214, 150, 0.85); }
 
         .savingTag {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 12px;
-          font-weight: 900;
-          padding: 7px 10px;
-          border-radius: 999px;
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 12px; font-weight: 900;
+          padding: 7px 10px; border-radius: 999px;
           border: 1px solid rgba(236,72,153,0.22);
           color: rgba(255, 230, 250, 0.95);
           background: rgba(236,72,153,0.12);
           margin-top: 12px;
           width: fit-content;
           animation: floaty 2.8s ease-in-out infinite;
+        }
+
+        /* ✅ VIP gold aura/border (stronger + higher specificity) */
+        .planCard.vip {
+          border-color: rgba(245, 158, 11, 0.62);
+          background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(255,255,255,0.02));
+          box-shadow:
+            0 0 0 1px rgba(255, 215, 140, 0.12) inset,
+            0 0 22px rgba(245, 158, 11, 0.22),
+            0 0 38px rgba(234, 179, 8, 0.16);
+        }
+        .planCard.vip::before{
+          content:"";
+          position:absolute;
+          inset:-45%;
+          background:
+            radial-gradient(44% 44% at 30% 30%, rgba(245,158,11,0.30) 0%, transparent 62%),
+            radial-gradient(38% 38% at 72% 52%, rgba(255,215,140,0.22) 0%, transparent 66%),
+            radial-gradient(30% 30% at 55% 85%, rgba(236,72,153,0.12) 0%, transparent 64%);
+          filter: blur(34px);
+          opacity: 0.95;
+          animation: vipDrift 10s ease-in-out infinite;
+          pointer-events:none;
+          z-index: 1;
+        }
+        @keyframes vipDrift{
+          0%{ transform: translate(-1%, -1%) scale(1); }
+          50%{ transform: translate(2%, 1%) scale(1.07); }
+          100%{ transform: translate(-1%, -1%) scale(1); }
+        }
+        .planCard.vip.selected{
+          border-color: rgba(245, 158, 11, 0.85);
+          background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(255,255,255,0.02)) !important;
+          box-shadow:
+            0 0 0 1px rgba(255, 215, 140, 0.16) inset,
+            0 0 32px rgba(245, 158, 11, 0.28),
+            0 0 52px rgba(234, 179, 8, 0.20) !important;
+          transform: scale(1.012);
+        }
+        .planCard.vip .planTitle{ color: rgba(255, 239, 205, 0.96); }
+        .planCard.vip .planDesc{ color: rgba(255, 233, 200, 0.72); }
+        .planCard.vip .planPriceMain{ color: rgba(255, 239, 205, 0.92); }
+        .planCard.vip .planPriceSub{ color: rgba(255, 214, 150, 0.85); }
+        .planCard.vip .selectedBadge{
+          border-color: rgba(245,158,11,0.38);
+          background: rgba(245,158,11,0.16);
+          color: rgba(255, 235, 200, 0.95);
         }
 
         .formCard {
@@ -665,6 +688,8 @@ export default function ApplyPage() {
       `}</style>
 
       <div className="aurora" />
+      <div className="auroraNoise" />
+
       <Link href="/" className="backTop">{T.backHome}</Link>
 
       <div className="content">
