@@ -335,7 +335,6 @@ export default function ApplyPage() {
           margin: 0 auto;
           color: #fff;
           overflow: hidden;
-          background: #0a0e27;
         }
         @media (max-width: 1024px) {
           .applyWrap { padding: 110px 20px; }
@@ -352,12 +351,11 @@ export default function ApplyPage() {
           position:absolute;
           inset:0;
           background:
-            radial-gradient(55% 55% at 18% 28%, rgba(124,58,237,0.35) 0%, transparent 62%),
-            radial-gradient(52% 52% at 88% 38%, rgba(236,72,153,0.28) 0%, transparent 64%),
-            radial-gradient(46% 46% at 72% 86%, rgba(59,130,246,0.22) 0%, transparent 62%),
-            radial-gradient(40% 40% at 22% 84%, rgba(167,139,250,0.20) 0%, transparent 64%),
-            radial-gradient(35% 35% at 45% 45%, rgba(34,197,94,0.12) 0%, transparent 68%);
-          filter: blur(50px);
+            radial-gradient(55% 55% at 18% 28%, rgba(124,58,237,0.28) 0%, transparent 62%),
+            radial-gradient(52% 52% at 88% 38%, rgba(236,72,153,0.22) 0%, transparent 64%),
+            radial-gradient(46% 46% at 72% 86%, rgba(59,130,246,0.18) 0%, transparent 62%),
+            radial-gradient(40% 40% at 22% 84%, rgba(167,139,250,0.16) 0%, transparent 64%);
+          filter: blur(44px);
           mix-blend-mode: screen;
           animation: auroraMove1 14s ease-in-out infinite;
           transform: translateZ(0);
@@ -368,13 +366,12 @@ export default function ApplyPage() {
           inset:-60px;
           background:
             conic-gradient(from 210deg at 50% 50%,
-              rgba(124,58,237,0.12),
-              rgba(236,72,153,0.14),
-              rgba(59,130,246,0.12),
-              rgba(34,197,94,0.08),
-              rgba(124,58,237,0.12));
-          filter: blur(70px);
-          opacity: 0.65;
+              rgba(124,58,237,0.08),
+              rgba(236,72,153,0.10),
+              rgba(59,130,246,0.08),
+              rgba(124,58,237,0.08));
+          filter: blur(60px);
+          opacity: 0.55;
           mix-blend-mode: screen;
           animation: auroraMove2 20s ease-in-out infinite reverse;
         }
@@ -394,10 +391,10 @@ export default function ApplyPage() {
           inset:0;
           pointer-events:none;
           z-index:0;
-          opacity:0.15;
+          opacity:0.10;
           background-image:
-            repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 3px),
-            repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 4px);
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0, rgba(255,255,255,0.10) 1px, transparent 1px, transparent 3px),
+            repeating-linear-gradient(90deg, rgba(0,0,0,0.16) 0, rgba(0,0,0,0.16) 1px, transparent 1px, transparent 4px);
           mix-blend-mode: overlay;
         }
         .content { position: relative; z-index: 1; }
@@ -505,7 +502,7 @@ export default function ApplyPage() {
         }
         .yearlyBubble {
           position: absolute;
-          top: -18px;
+          top: -34px;
           left: 50%;
           transform: translateX(-50%);
           padding: 7px 10px;
@@ -559,11 +556,11 @@ export default function ApplyPage() {
           transform: scale(1.01);
         }
 
-        /* ✅ "선택됨" pill moved to top-right to avoid collision with price */
+        /* ✅ "선택됨" pill moved to bottom-right so it won't collide with price */
         .selectedBadge {
           position: absolute;
           right: 14px;
-          top: 14px;
+          bottom: 14px;
           font-size: 12px;
           padding: 6px 10px;
           border-radius: 999px;
@@ -571,12 +568,12 @@ export default function ApplyPage() {
           background: rgba(124,58,237,0.18);
           color: #d9ccff;
           opacity: 0;
-          transform: translateY(-4px);
+          transform: translateY(4px);
           transition: all 220ms ease;
           pointer-events: none;
           z-index: 3;
         }
-        .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0px); }
+        .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0); }
 
         .planRowTop { position: relative; z-index: 2; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-bottom: 24px; }
         .planTitle { font-weight: 900; font-size: 18px; color: #e0d7ff; }
