@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 export default function ApplyPage() {
-  const [lang, setLang] = useState("ko"); // "ko" | "en"
-  const [activeTab, setActiveTab] = useState("monthly"); // monthly, yearly, vip
+  const [lang, setLang] = useState("ko");
+  const [activeTab, setActiveTab] = useState("monthly");
 
   // KRW per 1 USDT (derived via BTC cross-rate)
   const [exchangeRate, setExchangeRate] = useState(1471);
@@ -22,13 +22,9 @@ export default function ApplyPage() {
     message: "",
   });
 
-  const [formStatus, setFormStatus] = useState("idle"); // idle | sending | sent | error
+  const [formStatus, setFormStatus] = useState("idle");
   const [emailjsReady, setEmailjsReady] = useState(false);
 
-  // -----------------------------
-  // USDT exchange rate (KRW/USDT) via BTC cross-rate (Upbit KRW-BTC / Binance BTCUSDT)
-  // 1 minute refresh
-  // -----------------------------
   const fetchExchangeRate = async () => {
     try {
       const [upbitRes, binanceRes] = await Promise.all([
@@ -305,6 +301,7 @@ export default function ApplyPage() {
         plan_krw: krwPriceLabel,
         plan_usdt: usdtPriceLabel,
 
+        exchange_rate: `${exchangeRate.toLocaleString()} KRW/USDT`,
         rate_updated: lastUpdatedAt ? formatTime(lastUpdatedAt) : "-",
 
         message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
@@ -321,12 +318,8 @@ export default function ApplyPage() {
   };
 
   return (
-    <div className="applyWrap">
+    <div className={`applyWrap ${activeTab === "monthly" ? "is-monthly" : activeTab === "yearly" ? "is-yearly" : "is-vip"}`}>
       <style jsx global>{`
-        /* =========================
-           Aurora (TradingView-ish but unique)
-           - layered orbs + conic wash + subtle noise
-           ========================= */
         .applyWrap {
           position: relative;
           padding: 120px 40px;
@@ -334,7 +327,6 @@ export default function ApplyPage() {
           margin: 0 auto;
           color: #fff;
           overflow: hidden;
-          background: #0a0e27;
         }
         @media (max-width: 1024px) {
           .applyWrap { padding: 110px 20px; }
@@ -351,12 +343,11 @@ export default function ApplyPage() {
           position:absolute;
           inset:0;
           background:
-            radial-gradient(55% 55% at 18% 28%, rgba(124,58,237,0.35) 0%, transparent 62%),
-            radial-gradient(52% 52% at 88% 38%, rgba(236,72,153,0.28) 0%, transparent 64%),
-            radial-gradient(46% 46% at 72% 86%, rgba(59,130,246,0.22) 0%, transparent 62%),
-            radial-gradient(40% 40% at 22% 84%, rgba(167,139,250,0.20) 0%, transparent 64%),
-            radial-gradient(35% 35% at 45% 45%, rgba(34,197,94,0.12) 0%, transparent 68%);
-          filter: blur(50px);
+            radial-gradient(55% 55% at 18% 28%, rgba(124,58,237,0.28) 0%, transparent 62%),
+            radial-gradient(52% 52% at 88% 38%, rgba(236,72,153,0.22) 0%, transparent 64%),
+            radial-gradient(46% 46% at 72% 86%, rgba(59,130,246,0.18) 0%, transparent 62%),
+            radial-gradient(40% 40% at 22% 84%, rgba(167,139,250,0.16) 0%, transparent 64%);
+          filter: blur(44px);
           mix-blend-mode: screen;
           animation: auroraMove1 14s ease-in-out infinite;
           transform: translateZ(0);
@@ -367,13 +358,12 @@ export default function ApplyPage() {
           inset:-60px;
           background:
             conic-gradient(from 210deg at 50% 50%,
-              rgba(124,58,237,0.12),
-              rgba(236,72,153,0.14),
-              rgba(59,130,246,0.12),
-              rgba(34,197,94,0.08),
-              rgba(124,58,237,0.12));
-          filter: blur(70px);
-          opacity: 0.65;
+              rgba(124,58,237,0.08),
+              rgba(236,72,153,0.10),
+              rgba(59,130,246,0.08),
+              rgba(124,58,237,0.08));
+          filter: blur(60px);
+          opacity: 0.55;
           mix-blend-mode: screen;
           animation: auroraMove2 20s ease-in-out infinite reverse;
         }
@@ -393,10 +383,10 @@ export default function ApplyPage() {
           inset:0;
           pointer-events:none;
           z-index:0;
-          opacity:0.15;
+          opacity:0.10;
           background-image:
-            repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 3px),
-            repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 4px);
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0, rgba(255,255,255,0.10) 1px, transparent 1px, transparent 3px),
+            repeating-linear-gradient(90deg, rgba(0,0,0,0.16) 0, rgba(0,0,0,0.16) 1px, transparent 1px, transparent 4px);
           mix-blend-mode: overlay;
         }
         .content { position: relative; z-index: 1; }
@@ -464,16 +454,17 @@ export default function ApplyPage() {
           box-shadow: 0 0 26px rgba(124,58,237,0.16);
           max-width: 600px;
           margin: 18px auto 0;
+          flex-wrap: wrap;
         }
         .rateBox .left { font-size: 12px; font-weight: 900; color: rgba(233, 221, 255, 0.92); text-align: center; }
         .rateBox .right { font-size: 12px; font-weight: 800; color: rgba(186, 196, 230, 0.88); text-align: center; }
 
-        /* ✅ prevent clipping for floating bubbles */
+
         .applyTabs { 
           display: flex; justify-content: center; gap: 12px; 
           margin: 54px 0 50px; flex-wrap: wrap; 
           overflow: visible;
-          padding-top: 14px; /* headroom for bubble */
+          padding-top: 24px;
         }
         .tabBtn {
           position: relative;
@@ -494,6 +485,51 @@ export default function ApplyPage() {
           color: #c4b5fd;
           box-shadow: 0 0 20px rgba(124,58,237,0.30);
         }
+
+.applyWrap.is-monthly .tabBtn.active{
+  border-color: #7c3aed;
+  background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
+  box-shadow: 0 0 22px rgba(124,58,237,0.32);
+  color: #c4b5fd;
+}
+.applyWrap.is-yearly .tabBtn.active{
+  border-color: rgba(34,211,238,0.85);
+  background: linear-gradient(135deg, rgba(34,211,238,0.16), rgba(59,130,246,0.10));
+  box-shadow: 0 0 22px rgba(34,211,238,0.26), 0 0 18px rgba(59,130,246,0.16);
+  color: rgba(186, 230, 253, 0.95);
+}
+.applyWrap.is-vip .tabBtn.active{
+  border-color: rgba(245,158,11,0.85);
+  background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(234,179,8,0.08));
+  box-shadow: 0 0 22px rgba(245,158,11,0.26), 0 0 18px rgba(234,179,8,0.14);
+  color: rgba(255, 235, 200, 0.95);
+}
+
+.tabBtn[data-tab="monthly"]{ border-color: rgba(124,58,237,0.22); }
+.tabBtn[data-tab="yearly"]{ border-color: rgba(34,211,238,0.20); }
+.tabBtn[data-tab="vip"]{ border-color: rgba(245,158,11,0.22); }
+
+.applyWrap.is-monthly .planCard.selected:not(.vip){
+  border-color: #7c3aed;
+  background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
+  box-shadow: 0 0 34px rgba(124,58,237,0.22);
+}
+.applyWrap.is-yearly .planCard.selected:not(.vip){
+  border-color: rgba(34,211,238,0.78);
+  background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(59,130,246,0.06));
+  box-shadow: 0 0 34px rgba(34,211,238,0.18), 0 0 26px rgba(59,130,246,0.12);
+}
+
+.applyWrap.is-yearly .planCard.selected:not(.vip) .selectedBadge{
+  border-color: rgba(34,211,238,0.28);
+  background: rgba(34,211,238,0.14);
+  color: rgba(186, 230, 253, 0.95);
+}
+.applyWrap.is-monthly .planCard.selected:not(.vip) .selectedBadge{
+  border-color: rgba(167,139,250,0.22);
+  background: rgba(124,58,237,0.18);
+  color: #d9ccff;
+}
         .vipCrown {
           position: absolute;
           top: -10px;
@@ -504,7 +540,7 @@ export default function ApplyPage() {
         }
         .yearlyBubble {
           position: absolute;
-          top: -18px;
+          top: -44px;
           left: 50%;
           transform: translateX(-50%);
           padding: 7px 10px;
@@ -534,6 +570,10 @@ export default function ApplyPage() {
           0%,100%{ transform: translateX(-50%) translateY(0); }
           50%{ transform: translateX(-50%) translateY(-6px); }
         }
+        @keyframes floatyY{
+          0%,100%{ transform: translateY(0); }
+          50%{ transform: translateY(-6px); }
+        }
 
         .applyGrid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; }
         @media (max-width: 980px) { .applyGrid { grid-template-columns: 1fr; gap: 26px; } }
@@ -550,7 +590,6 @@ export default function ApplyPage() {
         }
         .planCard:hover { border-color: rgba(167,139,250,0.22); background: rgba(255,255,255,0.03); }
 
-        /* ✅ selected style (not VIP) */
         .planCard.selected:not(.vip) {
           border-color: #7c3aed;
           background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08));
@@ -558,11 +597,10 @@ export default function ApplyPage() {
           transform: scale(1.01);
         }
 
-        /* ✅ "선택됨" pill moved to top-right to avoid collision with price */
         .selectedBadge {
           position: absolute;
           right: 14px;
-          top: 14px;
+          bottom: 14px;
           font-size: 12px;
           padding: 6px 10px;
           border-radius: 999px;
@@ -570,12 +608,12 @@ export default function ApplyPage() {
           background: rgba(124,58,237,0.18);
           color: #d9ccff;
           opacity: 0;
-          transform: translateY(-4px);
+          transform: translateY(4px);
           transition: all 220ms ease;
           pointer-events: none;
           z-index: 3;
         }
-        .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0px); }
+        .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0); }
 
         .planRowTop { position: relative; z-index: 2; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-bottom: 24px; }
         .planTitle { font-weight: 900; font-size: 18px; color: #e0d7ff; }
@@ -592,8 +630,8 @@ export default function ApplyPage() {
           color: rgba(255, 230, 250, 0.95);
           background: rgba(236,72,153,0.12);
           margin-top: 12px;
-          width: fit-content;
-          animation: floaty 2.8s ease-in-out infinite;
+          width: fit-content; max-width: 100%;
+          animation: floatyY 2.8s ease-in-out infinite;
         }
 
         /* ✅ VIP gold aura/border (stronger + higher specificity) */
@@ -723,7 +761,7 @@ export default function ApplyPage() {
             const isVip = tab === "vip";
             const isYear = tab === "yearly";
             return (
-              <button key={tab} onClick={() => onTabClick(tab)} type="button" className={`tabBtn ${isActive ? "active" : ""}`}>
+              <button key={tab} data-tab={tab} onClick={() => onTabClick(tab)} type="button" className={`tabBtn ${isActive ? "active" : ""}`}>
                 {isYear && <span className="yearlyBubble">{T.yearlySave(yearlyMaxSavePct)}</span>}
                 {isVip && <span className="vipCrown" aria-hidden="true">👑</span>}
                 {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : "VIP"}
