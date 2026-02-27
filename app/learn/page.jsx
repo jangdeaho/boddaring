@@ -98,7 +98,6 @@ export default function LearnPage() {
             <nav className="learn-sidebar-nav">
               <Link href="/" className="learn-sidebar-link">← 메인으로</Link>
               <Link href="/#contact" className="learn-sidebar-link">문의하기</Link>
-              <Link href="/apply" className="learn-sidebar-link">구독하기</Link>
             </nav>
           </div>
         </aside>
@@ -323,6 +322,36 @@ export default function LearnPage() {
                   실제 거래 시 시장 상황, 네트워크 지연, 거래소 정책 변경 등에 따라 결과가 달라질 수 있습니다.
                 </p>
               </div>
+            </div>
+          </section>
+
+          <section id="guidebook" className="learn-section">
+            <div className="learn-section-label">초심자도 쉽게</div>
+            <h2 className="learn-section-title">A to Z 가이드북 제공</h2>
+            <div className="learn-section-body">
+              <p>
+                BODDARING은 초심자도 쉽게 배울 수 있는 A to Z 가이드북을 제공합니당 영상 넣고 내용 추가
+              </p>
+            </div>
+          </section>
+
+          <section id="aboutus" className="learn-section">
+            <div className="learn-section-label">회사 소개</div>
+            <h2 className="learn-section-title">우린 이런 사람이다</h2>
+            <div className="learn-section-body">
+              <p>
+                엔드홀딩스 어쩌구
+              </p>
+            </div>
+          </section>
+
+          <section id="tos" className="learn-section">
+            <div className="learn-section-label">이용 약관</div>
+            <h2 className="learn-section-title">이용 약관</h2>
+            <div className="learn-section-body">
+              <p>
+                투자는 본인의 어쩌구
+              </p>
             </div>
           </section>
 

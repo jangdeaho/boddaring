@@ -433,8 +433,14 @@ const handleDevSubmit = async (e) => {
                 <Link href="/learn#calc-system" className="nav-link nav-link--inline">
                   김프 매매란?
                 </Link>
-                <Link href="/learn#realtime" className="nav-link nav-link--inline">
-                  데이터 수집 방법
+                <Link href="/learn#guidebook" className="nav-link nav-link--inline">
+                  A to Z 가이드북
+                </Link>
+                <Link href="/learn#aboutus" className="nav-link nav-link--inline">
+                  회사소개
+                </Link>
+                <Link href="/learn#tos" className="nav-link nav-link--inline">
+                  이용약관
                 </Link>
               </div>
             </div>
@@ -496,6 +502,9 @@ const handleDevSubmit = async (e) => {
         <Link href="/learn#realtime" className="nav-link" onClick={() => setMenuOpen(false)}>
           데이터 수집 방법
         </Link>
+        <Link href="/learn#guidebook" className="nav-link" onClick={() => setMenuOpen(false)}>
+          A to Z 가이드북
+        </Link>        
         <Link href="/trial" className="btn-trial-top" onClick={() => setMenuOpen(false)}>
           무료체험 신청하기
         </Link>
@@ -630,7 +639,7 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">오더북 기반 유동성 분석</h3>
-                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 즉시 수익 판단이 가능합니다.</p>
+                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 수익 가능성 판단이 가능합니다.</p>
               </div>
             </div>
             <div className="feature-timeline-item">
@@ -670,7 +679,7 @@ const handleDevSubmit = async (e) => {
               </h2>
               <p className="section-desc no-break">
                 아비트라지는 속도와 정보의 싸움입니다.<br />
-                BODDARING은 대한민국 최고 수준의 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+                BODDARING은 고도화된 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
               </p>
 
               <div className="check-list">
