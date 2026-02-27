@@ -342,11 +342,11 @@ export default function LearnPage() {
               먼저 24시간 무료 체험으로 흐름을 확인하고, 필요하면 플랜을 선택하시는게 어떨까요?
             </p>
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/trial" className="btn-cta btn-cta--lg">
+            <Link href="/trial" className="btn-cta-u btn-cta-u--pink">
               24시간 무료 체험하기 🚀
             </Link>
-              <Link href="/#contact" className="btn-outline btn-outline--glow" style={{ textDecoration: "none" }}>
-                문의하기 ✉️
+              <Link href="/#contact" className="btn-cta-u btn-cta-u--blue">
+                궁금한 것이 있으신가요? 🙄
               </Link>
             </div>
           </div>
