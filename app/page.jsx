@@ -275,11 +275,11 @@ export default function Home() {
     }
   };
 
-  /* 폼 제출 — 개발 문의 (최종 수정본) */
+  /* 폼 제출 — 개발 문의 */
 const handleDevSubmit = async (e) => {
   e.preventDefault();
   
-  // 1. 간단 검증
+
   if (!devFormData.email.trim() || !devFormData.telegram.trim()) {
     setDevFormErrors({ 
       email: !devFormData.email.trim(), 
@@ -425,7 +425,7 @@ const handleDevSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* 더 알아보기: PC 상단 카테고리로 고정 */}
+              {/* 더 알아보기 */}
               <div className="nav-inline">
                 <Link href="/learn#arbitrage" className="nav-link nav-link--inline">
                   아비트라지란?
@@ -504,7 +504,7 @@ const handleDevSubmit = async (e) => {
         </Link>
       </div>
 
-      {/* ── 히어로 섹션 ── */}
+      {/* ── 히어로 ── */}
       <section id="top" className="hero">
         <div className="container">
           <div className="hero-grid">
@@ -569,7 +569,7 @@ const handleDevSubmit = async (e) => {
               </div>
             </div>
 
-            {/* 우측 — 영상 영역 */}
+            {/* 우측 */}
             <div className="hero-right reveal reveal-delay-2">
               <div className="hero-video-wrap hero-video-large">
                 <div className="hero-video-badge">
@@ -588,7 +588,7 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 시그널 소개 섹션 ── */}
+      {/* ── 시그널 소개 ── */}
       <section id="signal" style={{ padding: "100px 0" }}>
         <div className="container">
           <div className="section-head reveal">
@@ -603,7 +603,7 @@ const handleDevSubmit = async (e) => {
             </p>
           </div>
 
-          {/* 기능 카드 — 타임라인 스타일 */}
+          {/* 타임라인 */}
           <div className="feature-timeline reveal">
             <div className="feature-timeline-item">
               <div className="ftl-icon-wrap">
@@ -702,7 +702,7 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── BOT 소개 섹션 ── */}
+      {/* ── BOT 소개 ── */}
       <section id="bot" className="bot-section">
         <div className="container">
           <div className="section-head center reveal">
@@ -755,7 +755,7 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 연동 거래소 섹션 ── */}
+      {/* ── 연동 거래소 ── */}
       <section id="exchanges" className="exchange-section">
         <div className="container">
           <div className="section-head center reveal">
@@ -792,7 +792,7 @@ const handleDevSubmit = async (e) => {
           </div>
         </div>
 
-        {/* 거래소 섹션 하단 고지 */}
+        {/* 거래소 하단 고지 */}
         <div className="container">
           <div className="exchange-footer-notes">
             <p className="exchange-note-intl">
@@ -808,12 +808,12 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 인용구 + 문의하기 섹션 ── */}
+      {/* ── 설명 + 문의하기 섹션 ── */}
       <section id="contact" className="quote-section">
         <div className="container">
           <div className="quote-contact-grid">
       
-            {/* 좌측 — 인용구 */}
+            {/* 좌측 — 플랫폼 설명 */}
             <div className="quote-box reveal">
               <div className="quote-title">
                 방향성보다 구조를 보십시오.
@@ -845,7 +845,7 @@ const handleDevSubmit = async (e) => {
               </div>
             </div>
 
-            {/* 우측 — 문의 폼 (탭 시스템) */}
+            {/* 우측 — 문의 폼 */}
             <div className="contact-box reveal reveal-delay-1">
               {/* 탭 버튼 */}
               <div style={{ display: "flex", gap: "12px", marginBottom: "24px", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "12px" }}>
@@ -886,10 +886,13 @@ const handleDevSubmit = async (e) => {
               {/* 탭 1: 일반 문의 */}
               {contactTab === "inquiry" && (
                 <>
-                  <h3>문의하기</h3>
+                  <h3>문의하기 <span className="ftl-note"> (*는 필수 항목입니다.)</span></h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
-                    최대한 빠르게 답변 드리겠습니다. <span className="ftl-note"> (*는 필수 항목입니다.)</span><br />
+                    최대한 빠르게 답변 드리겠습니다.<br />
+                  </p>
+                  <p>
+
                   </p>
 
                   {formStatus === "sent" ? (
@@ -962,11 +965,13 @@ const handleDevSubmit = async (e) => {
               {/* 탭 2: 개발 문의 */}
               {contactTab === "development" && (
                 <>
-                  <h3>개발 문의</h3>
+                  <h3>개발 문의 <span className="ftl-note"> (*는 필수 항목입니다.)</span></h3>
                   <p>
                     전문적인 투자 프로그램 개발이 필요하신가요?<br />
-                    맞춤형 솔루션을 제공해 드립니다.{" "}
-                    <span className="ftl-note">(*는 필수 항목입니다.)</span><br />
+                    맞춤형 솔루션을 제공해 드립니다.{" "}<br />
+                  </p>
+                  <p>
+
                   </p>
 
                   {devFormStatus === "sent" ? (
@@ -1012,9 +1017,9 @@ const handleDevSubmit = async (e) => {
                           value={devFormData.program}
                           onChange={handleDevInput("program")}
                         />
-                        {/* ✅ 긴 안내는 placeholder 대신 아래에 별도 표기 */}
+                        {/* 아래에 별도 표기 */}
                         <p className="form-note">
-                          ※ 개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 1,000만원부터 시작합니다.
+                          ※ 개발 컨설팅 비용은 500만원이며, 프로그램 제작은 최소 1,000만원부터 시작합니다.<br />
                           　　컨설팅 이후 프로그램 제작 확정 시 해당 비용은 총액에서 차감됩니다.
                         </p>
                       </div>

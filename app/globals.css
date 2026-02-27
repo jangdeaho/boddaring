@@ -2230,7 +2230,6 @@
   transition: all 0.6s;
   animation: shine 3s infinite;
 }
-.btn-shine { display: none !important; }
 @keyframes shine {
   0% { left: -100%; }
   20% { left: 100%; }
@@ -2351,4 +2350,86 @@
 }
 .btn-outline--glow:hover{
   box-shadow: 0 0 18px rgba(167,139,250,0.18);
+}
+
+/* ======================================================================
+   ✅ PATCH (Navbar CTA theme unify + Shine scoped + Badge aura restore)
+   - Shine: only disabled in top navbar CTA (not in hero/sections)
+   - Nav CTA buttons: force same gradient + same radius + same spacing
+   - Restore "aura" (glow) on Real-Time badges / LIVE Signal style elements
+   - Learn bottom CTA: rounded + colored outline for 문의하기
+   ====================================================================== */
+
+/* 1) Shine: only hide inside navbar (top bar) */
+.navbar .btn-shine { display: none !important; }
+
+/* 2) NAV CTA: ensure spacing (prevent sticking) */
+.nav-cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 3) NAV CTA: force same theme for both buttons (trial/apply) */
+.nav-cta .btn-trial-top,
+.nav-cta .btn-apply,
+.nav-cta .btn-cta{
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: #fff !important;
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  box-shadow: 0 0 22px rgba(236,72,153,.18), 0 0 22px rgba(124,58,237,.18), 0 4px 16px rgba(0,0,0,.28) !important;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+  white-space: nowrap;
+}
+.nav-cta .btn-trial-top:hover,
+.nav-cta .btn-apply:hover,
+.nav-cta .btn-cta:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 0 34px rgba(236,72,153,.26), 0 0 34px rgba(124,58,237,.26), 0 10px 26px rgba(0,0,0,.32) !important;
+}
+
+/* 4) Restore aura/glow for badges (Real-Time Data Acquisition, LIVE Signal, etc.) */
+.hero-rtbadge,
+.hero-rtbadge-badge,
+.hero-stats-badge,
+.hero-video-badge,
+.real-time-badge{
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 0 18px rgba(124,58,237,.16),
+    0 0 26px rgba(236,72,153,.10) !important;
+}
+
+/* 5) Learn bottom CTA buttons: keep rounded theme + add color to 문의하기 */
+.learn-actions,
+.learn-cta-actions{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-outline--glow,
+.learn-contact-btn{
+  border-radius: 999px !important;
+  padding: 13px 22px !important;
+}
+.btn-outline--glow{
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(236,72,153,.35) !important;
+  box-shadow: 0 0 18px rgba(236,72,153,.10);
+}
+.btn-outline--glow:hover{
+  background: rgba(236,72,153,0.10) !important;
+  box-shadow: 0 0 26px rgba(236,72,153,.18);
+}
+
+/* 6) Ensure main pink CTA class stays pink (for learn bottom '24시간 무료 체험하기') */
+.btn-free-trial{
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%) !important;
 }

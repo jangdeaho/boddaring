@@ -166,8 +166,9 @@ export default function LearnPage() {
                 흐름은 크게 4단계입니다.<br />
                 ① 가격 괴리 탐지<br />
                 ② 비용(수수료/환율/슬리피지) 반영<br />
-                ③ 오더북으로 “실제 체결 가능 수량” 검증 → ④ 조건 충족 시 실행(동시/순차).<br />
-                BODDARING은 이 중 <strong>①~③을 빠르게, 실제에 가깝게</strong> 해주는 데이터·계산 플랫폼입니다.
+                ③ 오더북으로 “실제 체결 가능 수량” 검증<br />
+                ④ 조건 충족 시 실행<br />
+                <span className="pulse">BODDARING</span>은 이 중 <strong>①~③을 빠르게, 실제에 가깝게</strong> 해주는 데이터·계산 플랫폼입니다.
                 <button
                   type="button"
                   className="footnote-ref"
@@ -251,7 +252,7 @@ export default function LearnPage() {
               <h4>오더북 기반 Amount 계산</h4>
               <p>
                 BODDARING은 “마지막 체결가”가 아니라 <strong>실시간 호가(Order Book)</strong>를 기준으로 Amount를 잡습니다.<br />
-                즉, 화면에 보이는 수익률이 아니라 <strong>그 수량이 실제로 체결 가능한 구간</strong>에서 계산해요.<br />
+                즉, 화면에 보이는 수익률이 아니라 <strong>그 수량이 실제로 체결 가능한 구간</strong>에서 계산합니다.<br />
                 그래서 허수 시그널을 줄이고, ‘될 만한’ 구간만 남기도록 설계했습니다.
               </p>
 
