@@ -2,10 +2,10 @@ import "./globals.css";
 
 export const metadata = {
   metadataBase: new URL("https://boddaring.com"),
-  title: "BODDARING | 국내 최고 아비트라지 플랫폼",
+  title: "BODDARING | 아비트라지 데이터 플랫폼",
   description:
     "국내/해외 거래소에 상장된 모든 코인의 데이터를 수집하여 차익을 계산하고, 실행 가능한 기회만 선별해 초 단위로 시그널을 제공합니다.",
-  keywords: "아비트라지, 김프, 시세차익, 코인, 비트코인, 거래소, 텔레그램 알림",
+  keywords: "아비트라지, 김프, 시세차익, 코인, 비트코인, 거래소, 텔레그램 알림, 김프매매, 보따리, 따리, 빗썸따리, 코인경마",
   icons: {
     icon: [
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
@@ -16,14 +16,14 @@ export const metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "BODDARING | 국내 최고 아비트라지 플랫폼",
+    title: "BODDARING | 아비트라지 데이터 플랫폼",
     description: "거래소 간 시세 차익 비교 · 초 단위 시그널 · 자동화 봇 운영",
     type: "website",
     url: "https://boddaring.com",
   },
   twitter: {
     card: "summary",
-    title: "BODDARING | 국내 최고 아비트라지 플랫폼",
+    title: "BODDARING | 아비트라지 데이터 플랫폼",
     description: "거래소 간 시세 차익 비교 · 초 단위 시그널 · 자동화 봇 운영",
   },
 };
