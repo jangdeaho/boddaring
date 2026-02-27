@@ -161,12 +161,12 @@ export default function LearnPage() {
                 </button>
               </p>
 
-              <h4>아비트라지의 실행 흐름</h4>
+              <h4>아비트라지의 흐름</h4>
               <p>
                 흐름은 크게 4단계입니다.<br />
                 ① 가격 괴리 탐지<br />
                 ② 비용(수수료/환율/슬리피지) 반영<br />
-                ③ 오더북으로 “실제 체결 가능 수량” 검증<br />
+                ③ <strong>호가창(매수벽·매도벽)</strong>으로 “실제 체결 가능 수량” 검증<br />
                 ④ 조건 충족 시 실행<br />
                 <span className="pulse">BODDARING</span>은 이 중 <strong>①~③을 빠르게, 실제에 가깝게</strong> 해주는 데이터·계산 플랫폼입니다.
                 <button
@@ -182,7 +182,7 @@ export default function LearnPage() {
               <h4>실전에서 자주 놓치는 포인트</h4>
               <ul>
                 <li><strong>입출금 상태</strong>가 막혀 있으면, 괴리가 커도 아비트라지가 어렵습니다.</li>
-                <li><strong>오더북 깊이</strong>가 얕으면, 표시된 Per보다 실제 수익률이 급격히 낮아질 수 있습니다.</li>
+                <li><strong>호가창이 얇으면</strong> (매수벽·매도벽이 약하면), 표시된 Per보다 실제 수익률이 낮아질 수 있습니다.</li>
                 <li><strong>환율</strong>은 “원/달러”가 아니라 <strong>USDT 실거래 환율</strong>을 기준으로 보는 게 더 현실적입니다.</li>
               </ul>
 
@@ -205,8 +205,8 @@ export default function LearnPage() {
                 <div id="premium-3" className="learn-footnote-item">
                   <div className="learn-footnote-label">[프리미엄3]</div>
                   <div className="learn-footnote-body">
-                    실행은 생각보다 ‘속도 게임’입니다. 시그널이 떠도 체결/슬리피지/수수료 때문에 결과가 달라질 수 있습니다.<br />
-                    그래서 오더북 기반 계산과 필터링(Per/Amount)이 실전에서는 더 중요합니다.
+                    아비트라지는 생각보다 ‘속도 게임’입니다. 시그널이 떠도 체결/슬리피지/수수료 때문에 결과가 달라질 수 있습니다.<br />
+                    그래서 호가창 기반 계산과 필터링(Per/Amount)이 실전에서는 더 중요합니다.
                   </div>
                 </div>
               </div>
@@ -249,7 +249,7 @@ export default function LearnPage() {
                 이 3개를 빼고 계산하면 “수익처럼 보이는데 실제로는 남는 게 없는” 시그널이 쉽게 생깁니다.
               </p>
 
-              <h4>오더북 기반 Amount 계산</h4>
+              <h4>오더북(매수/매도 호가·수량) 기반 Amount 계산</h4>
               <p>
                 BODDARING은 “마지막 체결가”가 아니라 <strong>실시간 호가(Order Book)</strong>를 기준으로 Amount를 잡습니다.<br />
                 즉, 화면에 보이는 수익률이 아니라 <strong>그 수량이 실제로 체결 가능한 구간</strong>에서 계산합니다.<br />
