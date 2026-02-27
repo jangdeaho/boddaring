@@ -6,8 +6,11 @@ import Link from "next/link";
 export default function ApplyPage() {
   const [lang, setLang] = useState("ko"); // "ko" | "en"
   const [activeTab, setActiveTab] = useState("monthly"); // monthly, yearly, vip
-  const [exchangeRate, setExchangeRate] = useState(1471); // KRW per 1 USDT (derived via BTC cross-rate)
-  const [lastUpdated, setLastUpdated] = useState("");
+
+  // KRW per 1 USDT (derived via BTC cross-rate)
+  const [exchangeRate, setExchangeRate] = useState(1471);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,12 +22,12 @@ export default function ApplyPage() {
     message: "",
   });
 
-  const [formStatus, setFormStatus] = useState("idle");
+  const [formStatus, setFormStatus] = useState("idle"); // idle | sending | sent | error
   const [emailjsReady, setEmailjsReady] = useState(false);
 
   // -----------------------------
   // USDT exchange rate (KRW/USDT) via BTC cross-rate (Upbit KRW-BTC / Binance BTCUSDT)
-  // 1 minute refresh to avoid rate-limit / jitter
+  // 1 minute refresh
   // -----------------------------
   const fetchExchangeRate = async () => {
     try {
@@ -42,7 +45,7 @@ export default function ApplyPage() {
         const rate = Math.round(upbitBTC / binanceBTC);
         if (Number.isFinite(rate) && rate > 0) {
           setExchangeRate(rate);
-          setLastUpdated(new Date().toLocaleTimeString());
+          setLastUpdatedAt(new Date());
         }
       }
     } catch (err) {
@@ -52,7 +55,7 @@ export default function ApplyPage() {
 
   useEffect(() => {
     fetchExchangeRate();
-    const timer = setInterval(fetchExchangeRate, 60_000); // 1 min
+    const timer = setInterval(fetchExchangeRate, 60_000);
     return () => clearInterval(timer);
   }, []);
 
@@ -62,10 +65,21 @@ export default function ApplyPage() {
     return usdt.toLocaleString();
   };
 
+  const formatTime = (d) => {
+    if (!d) return "-";
+    // ✅ fix: English should show AM/PM (not 오전)
+    if (lang === "en") {
+      return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+    }
+    return d.toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" });
+  };
+
   // -----------------------------
-  // i18n dictionary
+  // i18n
   // -----------------------------
   const T = useMemo(() => {
+    const rateStr = exchangeRate ? exchangeRate.toLocaleString() : "-";
+    const timeStr = formatTime(lastUpdatedAt);
     const dict = {
       ko: {
         pageTitle: "서비스 신청하기",
@@ -75,14 +89,15 @@ export default function ApplyPage() {
         tabVIP: "VIP",
         plansTitle: "플랜 선택",
         vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
-        exchangeInfo: `현재 환율: ${exchangeRate.toLocaleString()} KRW (1분 단위 갱신: ${lastUpdated || "-"})`,
-        priceNote: "* 플랜 가격은 결제 당시 환율로 계산됩니다.",
-        yearlyPromoTitle: "연 플랜 혜택",
-        yearlyPromoDesc: "연 플랜은 2개월 할인 혜택이 적용됩니다.",
-        yearlyBadge: "✨2개월 할인 혜택!",
+
+        // ✅ (2) wording change
+        exchangeInfo: `현재 USDT 환율 : ${rateStr} KRW (${timeStr})`,
+        // ✅ (3) merged info
+        exchangeNote: "플랜 가격은 결제 당시 환율(USDT)로 계산됩니다.",
+
         selectedBadge: "선택됨",
 
-        formRequiredNote: " 는 필수 입력 항목입니다.",
+        requiredHint: "필수 항목을 모두 입력하면 제출 버튼이 활성화됩니다.",
         name: "이름",
         phone: "연락처",
         email: "이메일",
@@ -105,6 +120,9 @@ export default function ApplyPage() {
 
         langKOR: "KOR",
         langENG: "ENG",
+
+        yearlySave: (n) => `최대 ${n}% 절약!`,
+        yearlySaveSmall: (krw) => `월 플랜 대비 ${krw.toLocaleString()}원 절약!`,
       },
       en: {
         pageTitle: "Apply for Service",
@@ -114,14 +132,13 @@ export default function ApplyPage() {
         tabVIP: "VIP",
         plansTitle: "Select a Plan",
         vatNote: "* All prices include VAT.",
-        exchangeInfo: `Exchange rate: ${exchangeRate.toLocaleString()} KRW (Updated: ${lastUpdated || "-"})`,
-        priceNote: "* Plan prices are calculated using the exchange rate at the time of payment.",
-        yearlyPromoTitle: "Yearly Benefit",
-        yearlyPromoDesc: "Yearly plans include a 2-month discount.",
-        yearlyBadge: "✨2-Month Discount!",
+
+        exchangeInfo: `Current USDT rate: ${rateStr} KRW (${timeStr})`,
+        exchangeNote: "Plan prices are calculated using the USDT rate at the time of payment.",
+
         selectedBadge: "Selected",
 
-        formRequiredNote: " Required fields.",
+        requiredHint: "The submit button activates after required fields are filled.",
         name: "Name",
         phone: "Phone",
         email: "Email",
@@ -142,16 +159,16 @@ export default function ApplyPage() {
         error: "❌ Failed to send. Please try again.",
         backHome: "← Back to Home",
 
-        labelFund: "(Fund Size)",
-
         langKOR: "KOR",
         langENG: "ENG",
+
+        yearlySave: (n) => `Save up to ${n}%!`,
+        yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs monthly!`,
       },
     };
     return dict[lang];
-  },
-    [lang, exchangeRate, lastUpdated]
-  );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang, exchangeRate, lastUpdatedAt]);
 
   // persist language
   useEffect(() => {
@@ -169,7 +186,7 @@ export default function ApplyPage() {
   };
 
   // -----------------------------
-  // Options (value + label)
+  // Options
   // -----------------------------
   const experienceOptions = useMemo(
     () => [
@@ -182,15 +199,15 @@ export default function ApplyPage() {
 
   const fundOptions = useMemo(
     () => [
-      { value: "small", labelKo: "1,000만원 이하", labelEn: "Under $ 10M" },
-      { value: "medium", labelKo: "1,000만원 ~ 1억원", labelEn: "$ 10M ~ $ 100M" },
-      { value: "large", labelKo: "1억원 이상", labelEn: "$ 100M+" },
+      { value: "small", labelKo: "1,000만원 이하", labelEn: "Under ₩10M" },
+      { value: "medium", labelKo: "1,000만원 ~ 1억원", labelEn: "₩10M ~ ₩100M" },
+      { value: "large", labelKo: "1억원 이상", labelEn: "₩100M+" },
     ],
     []
   );
 
   // -----------------------------
-  // Plans (use stable ids, localize display)
+  // Plans
   // -----------------------------
   const plans = useMemo(
     () => ({
@@ -200,22 +217,48 @@ export default function ApplyPage() {
         { id: "BOT", krw: 880000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
-        // ✅ 연 플랜도 월 플랜과 동일하게 "무엇이 포함되는지"가 항상 보이도록 통일
         { id: "BASIC", krw: 20000000, descKo: "실시간 시그널", descEn: "Real-time signals" },
         { id: "PRO", krw: 30000000, descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
         { id: "BOT", krw: 8000000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
-      vip: [{ id: "VIP", krw: 0, priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
+      vip: [
+        {
+          id: "VIP",
+          krw: 0,
+          priceKo: "별도 문의",
+          priceEn: "Contact us",
+          descKo: "커스텀 전략 및 전용 인프라 구축",
+          descEn: "Custom strategy & dedicated infrastructure",
+        },
+      ],
     }),
     []
   );
 
-  const getPlanLabel = (tab, planId) => {
-    const found = (plans[tab] || []).find((p) => p.id === planId);
-    if (!found) return planId;
-    // plan display name (keep BASIC/PRO/BOT/VIP)
-    return planId;
-  };
+  // ✅ (5-1) compute max yearly saving %
+  const yearlyMaxSavePct = useMemo(() => {
+    const monthly = plans.monthly;
+    const yearly = plans.yearly;
+    const pcts = yearly.map((y) => {
+      const m = monthly.find((x) => x.id === y.id);
+      if (!m || !m.krw || !y.krw) return 0;
+      const total = m.krw * 12;
+      const save = total - y.krw;
+      if (total <= 0) return 0;
+      return Math.max(0, Math.round((save / total) * 100));
+    });
+    return Math.max(0, ...pcts);
+  }, [plans]);
+
+  // ✅ (6) explicit yearly savings (per your numbers)
+  const yearlySavingsById = useMemo(
+    () => ({
+      BASIC: 6400000,
+      PRO: 6000000,
+      BOT: 800000,
+    }),
+    []
+  );
 
   const getExperienceLabel = (val) => {
     const found = experienceOptions.find((o) => o.value === val);
@@ -249,49 +292,55 @@ export default function ApplyPage() {
 
   const onTabClick = (tab) => {
     setActiveTab(tab);
-    // default to first plan in tab
     const first = plans[tab]?.[0]?.id;
     if (first) setFormData((p) => ({ ...p, plan: first }));
   };
 
+  // ✅ (7) required fields gating
+  const isFormValid = useMemo(() => {
+    const req = ["name", "phone", "email", "telegram"];
+    return req.every((k) => String(formData[k] || "").trim().length > 0);
+  }, [formData]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!emailjsReady) return;
+    if (!isFormValid) return;
 
     setFormStatus("sending");
 
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
+      if (!serviceId || !templateId) throw new Error("Missing EmailJS env vars.");
 
       const experienceLabel = getExperienceLabel(formData.experience);
       const fundLabel = getFundLabel(formData.fundSize);
 
       const selectedPlan = (plans[activeTab] || []).find((p) => p.id === formData.plan);
       const selectedKrw = selectedPlan?.krw || 0;
-      const krwPriceLabel = selectedKrw > 0 ? `${selectedKrw.toLocaleString()} KRW` : (lang === "ko" ? "별도 문의" : "Contact us");
-      const usdtPriceLabel = selectedKrw > 0 ? `${formatUSDT(selectedKrw)} USDT` : (lang === "ko" ? "별도 문의" : "Contact us");
 
+      const krwPriceLabel =
+        selectedKrw > 0 ? `${selectedKrw.toLocaleString()} KRW` : lang === "ko" ? "별도 문의" : "Contact us";
+      const usdtPriceLabel =
+        selectedKrw > 0 ? `${formatUSDT(selectedKrw)} USDT` : lang === "ko" ? "별도 문의" : "Contact us";
+
+      // ✅ (8) include KRW+USDT price in email (at submit moment)
       await emailjs.send(serviceId, templateId, {
         from_name: formData.name,
         from_phone: formData.phone,
         from_email: formData.email,
         telegram_id: formData.telegram,
 
-        // ✅ label로 전송
         experience: experienceLabel,
         fund_size: fundLabel,
 
-        // 선택 플랜도 사람이 읽기 쉽게
-        selected_plan: `${activeTab.toUpperCase()} - ${getPlanLabel(activeTab, formData.plan)}`,
-        krw_price: krwPriceLabel,
-        usdt_price: usdtPriceLabel,
-        exchange_rate: `${exchangeRate.toLocaleString()} KRW/USDT`,
-        rate_updated: lastUpdated || "-",
+        selected_plan: `${activeTab.toUpperCase()} - ${formData.plan}`,
+        plan_krw: krwPriceLabel,
+        plan_usdt: usdtPriceLabel,
 
-        // 참고로 value도 필요하면 템플릿에 추가로 써도 됨(선택)
-        experience_value: formData.experience,
-        fund_size_value: formData.fundSize,
+        exchange_rate: `${exchangeRate.toLocaleString()} KRW/USDT`,
+        rate_updated: lastUpdatedAt ? formatTime(lastUpdatedAt) : "-",
 
         message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
         to_name: lang === "ko" ? "BODDARING 관리자" : "BODDARING Admin",
@@ -306,125 +355,81 @@ export default function ApplyPage() {
     }
   };
 
-  const isYearly = activeTab === "yearly";
-
   return (
-    <div
-      style={{
-        padding: "120px 40px",
-        maxWidth: "1400px",
-        margin: "0 auto",
-        color: "#fff",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* keyframes / classes */}
+    <div className="applyWrap">
       <style jsx global>{`
-        @keyframes bod_pop {
-          0% { transform: scale(0.98); }
-          45% { transform: scale(1.03); }
-          100% { transform: scale(1.0); }
-        }
-        @keyframes bod_pulse {
-          0%, 100% { transform: scale(1); opacity: 0.85; }
-          50% { transform: scale(1.06); opacity: 1; }
-        }
-        @keyframes bod_shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        .planCard {
+        .applyWrap {
           position: relative;
-          will-change: transform, box-shadow, border;
+          padding: 120px 40px;
+          max-width: 1400px;
+          margin: 0 auto;
+          color: #fff;
+          overflow: hidden;
         }
-        .planCard.selected {
-          animation: bod_pop 320ms ease-out;
-          transform: translateZ(0) scale(1.01);
+        @media (max-width: 1024px) {
+          .applyWrap { padding: 110px 20px; }
         }
-        .planCard .selectedBadge {
+        .aurora {
           position: absolute;
-          top: 14px;
-          right: 14px;
-          font-size: 12px;
-          padding: 6px 10px;
-          border-radius: 999px;
-          border: 1px solid rgba(167,139,250,0.22);
-          background: rgba(124,58,237,0.18);
-          color: #d9ccff;
-          opacity: 0;
-          transform: translateY(-4px);
-          transition: all 220ms ease;
+          inset: -120px;
           pointer-events: none;
+          z-index: 0;
         }
-        .planCard.selected .selectedBadge {
-          opacity: 1;
-          transform: translateY(0);
+        .aurora::before,
+        .aurora::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(60% 60% at 20% 30%, rgba(124,58,237,0.22) 0%, transparent 60%),
+            radial-gradient(55% 55% at 85% 35%, rgba(236,72,153,0.18) 0%, transparent 60%),
+            radial-gradient(55% 55% at 70% 85%, rgba(59,130,246,0.14) 0%, transparent 60%),
+            radial-gradient(45% 45% at 25% 85%, rgba(167,139,250,0.12) 0%, transparent 60%);
+          filter: blur(34px);
+          transform: translate3d(0,0,0);
+          opacity: 0.95;
+          animation: auroraDrift 14s ease-in-out infinite;
         }
-        .yearlyBanner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 14px 16px;
-          border-radius: 14px;
-          border: 1px solid rgba(167,139,250,0.18);
-          background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
-          box-shadow: 0 0 24px rgba(124,58,237,0.16);
-          margin-bottom: 14px;
+        .aurora::after {
+          opacity: 0.7;
+          filter: blur(54px);
+          animation-duration: 19s;
+          animation-direction: reverse;
         }
-        
-        .planPrice {
-          text-align: right;
-          font-weight: 900;
-          color: #e0d7ff;
-          letter-spacing: 0.2px;
+        @keyframes auroraDrift {
+          0%   { transform: translate(-1%, -1%) scale(1); }
+          40%  { transform: translate(2%, 1%) scale(1.05); }
+          70%  { transform: translate(1%, 2%) scale(1.03); }
+          100% { transform: translate(-1%, -1%) scale(1); }
         }
-        .planPriceMain {
-          font-size: 15px;
-          white-space: nowrap;
-        }
-        .planPriceSub {
-          margin-top: 6px;
-          font-size: 12px;
+        .content { position: relative; z-index: 1; }
+
+        .backTop {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          z-index: 5;
+          color: rgba(205, 216, 255, 0.72);
           font-weight: 800;
-          color: rgba(168, 148, 255, 0.95);
-          white-space: nowrap;
+          font-size: 13px;
+          text-decoration: none;
+          padding: 10px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.10);
+          background: rgba(0,0,0,0.18);
+          backdrop-filter: blur(10px);
+          transition: transform .18s ease, color .18s ease, border-color .18s ease;
         }
-        .planHeader {
-          padding-right: 92px; /* space for ✓ 선택됨 */
+        .backTop:hover {
+          transform: translateY(-1px);
+          color: rgba(232, 238, 255, 0.92);
+          border-color: rgba(167,139,250,0.30);
         }
 
-        .yearlyBadge {
-          font-size: 12px;
-          font-weight: 800;
-          padding: 7px 10px;
-          border-radius: 999px;
-          color: #f1eaff;
-          background: linear-gradient(90deg, rgba(124,58,237,0.35), rgba(167,139,250,0.18));
-          border: 1px solid rgba(167,139,250,0.24);
-          animation: bod_pulse 1.6s ease-in-out infinite;
-          white-space: nowrap;
-        }
-        .discountTag {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 12px;
-          font-weight: 800;
-          padding: 6px 10px;
-          border-radius: 999px;
-          border: 1px solid rgba(167,139,250,0.22);
-          color: #e9ddff;
-          background: rgba(124,58,237,0.14);
-          animation: bod_pulse 1.8s ease-in-out infinite;
-          margin-top: 10px;
-          width: fit-content;
-        }
         .langToggleWrap {
           position: absolute;
-          top: 26px;
-          right: 26px;
+          top: 24px;
+          right: 24px;
           display: flex;
           align-items: center;
           gap: 10px;
@@ -448,194 +453,285 @@ export default function ApplyPage() {
           background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
           box-shadow: 0 0 18px rgba(124,58,237,0.18);
         }
-        .yearlyTabShimmer {
-          background-size: 200% 100%;
-          background-image: linear-gradient(
-            90deg,
-            rgba(124,58,237,0.10),
-            rgba(167,139,250,0.18),
-            rgba(124,58,237,0.10)
-          );
-          animation: bod_shimmer 1.8s linear infinite;
+
+        .rateBox {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 12px 14px;
+          border-radius: 14px;
+          border: 1px solid rgba(167,139,250,0.18);
+          background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.06));
+          box-shadow: 0 0 24px rgba(124,58,237,0.14);
+          max-width: 860px;
+          margin: 18px auto 0;
+          flex-wrap: wrap;
         }
+        .rateBox .left { font-size: 12px; font-weight: 900; color: rgba(233, 221, 255, 0.92); }
+        .rateBox .right { font-size: 12px; font-weight: 800; color: rgba(186, 196, 230, 0.88); }
+
+        .applyTabs {
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          margin: 46px 0 50px;
+          flex-wrap: wrap;
+        }
+        .tabBtn {
+          position: relative;
+          padding: 14px 38px;
+          border-radius: 999px;
+          border: 2px solid rgba(120, 100, 255, 0.20);
+          background: rgba(255,255,255,0.02);
+          color: #8080b0;
+          cursor: pointer;
+          font-weight: 800;
+          font-size: 15px;
+          transition: all 0.25s ease;
+        }
+        .tabBtn.active {
+          border-color: #7c3aed;
+          background: linear-gradient(135deg, rgba(124,58,237,0.20), rgba(167,139,250,0.10));
+          color: #c4b5fd;
+          box-shadow: 0 0 20px rgba(124,58,237,0.30);
+        }
+        .vipCrown {
+          position: absolute;
+          top: -10px;
+          right: -8px;
+          transform: rotate(18deg);
+          filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.35));
+          font-size: 16px;
+        }
+        .yearlyBubble {
+          position: absolute;
+          top: -30px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 7px 10px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 900;
+          color: #f8f2ff;
+          background: linear-gradient(135deg, rgba(236,72,153,0.42), rgba(124,58,237,0.22));
+          border: 1px solid rgba(255,255,255,0.16);
+          box-shadow: 0 0 18px rgba(236,72,153,0.18), 0 0 18px rgba(124,58,237,0.16);
+          animation: floaty 2.6s ease-in-out infinite;
+          white-space: nowrap;
+        }
+        .yearlyBubble:after{
+          content:"";
+          position:absolute;
+          left:50%;
+          bottom:-7px;
+          width:12px;height:12px;
+          transform: translateX(-50%) rotate(45deg);
+          background: rgba(236,72,153,0.25);
+          border-right: 1px solid rgba(255,255,255,0.12);
+          border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        @keyframes floaty{
+          0%,100%{ transform: translateX(-50%) translateY(0); }
+          50%{ transform: translateX(-50%) translateY(-6px); }
+        }
+
+        .applyGrid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; }
+        @media (max-width: 980px) { .applyGrid { grid-template-columns: 1fr; gap: 26px; } }
+
+        .planCard {
+          position: relative;
+          padding: 24px;
+          border-radius: 16px;
+          border: 2px solid rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.02);
+          cursor: pointer;
+          transition: all 0.25s ease;
+        }
+        .planCard:hover {
+          border-color: rgba(167,139,250,0.22);
+          background: rgba(255,255,255,0.03);
+        }
+        .planCard.selected {
+          border-color: #7c3aed;
+          background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08));
+          box-shadow: 0 0 30px rgba(124,58,237,0.20);
+          transform: scale(1.01);
+        }
+        .selectedBadge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          font-size: 12px;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.22);
+          background: rgba(124,58,237,0.18);
+          color: #d9ccff;
+          opacity: 0;
+          transform: translateY(-4px);
+          transition: all 220ms ease;
+          pointer-events: none;
+        }
+        .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0); }
+
+        .planRowTop { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+        .planTitle { font-weight: 900; font-size: 18px; color: #e0d7ff; }
+        .planDesc { font-size: 13px; color: rgba(200,206,235,0.62); margin-top: 10px; font-weight: 700; }
+        .planPrice { text-align:right; font-weight: 900; color:#e0d7ff; }
+        .planPriceMain { font-size: 15px; white-space: nowrap; }
+        .planPriceSub { margin-top: 6px; font-size: 12px; font-weight: 900; color: rgba(168,148,255,0.95); white-space: nowrap; }
+
+        .savingTag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 12px;
+          font-weight: 900;
+          padding: 7px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(236,72,153,0.22);
+          color: rgba(255, 230, 250, 0.95);
+          background: rgba(236,72,153,0.12);
+          margin-top: 12px;
+          width: fit-content;
+          animation: floaty 2.8s ease-in-out infinite;
+        }
+
+        .formCard {
+          background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(120,100,255,0.03));
+          padding: 40px;
+          border-radius: 20px;
+          border: 1px solid rgba(120,100,255,0.15);
+          backdrop-filter: blur(10px);
+        }
+        @media (max-width: 980px) { .formCard { padding: 26px; } }
+
+        .fieldLabel { display:block; margin-bottom:8px; font-size:14px; font-weight:700; color:#e0d7ff; }
+        .requiredStar { color:#ff6b6b; margin-left:4px; }
+
+        .input,.select,.textarea {
+          width:100%;
+          padding:12px;
+          border-radius:10px;
+          background: rgba(0,0,0,0.18);
+          border: 1px solid rgba(255,255,255,0.10);
+          color:#fff;
+          font-size:14px;
+          outline:none;
+          transition: border-color .18s ease, box-shadow .18s ease;
+        }
+        .input:focus,.select:focus,.textarea:focus{
+          border-color: rgba(167,139,250,0.38);
+          box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
+        }
+        .textarea{ min-height:110px; resize:none; font-family:inherit; }
+
+        .submitBtn{
+          width:100%;
+          padding:16px;
+          border-radius:14px;
+          border:none;
+          font-weight:900;
+          font-size:16px;
+          cursor:pointer;
+          transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, opacity .18s ease;
+          background: linear-gradient(135deg, #7c3aed, #ec4899);
+          box-shadow: 0 0 20px rgba(124,58,237,0.24), 0 0 22px rgba(236,72,153,0.18);
+          color:#fff;
+        }
+        .submitBtn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+        .submitBtn:disabled{ opacity:0.45; cursor:not-allowed; transform:none; filter:none; box-shadow:none; }
       `}</style>
 
-      {/* 배경 */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background:
-            "radial-gradient(circle at 20% 50%, rgba(120,100,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(100,120,255,0.06) 0%, transparent 50%)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
+      <div className="aurora" />
+      <Link href="/" className="backTop">{T.backHome}</Link>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
-        {/* 언어 토글 */}
+      <div className="content">
         <div className="langToggleWrap" aria-label="Language selector">
-          <button className={`langBtn ${lang === "ko" ? "active" : ""}`} onClick={() => setLanguage("ko")} type="button">
-            {T.langKOR}
-          </button>
-          <button className={`langBtn ${lang === "en" ? "active" : ""}`} onClick={() => setLanguage("en")} type="button">
-            {T.langENG}
-          </button>
+          <button className={`langBtn ${lang === "ko" ? "active" : ""}`} onClick={() => setLanguage("ko")} type="button">{T.langKOR}</button>
+          <button className={`langBtn ${lang === "en" ? "active" : ""}`} onClick={() => setLanguage("en")} type="button">{T.langENG}</button>
         </div>
 
-        {/* 헤더 */}
-        <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <h1
-            style={{
-              fontSize: "48px",
-              fontWeight: 800,
-              marginBottom: "16px",
-              background: "linear-gradient(135deg, #e0d7ff, #a78bfa)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            {T.pageTitle}
-          </h1>
-          <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "24px", lineHeight: 1.6 }}>
-            {T.pageDesc}
-          </p>
-
-          <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
-            <span style={{ fontSize: "12px", color: "#b9b0e6", background: "rgba(124,58,237,0.10)", border: "1px solid rgba(167,139,250,0.20)", padding: "7px 10px", borderRadius: "999px" }}>
-              {T.exchangeInfo}
-            </span>
-            <span style={{ fontSize: "12px", color: "#9aa8c7", background: "rgba(112,128,160,0.10)", border: "1px solid rgba(112,128,160,0.18)", padding: "7px 10px", borderRadius: "999px" }}>
-              {T.priceNote}
-            </span>
+        <div style={{ textAlign: "center", marginBottom: "52px" }}>
+          <h1 style={{
+            fontSize: "48px",
+            fontWeight: 900,
+            marginBottom: "14px",
+            background: "linear-gradient(135deg, #e0d7ff, #a78bfa)",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}>{T.pageTitle}</h1>
+          <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "0", lineHeight: 1.65 }}>{T.pageDesc}</p>
+          <div className="rateBox" role="note" aria-label="Exchange info">
+            <div className="left">{T.exchangeInfo}</div>
+            <div className="right">{T.exchangeNote}</div>
           </div>
         </div>
 
-        {/* 탭 메뉴 */}
-        <div className="apply-tabs" style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "50px" }}>
-          {["monthly", "yearly", "vip"].map((tab) => {
+        <div className="applyTabs">
+          {["monthly","yearly","vip"].map((tab) => {
             const isActive = activeTab === tab;
-            const isYearlyTab = tab === "yearly";
-            const isVipTab = tab === "vip";
+            const isVip = tab === "vip";
+            const isYear = tab === "yearly";
             return (
-              <button
-                key={tab}
-                onClick={() => onTabClick(tab)}
-                type="button"
-                className={`${isYearlyTab && isActive ? "yearlyTabShimmer" : ""} ${isVipTab ? "vipTab" : ""} ${isVipTab && isActive ? "vipTabActive" : ""}`}
-                style={{
-                  padding: "14px 36px",
-                  borderRadius: "30px",
-                  border: `2px solid ${isActive ? "#7c3aed" : "rgba(120, 100, 255, 0.2)"}`,
-                  background: isActive
-                    ? "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(167,139,250,0.1))"
-                    : "rgba(255,255,255,0.02)",
-                  color: isActive ? "#c4b5fd" : "#8080b0",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                  fontSize: "15px",
-                  transition: "all 0.3s ease",
-                  boxShadow: isActive ? "0 0 20px rgba(124,58,237,0.3)" : "none",
-                }}
-              >
-                {isVipTab && <span className="vipCrown" aria-hidden="true">👑</span>}
-                {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : T.tabVIP}
+              <button key={tab} onClick={() => onTabClick(tab)} type="button" className={`tabBtn ${isActive ? "active" : ""}`}>
+                {isYear && <span className="yearlyBubble">{T.yearlySave(yearlyMaxSavePct)}</span>}
+                {isVip && <span className="vipCrown" aria-hidden="true">👑</span>}
+                {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : "VIP"}
               </button>
             );
           })}
         </div>
 
-        {/* 메인 */}
-        <div className="apply-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "50px" }}>
-          {/* 플랜 선택 */}
+        <div className="applyGrid">
           <div>
             <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "16px", gap: "16px" }}>
-              <h3 style={{ color: "#e0d7ff", fontSize: "20px", fontWeight: 700, margin: 0 }}>{T.plansTitle}</h3>
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "#9aa8c7",
-                  background: "rgba(112,128,160,0.12)",
-                  border: "1px solid rgba(112,128,160,0.18)",
-                  padding: "5px 10px",
-                  borderRadius: "999px",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {T.vatNote}
-              </span>
+              <h3 style={{ color: "#e0d7ff", fontSize: "20px", fontWeight: 800, margin: 0 }}>{T.plansTitle}</h3>
+              <span style={{
+                fontSize: "12px",
+                color: "#9aa8c7",
+                background: "rgba(112,128,160,0.12)",
+                border: "1px solid rgba(112,128,160,0.18)",
+                padding: "5px 10px",
+                borderRadius: "999px",
+                whiteSpace: "nowrap",
+              }}>{T.vatNote}</span>
             </div>
 
-            {/* 연 플랜 강조 배너 */}
-            {isYearly && (
-              <div className="yearlyBanner" role="note" aria-label="Yearly promotion">
-                <div>
-                  <div style={{ fontWeight: 900, color: "#e7ddff", marginBottom: "4px" }}>{T.yearlyPromoTitle}</div>
-                  <div style={{ fontSize: "13px", color: "#b2b6d6", lineHeight: 1.4 }}>{T.yearlyPromoDesc}</div>
-                </div>
-                <div className="yearlyBadge">{T.yearlyBadge}</div>
-              </div>
-            )}
-
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {plans[activeTab].map((p) => {
+              {(plans[activeTab] || []).map((p) => {
                 const selected = formData.plan === p.id;
+                const isVip = String(p.id).toUpperCase() === "VIP";
                 const desc = lang === "ko" ? p.descKo : p.descEn;
 
-                const isVip = String(p.id).toUpperCase() === "VIP";
                 const periodKo = activeTab === "monthly" ? "월" : activeTab === "yearly" ? "연" : "";
-                const periodEn = activeTab === "monthly" ? "Month" : activeTab === "yearly" ? "Year" : "";
-                const krwLine = !isVip && p.krw ? `${periodKo} ${p.krw.toLocaleString()} KRW` : (lang === "ko" ? (p.priceKo || "별도 문의") : (p.priceEn || "Contact us"));
-                const usdLine = !isVip && p.krw ? `${formatUSDT(p.krw)} USDT${periodEn ? ` / ${periodEn}` : ""}` : "";
+                const periodEn = activeTab === "monthly" ? "mo" : activeTab === "yearly" ? "yr" : "";
+
+                const krwLine = !isVip && p.krw
+                  ? `${periodKo} ${p.krw.toLocaleString()} KRW`
+                  : lang === "ko" ? (p.priceKo || "별도 문의") : (p.priceEn || "Contact us");
+
+                const usdLine = !isVip && p.krw ? `${formatUSDT(p.krw)} USDT / ${periodEn}` : "";
+
                 const priceMain = lang === "ko" ? krwLine : (usdLine || krwLine);
                 const priceSub = lang === "ko" ? (usdLine || "") : (!isVip && p.krw ? krwLine : "");
 
+                const yearlySaving = activeTab === "yearly" ? yearlySavingsById[p.id] : null;
+
                 return (
-                  <label
-                    key={`${activeTab}-${p.id}`}
-                    className={`planCard ${selected ? "selected" : ""} ${isYearly ? "yearly" : ""} ${isVip ? "vip" : ""}`}
-                    style={{
-                      padding: "24px",
-                      borderRadius: "16px",
-                      border: `2px solid ${selected ? "#7c3aed" : "rgba(255,255,255,0.08)"}`,
-                      background: selected
-                        ? "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08))"
-                        : "rgba(255,255,255,0.02)",
-                      cursor: "pointer",
-                      transition: "all 0.3s ease",
-                      boxShadow: selected ? "0 0 30px rgba(124,58,237,0.2)" : "none",
-                      transform: selected ? "scale(1.01)" : "scale(1.0)",
-                    }}
-                  >
+                  <label key={`${activeTab}-${p.id}`} className={`planCard ${selected ? "selected" : ""}`}>
                     <span className="selectedBadge">✓ {T.selectedBadge}</span>
+                    <input type="radio" name="plan" value={p.id} checked={selected} onChange={handleInput("plan")} style={{ display: "none" }} />
 
-                    <input
-                      type="radio"
-                      name="plan"
-                      value={p.id}
-                      checked={selected}
-                      onChange={handleInput("plan")}
-                      style={{ display: "none" }}
-                    />
+                    <div className="planRowTop">
+                      <div>
+                        <div className="planTitle">{p.id}</div>
+                        <div className="planDesc">{desc}</div>
+                        {yearlySaving ? <div className="savingTag">{T.yearlySaveSmall(yearlySaving)}</div> : null}
+                      </div>
 
-                    {/* 상단 */}
-                    <div className="planHeader">
-                      <div style={{ fontWeight: 900, fontSize: "18px", color: "#e0d7ff" }}>{p.id}</div>
-                      <div style={{ fontSize: "13px", color: "#8080b0", marginTop: "6px" }}>{desc}</div>
-
-                      {isYearly && (
-                        <div className="discountTag" style={{ marginTop: "10px" }}>
-                          {T.yearlyBadge}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* 하단 */}
-                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "14px" }}>
                       <div className="planPrice">
                         <div className="planPriceMain">{priceMain}</div>
                         {priceSub ? <div className="planPriceSub">{priceSub}</div> : null}
@@ -647,177 +743,49 @@ export default function ApplyPage() {
             </div>
           </div>
 
-          {/* 폼 */}
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(120,100,255,0.03))",
-              padding: "40px",
-              borderRadius: "20px",
-              border: "1px solid rgba(120,100,255,0.15)",
-              backdropFilter: "blur(10px)",
-            }}
-          >
-            {/* 이름 / 연락처 */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
-              <div>
-                <p style={{ fontSize: "13px", color: "#8080b0", marginBottom: "20px" }}>
-                  <span style={{ color: "#ff6b6b" }}>*</span> {T.formRequiredNote}
-                </p>
+          <form className="formCard" onSubmit={handleSubmit}>
+            <p style={{ fontSize: "13px", color: "rgba(186,196,230,0.9)", margin: "0 0 18px" }}>
+              <span style={{ color: "#ff6b6b", fontWeight: 900 }}>*</span> {T.requiredHint}
+            </p>
 
-                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>{T.name}</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelName}</span>
-                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleInput("name")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    background: "rgba(0,0,0,0.2)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    fontSize: "14px",
-                    transition: "all 0.2s",
-                  }}
-                  placeholder={T.phName}
-                />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "18px" }}>
+              <div>
+                <label className="fieldLabel">{T.name}<span className="requiredStar">*</span></label>
+                <input className="input" type="text" required value={formData.name} onChange={handleInput("name")} placeholder={T.phName} />
               </div>
-
               <div>
-                <p style={{ marginBottom: "20px", opacity: 0 }}>&nbsp;</p>
-
-                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>{T.phone}</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelPhone}</span>
-                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
-                </label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={handleInput("phone")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    background: "rgba(0,0,0,0.2)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    fontSize: "14px",
-                  }}
-                  placeholder={T.phPhone}
-                />
+                <label className="fieldLabel">{T.phone}<span className="requiredStar">*</span></label>
+                <input className="input" type="tel" required value={formData.phone} onChange={handleInput("phone")} placeholder={T.phPhone} />
               </div>
             </div>
 
-            {/* 이메일 / 텔레그램 */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "18px" }}>
               <div>
-                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>{T.email}</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelEmail}</span>
-                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInput("email")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    background: "rgba(0,0,0,0.2)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    fontSize: "14px",
-                  }}
-                  placeholder={T.phEmail}
-                />
+                <label className="fieldLabel">{T.email}<span className="requiredStar">*</span></label>
+                <input className="input" type="email" required value={formData.email} onChange={handleInput("email")} placeholder={T.phEmail} />
               </div>
               <div>
-                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>{T.telegram}</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelTelegram}</span>
-                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.telegram}
-                  onChange={handleInput("telegram")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    background: "rgba(0,0,0,0.2)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    fontSize: "14px",
-                  }}
-                  placeholder={T.phTelegram}
-                />
+                <label className="fieldLabel">{T.telegram}<span className="requiredStar">*</span></label>
+                <input className="input" type="text" required value={formData.telegram} onChange={handleInput("telegram")} placeholder={T.phTelegram} />
               </div>
             </div>
 
-            {/* 경험 / 자금 */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "18px" }}>
               <div>
-                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>{T.experience}</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelExperience}</span>
-                </label>
-                <select
-                  required
-                  value={formData.experience}
-                  onChange={handleInput("experience")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    background: "rgba(0,0,0,0.2)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
-                >
+                <label className="fieldLabel">{T.experience}</label>
+                <select className="select" required value={formData.experience} onChange={handleInput("experience")}>
                   {experienceOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
+                    <option key={opt.value} value={opt.value} style={{ background: "#111629", color: "#fff" }}>
                       {lang === "ko" ? opt.labelKo : opt.labelEn}
                     </option>
                   ))}
                 </select>
               </div>
-
               <div>
-                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                  <span style={{ color: "#e0d7ff" }}>{T.fundSize}</span>
-                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelFund}</span>
-                </label>
-                <select
-                  required
-                  value={formData.fundSize}
-                  onChange={handleInput("fundSize")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    background: "rgba(0,0,0,0.2)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    fontSize: "14px",
-                    cursor: "pointer",
-                  }}
-                >
+                <label className="fieldLabel">{T.fundSize}</label>
+                <select className="select" required value={formData.fundSize} onChange={handleInput("fundSize")}>
                   {fundOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
+                    <option key={opt.value} value={opt.value} style={{ background: "#111629", color: "#fff" }}>
                       {lang === "ko" ? opt.labelKo : opt.labelEn}
                     </option>
                   ))}
@@ -825,70 +793,22 @@ export default function ApplyPage() {
               </div>
             </div>
 
-            {/* 메시지 */}
-            <div style={{ marginBottom: "24px" }}>
-              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
-                <span style={{ color: "#e0d7ff" }}>{T.message}</span>
-                <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelMessage}</span>
-              </label>
-              <textarea
-                value={formData.message}
-                onChange={handleInput("message")}
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: "8px",
-                  background: "rgba(0,0,0,0.2)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  color: "#fff",
-                  fontSize: "14px",
-                  minHeight: "100px",
-                  fontFamily: "inherit",
-                  resize: "vertical",
-                }}
-                placeholder={T.phMessage}
-              />
+            <div style={{ marginBottom: "22px" }}>
+              <label className="fieldLabel">{T.message}</label>
+              <textarea className="textarea" value={formData.message} onChange={handleInput("message")} placeholder={T.phMessage} />
             </div>
 
-            {/* 제출 */}
-            <button
-              type="submit"
-              disabled={formStatus === "sending"}
-              style={{
-                width: "100%",
-                padding: "16px",
-                borderRadius: "12px",
-                background: formStatus === "sending" ? "rgba(124, 58, 237, 0.5)" : "linear-gradient(135deg, #7c3aed, #a78bfa)",
-                color: "#fff",
-                border: "none",
-                fontWeight: 800,
-                fontSize: "16px",
-                cursor: formStatus === "sending" ? "not-allowed" : "pointer",
-                transition: "all 0.3s",
-                boxShadow: "0 0 20px rgba(124, 58, 237, 0.3)",
-              }}
-            >
+            <button className="submitBtn" type="submit" disabled={formStatus === "sending" || !isFormValid}>
               {formStatus === "sending" ? T.btnSending : T.btnSubmit}
             </button>
 
             {formStatus === "sent" && (
-              <p style={{ color: "#4ade80", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}>
-                {T.success}
-              </p>
+              <p style={{ color: "#4ade80", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 800 }}>{T.success}</p>
             )}
             {formStatus === "error" && (
-              <p style={{ color: "#ff6b6b", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}>
-                {T.error}
-              </p>
+              <p style={{ color: "#ff6b6b", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 800 }}>{T.error}</p>
             )}
           </form>
-        </div>
-
-        {/* 하단 링크 */}
-        <div style={{ textAlign: "center", marginTop: "60px" }}>
-          <Link href="/" style={{ color: "#8080b0", textDecoration: "none", fontSize: "14px", fontWeight: 700, transition: "color 0.2s" }}>
-            {T.backHome}
-          </Link>
         </div>
       </div>
     </div>
