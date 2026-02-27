@@ -84,7 +84,7 @@ export default function ApplyPage() {
         vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
         exchangeInfo: `현재 USDT 환율 : ${rateStr} KRW (${timeStr})`,
         exchangeNote: "플랜 가격은 결제 당시 환율(USDT)로 계산됩니다.",
-        selectedBadge: "선택됨",
+        selectedPill: "선택됨",
         requiredHint: "필수 항목을 모두 입력하셔야 제출 버튼이 활성화됩니다.",
         name: "이름",
         phone: "연락처",
@@ -118,7 +118,7 @@ export default function ApplyPage() {
         vatNote: "* All prices include VAT.",
         exchangeInfo: `Current USDT rate: ${rateStr} KRW (${timeStr})`,
         exchangeNote: "Plan prices are calculated using the USDT rate at the time of payment.",
-        selectedBadge: "Selected",
+        selectedPill: "Selected",
         requiredHint: "The submit button activates after required fields are filled.",
         name: "Name",
         phone: "Phone",
@@ -520,12 +520,12 @@ export default function ApplyPage() {
   box-shadow: 0 0 34px rgba(34,211,238,0.18), 0 0 26px rgba(59,130,246,0.12);
 }
 
-.applyWrap.is-yearly .planCard.selected:not(.vip) .selectedBadge{
+.applyWrap.is-yearly .planCard.selected:not(.vip) .selectedPill{
   border-color: rgba(34,211,238,0.28);
   background: rgba(34,211,238,0.14);
   color: rgba(186, 230, 253, 0.95);
 }
-.applyWrap.is-monthly .planCard.selected:not(.vip) .selectedBadge{
+.applyWrap.is-monthly .planCard.selected:not(.vip) .selectedPill{
   border-color: rgba(167,139,250,0.22);
   background: rgba(124,58,237,0.18);
   color: #d9ccff;
@@ -597,7 +597,7 @@ export default function ApplyPage() {
           transform: scale(1.01);
         }
 
-        .selectedBadge {
+        .selectedPill {
           position: absolute;
           right: 14px;
           bottom: 14px;
@@ -613,7 +613,7 @@ export default function ApplyPage() {
           pointer-events: none;
           z-index: 3;
         }
-        .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0); }
+        .planCard.selected .selectedPill { opacity: 1; transform: translateY(0); }
 
         .planRowTop { position: relative; z-index: 2; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-bottom: 24px; }
         .planTitle { font-weight: 900; font-size: 18px; color: #e0d7ff; }
@@ -675,7 +675,7 @@ export default function ApplyPage() {
         .planCard.vip .planDesc{ color: rgba(255, 233, 200, 0.72); }
         .planCard.vip .planPriceMain{ color: rgba(255, 239, 205, 0.92); }
         .planCard.vip .planPriceSub{ color: rgba(255, 214, 150, 0.85); }
-        .planCard.vip .selectedBadge{
+        .planCard.vip .selectedPill{
           border-color: rgba(245,158,11,0.38);
           background: rgba(245,158,11,0.16);
           color: rgba(255, 235, 200, 0.95);
@@ -810,7 +810,7 @@ export default function ApplyPage() {
                     key={`${activeTab}-${p.id}`}
                     className={`planCard ${selected ? "selected" : ""} ${isVip ? "vip" : ""}`}
                   >
-                    <span className="selectedBadge">✓ {T.selectedBadge}</span>
+                    <span className="selectedPill">✓ {T.selectedPill}</span>
                     <input type="radio" name="plan" value={p.id} checked={selected} onChange={handleInput("plan")} style={{ display: "none" }} />
 
                     <div className="planRowTop">
