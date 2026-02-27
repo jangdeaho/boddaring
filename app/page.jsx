@@ -1044,7 +1044,7 @@ const handleDevSubmit = async (e) => {
             <span>© {new Date().getFullYear()} BODDARING. All rights reserved.</span>
             <div className="footer-bottom-links">
               <a href="/learn">더 알아보기</a>
-              <a href="#contact">문의하기!</a>
+              <a href="#contact">문의하기</a>
             </div>
           </div>
         </div>
