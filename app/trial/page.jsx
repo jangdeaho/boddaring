@@ -614,20 +614,20 @@ export default function Trial() {
                 onChange={(e) => setFormData({...formData, message: e.target.value})}
               />
             </div>
-            
+
             <div className="warningBox">
               <div className="warningTitle">
                 ⚠️ 무료체험 이용 주의사항
               </div>
               <ul className="warningList">
-                <li><strong>24시간 제한 :</strong> 무료체험은 계정 생성 후 정확히 24시간 동안만 이용 가능합니다.</li>
-                <li><strong>자동 종료 :</strong> 24시간 경과 후 자동으로 서비스 접근이 차단되며, 계속 이용하려면 구독이 필요합니다.</li>
-                <li><strong>실명 인증 필수 :</strong> 정확한 개인정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.</li>
+                <li><strong>24시간 제한 :</strong> 무료체험은 계정 제공 후 정확히 24시간 동안만 이용 가능합니다.<br />
+                24시간 경과 후 자동으로 서비스 접근이 제한되며, 계속 이용하려면 구독이 필요합니다. (연장 불가/1회 한정)</li>
+                <li><strong>실명 인증 필수 :</strong> 정확한 정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.</li>
                 <li><strong>텔레그램 필수 :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.</li>
                 <li><strong>데이터 신뢰성 :</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.</li>
                 <li><strong>보안 접속 정책</strong><br />
                 계정 보안을 위해 로그인 시 접속 기록(예: IP 등)을 확인하며, 보안 정책에 따라 등록된 환경과 다른 접속은 제한될 수 있습니다.<br />
-                🚨 무료체험 신청 및 이용을 진행하시면 해당 정책에 동의한 것으로 간주됩니다.</li>
+                🚨 무료체험 신청 및 이용을 진행하시면 해당 정책에 동의한 것으로 간주되며, 신청 정보는 검토 및 안내 목적으로만 사용됩니다.</li>
                 
               </ul>
             </div>
