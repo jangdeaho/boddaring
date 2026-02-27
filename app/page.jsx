@@ -173,6 +173,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
+  const [learnOpen, setLearnOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
   const [contactTab, setContactTab] = useState("inquiry"); // inquiry, development
   const [formData, setFormData] = useState({
@@ -191,6 +192,8 @@ export default function Home() {
   const [devFormErrors, setDevFormErrors] = useState({});
   const [emailjsReady, setEmailjsReady] = useState(false);
   const serviceRef = useRef(null);
+  const serviceCloseT = useRef(null);
+  const learnCloseT = useRef(null);
 
   /* 스크롤 감지 */
   useEffect(() => {
@@ -339,6 +342,21 @@ const handleDevSubmit = async (e) => {
 
   const doubledExchanges = [...EXCHANGES, ...EXCHANGES];
 
+  const openWithCancel = (setFn, timerRef) => {
+    if (timerRef?.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    setFn(true);
+  };
+  const closeWithDelay = (setFn, timerRef, ms = 220) => {
+    if (timerRef?.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setFn(false);
+      timerRef.current = null;
+    }, ms);
+  };
+
   return (
     <>
       {/* ── 배경 ── */}
@@ -368,8 +386,8 @@ const handleDevSubmit = async (e) => {
               <div
                 className={`nav-dropdown${serviceOpen ? " open" : ""}`}
                 ref={serviceRef}
-                onMouseEnter={() => setServiceOpen(true)}
-                onMouseLeave={() => setServiceOpen(false)}
+                onMouseEnter={() => openWithCancel(setServiceOpen, serviceCloseT)}
+                onMouseLeave={() => closeWithDelay(setServiceOpen, serviceCloseT)}
               >
                 <button className="nav-link nav-dropdown-trigger">
                   대표 서비스 
@@ -377,7 +395,7 @@ const handleDevSubmit = async (e) => {
                     <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
-                <div className="dropdown-menu">
+                <div className="dropdown-menu" onMouseEnter={() => openWithCancel(setServiceOpen, serviceCloseT)}>
                   <a href="#signal" className="dropdown-item" onClick={() => setServiceOpen(false)}>
                     <span className="dropdown-item-icon">📡</span>
                     <div>
@@ -409,15 +427,51 @@ const handleDevSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* 더 알아보기 */}
-              <Link href="/learn" className="nav-link nav-learn-link">
-                더 알아보기
-                <span className="nav-learn-badge">!</span>
-              </Link>
+              {/* 더 알아보기 (3개 메뉴) */}
+              <div
+                className={`nav-dropdown nav-dropdown--learn${learnOpen ? " open" : ""}`}
+                onMouseEnter={() => openWithCancel(setLearnOpen, learnCloseT)}
+                onMouseLeave={() => closeWithDelay(setLearnOpen, learnCloseT)}
+              >
+                <button className="nav-link nav-dropdown-trigger nav-learn-link" type="button">
+                  더 알아보기
+                  <span className="nav-learn-badge">!</span>
+                  <svg className="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                <div className="dropdown-menu" onMouseEnter={() => openWithCancel(setLearnOpen, learnCloseT)}>
+                  <Link href="/learn#arbitrage" className="dropdown-item" onClick={() => setLearnOpen(false)}>
+                    <span className="dropdown-item-icon">📘</span>
+                    <div>
+                      <div className="dropdown-item-title">아비트라지란?</div>
+                      <div className="dropdown-item-desc">개념 · 구조 · 실행 흐름</div>
+                    </div>
+                  </Link>
+                  <Link href="/learn#calc-system" className="dropdown-item" onClick={() => setLearnOpen(false)}>
+                    <span className="dropdown-item-icon">🧮</span>
+                    <div>
+                      <div className="dropdown-item-title">김프 매매란?</div>
+                      <div className="dropdown-item-desc">차익 계산 · 비용 반영</div>
+                    </div>
+                  </Link>
+                  <Link href="/learn#realtime" className="dropdown-item" onClick={() => setLearnOpen(false)}>
+                    <span className="dropdown-item-icon">🛰️</span>
+                    <div>
+                      <div className="dropdown-item-title">데이터 수집 방법</div>
+                      <div className="dropdown-item-desc">실시간 오더북 수집 구조</div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
             </div>
 
             {/* CTA */}
             <div className="nav-cta">
+              <Link href="/trial" className="btn-trial-top">
+                무료체험 신청하기
+                <span className="btn-shine" />
+              </Link>
               <Link href="/apply" className="btn-apply">
                 신청하기 <span className="arrow">→</span>
               </Link>
@@ -463,6 +517,9 @@ const handleDevSubmit = async (e) => {
         <Link href="/learn" className="nav-link" onClick={() => setMenuOpen(false)}>
           더 알아보기
         </Link>
+        <Link href="/trial" className="btn-trial-top" onClick={() => setMenuOpen(false)}>
+          무료체험 신청하기
+        </Link>
         <Link href="/apply" className="btn-apply" onClick={() => setMenuOpen(false)}>
           신청하기 →
         </Link>
@@ -488,14 +545,14 @@ const handleDevSubmit = async (e) => {
                 수많은 아비트라지 서비스들, 그동안 실망만 하셨나요?<br />
                 국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고,<br />실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.<br />
                 차원이 다른 압도적인 데이터 수집 속도와 정교한 계산 시스템을 직접 경험해 보세요!<br />
-                <span className="highlight">단 하루면 충분합니다!</span><strong>지금 바로 24시간 무료 체험</strong>으로 체험해 보세요!
+                <span className="highlight highlight-neon">단 하루면 충분합니다!</span><strong>지금 바로 24시간 무료 체험</strong>으로 체험해 보세요!
               </p>
 
               <div className="hero-actions">
                 <a href="#contact" className="btn-primary">
                   궁금한 것이 있으신가요? 🙄
                 </a>
-                <a href="/apply" className="btn-free-trial">
+                <a href="/trial" className="btn-free-trial">
                   24시간 무료체험 신청하기 🚀
                   <span className="btn-shine"></span>
                 </a>
@@ -503,8 +560,8 @@ const handleDevSubmit = async (e) => {
 
               <div className="hero-bottom-info">
                 <div className="hero-stats-wrap">
-                  <div className="hero-stats-wrap">
-                    <span className="real-dot" />
+                  <div className="hero-stats-badge hero-neon-badge">
+                    <span className="live-dot" />
                     Real-Time Data Acquisition
                   </div>
                 </div>

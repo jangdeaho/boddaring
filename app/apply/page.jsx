@@ -152,9 +152,10 @@ export default function ApplyPage() {
         { id: "BOT", priceKo: "월 880,000 KRW", priceEn: "$ 609 / mo", descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
-        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "$ 13,840 / yr", descKo: "2개월 할인 혜택!"},
-        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "$ 20,761 / yr", descKo: "2개월 할인 혜택!"},
-        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "$ 5,536 / yr", descKo: "2개월 할인 혜택!"},
+        // ✅ 연 플랜도 월 플랜과 동일하게 "무엇이 포함되는지"가 항상 보이도록 통일
+        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "$ 13,840 / yr", descKo: "실시간 시그널", descEn: "Real-time signals" },
+        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "$ 20,761 / yr", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "$ 5,536 / yr", descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       vip: [{ id: "VIP", priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
     }),
@@ -427,16 +428,17 @@ export default function ApplyPage() {
         </div>
 
         {/* 탭 메뉴 */}
-        <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "50px" }}>
+        <div className="apply-tabs" style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "50px" }}>
           {["monthly", "yearly", "vip"].map((tab) => {
             const isActive = activeTab === tab;
             const isYearlyTab = tab === "yearly";
+            const isVipTab = tab === "vip";
             return (
               <button
                 key={tab}
                 onClick={() => onTabClick(tab)}
                 type="button"
-                className={isYearlyTab && isActive ? "yearlyTabShimmer" : ""}
+                className={`${isYearlyTab && isActive ? "yearlyTabShimmer" : ""} ${isVipTab ? "vipTab" : ""} ${isVipTab && isActive ? "vipTabActive" : ""}`}
                 style={{
                   padding: "14px 36px",
                   borderRadius: "30px",
@@ -452,6 +454,7 @@ export default function ApplyPage() {
                   boxShadow: isActive ? "0 0 20px rgba(124,58,237,0.3)" : "none",
                 }}
               >
+                {isVipTab && <span className="vipCrown" aria-hidden="true">👑</span>}
                 {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : T.tabVIP}
               </button>
             );
@@ -459,7 +462,7 @@ export default function ApplyPage() {
         </div>
 
         {/* 메인 */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "50px" }}>
+        <div className="apply-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "50px" }}>
           {/* 플랜 선택 */}
           <div>
             <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "16px", gap: "16px" }}>
@@ -527,7 +530,7 @@ export default function ApplyPage() {
                     />
 
                     {/* 상단 */}
-                    <div>
+                    <div className="planHeader">
                       <div style={{ fontWeight: 900, fontSize: "18px", color: "#e0d7ff" }}>{p.id}</div>
                       <div style={{ fontSize: "13px", color: "#8080b0", marginTop: "6px" }}>{desc}</div>
 

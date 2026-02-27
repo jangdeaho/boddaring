@@ -1999,13 +1999,127 @@
     animation: pulse 1.5s ease-in-out infinite;
   }
   
-  /* 3) Navbar layout regression fix (container override safe-guard)
-     - If you previously added a .container max-width override, this restores
-       navbar spacing ONLY, without touching other sections. */
+  /* 3) Navbar width + responsive padding
+     - Keep desktop width wide enough (avoid text truncation)
+     - Reduce padding only on smaller breakpoints */
   .navbar .container {
-    max-width: var(--max);
-    padding-left: 24px;
-    padding-right: 24px;
+    max-width: 1440px !important;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @media (max-width: 1024px) {
+    .container { padding-left: 24px; padding-right: 24px; }
+    .navbar .container { padding-left: 24px; padding-right: 24px; }
+  }
+  @media (max-width: 600px) {
+    .container { padding-left: 16px; padding-right: 16px; }
+    .navbar .container { padding-left: 16px; padding-right: 16px; }
+  }
+
+  /* 3-1) Top-right "무료체험 신청하기" button (same theme as hero trial CTA) */
+  .btn-trial-top{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(120,100,255,0.28);
+    background: linear-gradient(135deg, rgba(120,100,255,0.22), rgba(0,200,245,0.10));
+    color: #e9e3ff;
+    font-weight: 800;
+    font-size: 13px;
+    box-shadow: 0 0 22px rgba(120,100,255,0.18);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .btn-trial-top:hover{ transform: translateY(-1px); box-shadow: 0 0 30px rgba(120,100,255,0.28); filter: brightness(1.06); }
+
+  /* 3-2) Learn dropdown: arrow spacing + make it match the primary dropdown style */
+  .nav-dropdown--learn .nav-dropdown-trigger{
+    gap: 8px;
+  }
+  .nav-dropdown--learn .nav-learn-badge{ margin-left: 0; }
+
+  /* 3-3) Hero copy: remove underline & add neon/gradient emphasis */
+  .highlight{ text-decoration: none !important; }
+  .highlight-neon{
+    position: relative;
+    display: inline-block;
+    padding: 0 2px;
+    background: linear-gradient(90deg, rgba(120,100,255,1), rgba(0,200,245,1), rgba(120,100,255,1));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 16px rgba(120,100,255,0.28);
+    animation: gradShift 3.2s ease-in-out infinite;
+  }
+  @keyframes gradShift{ 0%{ background-position: 0% 50%; } 50%{ background-position: 100% 50%; } 100%{ background-position: 0% 50%; } }
+
+  /* 3-4) Real-Time badge: neon feel */
+  .hero-neon-badge{
+    box-shadow: 0 0 18px rgba(0,200,245,0.14), 0 0 22px rgba(120,100,255,0.14);
+  }
+
+  /* 4) Feature timeline connector redesign (remove "plain line" vibe) */
+  .feature-timeline::before{
+    width: 3px;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(120,100,255,0.0) 0px,
+      rgba(120,100,255,0.75) 10px,
+      rgba(0,200,245,0.45) 18px,
+      rgba(120,100,255,0.0) 30px
+    );
+    filter: drop-shadow(0 0 10px rgba(120,100,255,0.22));
+    opacity: .9;
+    animation: timelineGlow 4.2s ease-in-out infinite;
+  }
+  @keyframes timelineGlow{ 0%,100%{ filter: drop-shadow(0 0 10px rgba(120,100,255,0.22)); opacity: .75; } 50%{ filter: drop-shadow(0 0 16px rgba(0,200,245,0.22)); opacity: 1; } }
+  .ftl-icon-wrap::after{
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    background: radial-gradient(circle at 30% 20%, rgba(0,200,245,0.20), rgba(120,100,255,0.12) 40%, rgba(0,0,0,0) 70%);
+    pointer-events: none;
+    opacity: .75;
+  }
+
+  /* 5) Apply page: prevent selected badge overlap */
+  .planCard .planHeader{ padding-right: 92px; }
+
+  /* 6) Apply page responsive grid */
+  @media (max-width: 1024px){
+    .apply-grid{ grid-template-columns: 1fr !important; gap: 28px !important; }
+    .apply-tabs{ flex-wrap: wrap; }
+  }
+
+  /* 7) VIP tab button (crown on the TAB, not the card) */
+  .vipTab{
+    position: relative;
+    padding-right: 44px !important;
+    border-color: rgba(234,179,8,0.22) !important;
+  }
+  .vipTabActive{
+    border-color: rgba(234,179,8,0.55) !important;
+    background: linear-gradient(135deg, rgba(234,179,8,0.16), rgba(120,100,255,0.08)) !important;
+    color: #ffe7a0 !important;
+    box-shadow: 0 0 26px rgba(234,179,8,0.20) !important;
+  }
+  .vipCrown{
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    transform: rotate(-18deg);
+    filter: drop-shadow(0 0 10px rgba(234,179,8,0.22));
+    font-size: 16px;
+    pointer-events: none;
   }
   
   /* 4) Hero stats size/spacing regression fix (PC/Tablet/Mobile) */

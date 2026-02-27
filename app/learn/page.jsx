@@ -230,8 +230,9 @@ export default function LearnPage() {
               BODDARING의 실시간 아비트라지 데이터 시그널을 지금 바로 신청하세요.
             </p>
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/apply" className="btn-primary" style={{ textDecoration: "none" }}>
-                서비스 신청하기
+              <Link href="/trial" className="btn-free-trial" style={{ textDecoration: "none" }}>
+                24시간 무료 체험하기 🚀
+                <span className="btn-shine" />
               </Link>
               <Link href="/#contact" className="btn-outline" style={{ textDecoration: "none" }}>
                 문의하기
