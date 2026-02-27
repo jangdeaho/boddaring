@@ -67,7 +67,6 @@ export default function ApplyPage() {
 
   const formatTime = (d) => {
     if (!d) return "-";
-    // ✅ fix: English should show AM/PM (not 오전)
     if (lang === "en") {
       return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
     }
@@ -89,14 +88,9 @@ export default function ApplyPage() {
         tabVIP: "VIP",
         plansTitle: "플랜 선택",
         vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
-
-        // ✅ (2) wording change
         exchangeInfo: `현재 USDT 환율 : ${rateStr} KRW (${timeStr})`,
-        // ✅ (3) merged info
         exchangeNote: "플랜 가격은 결제 당시 환율(USDT)로 계산됩니다.",
-
         selectedBadge: "선택됨",
-
         requiredHint: "필수 항목을 모두 입력하면 제출 버튼이 활성화됩니다.",
         name: "이름",
         phone: "연락처",
@@ -105,22 +99,18 @@ export default function ApplyPage() {
         experience: "코인 투자 경험",
         fundSize: "예상 운용 자금",
         message: "문의사항",
-
         phName: "홍길동",
         phPhone: "010-0000-0000",
         phEmail: "example@email.com",
         phTelegram: "@username",
         phMessage: "추가 문의사항이 있으시면 입력해 주세요.",
-
         btnSending: "전송 중...",
         btnSubmit: "신청서 제출하기",
         success: "✅ 신청서가 성공적으로 제출되었습니다! 빠르게 연락드리겠습니다.",
         error: "❌ 전송 실패. 다시 시도해 주세요.",
         backHome: "← 메인으로 돌아가기",
-
         langKOR: "KOR",
         langENG: "ENG",
-
         yearlySave: (n) => `최대 ${n}% 절약!`,
         yearlySaveSmall: (krw) => `월 플랜 대비 ${krw.toLocaleString()}원 절약!`,
       },
@@ -132,12 +122,9 @@ export default function ApplyPage() {
         tabVIP: "VIP",
         plansTitle: "Select a Plan",
         vatNote: "* All prices include VAT.",
-
         exchangeInfo: `Current USDT rate: ${rateStr} KRW (${timeStr})`,
         exchangeNote: "Plan prices are calculated using the USDT rate at the time of payment.",
-
         selectedBadge: "Selected",
-
         requiredHint: "The submit button activates after required fields are filled.",
         name: "Name",
         phone: "Phone",
@@ -146,22 +133,18 @@ export default function ApplyPage() {
         experience: "Crypto Experience",
         fundSize: "Estimated Capital",
         message: "Message",
-
         phName: "John Doe",
         phPhone: "+82 10-0000-0000",
         phEmail: "example@email.com",
         phTelegram: "@username",
         phMessage: "Write any additional details here.",
-
         btnSending: "Sending...",
         btnSubmit: "Submit Application",
         success: "✅ Submitted successfully! We’ll contact you shortly.",
         error: "❌ Failed to send. Please try again.",
         backHome: "← Back to Home",
-
         langKOR: "KOR",
         langENG: "ENG",
-
         yearlySave: (n) => `Save up to ${n}%!`,
         yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs monthly!`,
       },
@@ -185,9 +168,7 @@ export default function ApplyPage() {
     } catch {}
   };
 
-  // -----------------------------
   // Options
-  // -----------------------------
   const experienceOptions = useMemo(
     () => [
       { value: "beginner", labelKo: "1년 미만", labelEn: "Less than 1 year" },
@@ -206,9 +187,7 @@ export default function ApplyPage() {
     []
   );
 
-  // -----------------------------
   // Plans
-  // -----------------------------
   const plans = useMemo(
     () => ({
       monthly: [
@@ -235,7 +214,7 @@ export default function ApplyPage() {
     []
   );
 
-  // ✅ (5-1) compute max yearly saving %
+  // compute max yearly saving %
   const yearlyMaxSavePct = useMemo(() => {
     const monthly = plans.monthly;
     const yearly = plans.yearly;
@@ -250,7 +229,7 @@ export default function ApplyPage() {
     return Math.max(0, ...pcts);
   }, [plans]);
 
-  // ✅ (6) explicit yearly savings (per your numbers)
+  // explicit yearly savings
   const yearlySavingsById = useMemo(
     () => ({
       BASIC: 6400000,
@@ -272,9 +251,7 @@ export default function ApplyPage() {
     return lang === "ko" ? found.labelKo : found.labelEn;
   };
 
-  // -----------------------------
   // EmailJS init
-  // -----------------------------
   useEffect(() => {
     const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
     if (pk) {
@@ -283,9 +260,7 @@ export default function ApplyPage() {
     }
   }, []);
 
-  // -----------------------------
   // Handlers
-  // -----------------------------
   const handleInput = (field) => (e) => {
     setFormData((p) => ({ ...p, [field]: e.target.value }));
   };
@@ -296,7 +271,7 @@ export default function ApplyPage() {
     if (first) setFormData((p) => ({ ...p, plan: first }));
   };
 
-  // ✅ (7) required fields gating
+  // required fields gating
   const isFormValid = useMemo(() => {
     const req = ["name", "phone", "email", "telegram"];
     return req.every((k) => String(formData[k] || "").trim().length > 0);
@@ -325,7 +300,6 @@ export default function ApplyPage() {
       const usdtPriceLabel =
         selectedKrw > 0 ? `${formatUSDT(selectedKrw)} USDT` : lang === "ko" ? "별도 문의" : "Contact us";
 
-      // ✅ (8) include KRW+USDT price in email (at submit moment)
       await emailjs.send(serviceId, templateId, {
         from_name: formData.name,
         from_phone: formData.phone,
@@ -386,7 +360,6 @@ export default function ApplyPage() {
             radial-gradient(55% 55% at 70% 85%, rgba(59,130,246,0.14) 0%, transparent 60%),
             radial-gradient(45% 45% at 25% 85%, rgba(167,139,250,0.12) 0%, transparent 60%);
           filter: blur(34px);
-          transform: translate3d(0,0,0);
           opacity: 0.95;
           animation: auroraDrift 14s ease-in-out infinite;
         }
@@ -501,7 +474,7 @@ export default function ApplyPage() {
           top: -10px;
           right: -8px;
           transform: rotate(18deg);
-          filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.35));
+          filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.45));
           font-size: 16px;
         }
         .yearlyBubble {
@@ -547,6 +520,7 @@ export default function ApplyPage() {
           background: rgba(255,255,255,0.02);
           cursor: pointer;
           transition: all 0.25s ease;
+          overflow: hidden;
         }
         .planCard:hover {
           border-color: rgba(167,139,250,0.22);
@@ -558,6 +532,43 @@ export default function ApplyPage() {
           box-shadow: 0 0 30px rgba(124,58,237,0.20);
           transform: scale(1.01);
         }
+
+        /* ✅ VIP gold aura/border */
+        .planCard.vip {
+          border-color: rgba(245, 158, 11, 0.55);
+          background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(255,255,255,0.02));
+          box-shadow:
+            0 0 0 1px rgba(255, 215, 140, 0.12) inset,
+            0 0 22px rgba(245, 158, 11, 0.18),
+            0 0 34px rgba(234, 179, 8, 0.14);
+        }
+        .planCard.vip::before{
+          content:"";
+          position:absolute;
+          inset:-40%;
+          background:
+            radial-gradient(40% 40% at 30% 30%, rgba(245,158,11,0.26) 0%, transparent 60%),
+            radial-gradient(35% 35% at 70% 55%, rgba(255,215,140,0.18) 0%, transparent 62%),
+            radial-gradient(28% 28% at 55% 85%, rgba(236,72,153,0.10) 0%, transparent 60%);
+          filter: blur(32px);
+          opacity: 0.9;
+          animation: vipDrift 10s ease-in-out infinite;
+          pointer-events:none;
+        }
+        @keyframes vipDrift{
+          0%{ transform: translate(-1%, -1%) scale(1); }
+          50%{ transform: translate(2%, 1%) scale(1.06); }
+          100%{ transform: translate(-1%, -1%) scale(1); }
+        }
+        .planCard.vip.selected{
+          border-color: rgba(245, 158, 11, 0.78);
+          box-shadow:
+            0 0 0 1px rgba(255, 215, 140, 0.16) inset,
+            0 0 30px rgba(245, 158, 11, 0.24),
+            0 0 46px rgba(234, 179, 8, 0.18);
+          transform: scale(1.012);
+        }
+
         .selectedBadge {
           position: absolute;
           top: 14px;
@@ -572,15 +583,25 @@ export default function ApplyPage() {
           transform: translateY(-4px);
           transition: all 220ms ease;
           pointer-events: none;
+          z-index: 2;
         }
         .planCard.selected .selectedBadge { opacity: 1; transform: translateY(0); }
+        .planCard.vip .selectedBadge{
+          border-color: rgba(245,158,11,0.35);
+          background: rgba(245,158,11,0.16);
+          color: rgba(255, 235, 200, 0.95);
+        }
 
-        .planRowTop { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+        .planRowTop { position: relative; z-index: 1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
         .planTitle { font-weight: 900; font-size: 18px; color: #e0d7ff; }
+        .planCard.vip .planTitle{ color: rgba(255, 239, 205, 0.96); }
         .planDesc { font-size: 13px; color: rgba(200,206,235,0.62); margin-top: 10px; font-weight: 700; }
+        .planCard.vip .planDesc{ color: rgba(255, 233, 200, 0.70); }
         .planPrice { text-align:right; font-weight: 900; color:#e0d7ff; }
         .planPriceMain { font-size: 15px; white-space: nowrap; }
         .planPriceSub { margin-top: 6px; font-size: 12px; font-weight: 900; color: rgba(168,148,255,0.95); white-space: nowrap; }
+        .planCard.vip .planPriceMain{ color: rgba(255, 239, 205, 0.92); }
+        .planCard.vip .planPriceSub{ color: rgba(255, 214, 150, 0.85); }
 
         .savingTag {
           display: inline-flex;
@@ -721,7 +742,10 @@ export default function ApplyPage() {
                 const yearlySaving = activeTab === "yearly" ? yearlySavingsById[p.id] : null;
 
                 return (
-                  <label key={`${activeTab}-${p.id}`} className={`planCard ${selected ? "selected" : ""}`}>
+                  <label
+                    key={`${activeTab}-${p.id}`}
+                    className={`planCard ${selected ? "selected" : ""} ${isVip ? "vip" : ""}`}
+                  >
                     <span className="selectedBadge">✓ {T.selectedBadge}</span>
                     <input type="radio" name="plan" value={p.id} checked={selected} onChange={handleInput("plan")} style={{ display: "none" }} />
 
