@@ -114,7 +114,7 @@ export default function ApplyPage() {
       },
       en: {
         pageTitle: "Apply for Service",
-        pageDesc: "Select a plan and submit the application. We’ll review it and get back to you shortly.",
+        pageDesc: "Select a plan and submit the application. We'll review it and get back to you shortly.",
         tabMonthly: "Monthly",
         tabYearly: "Yearly",
         tabVIP: "VIP",
@@ -138,7 +138,7 @@ export default function ApplyPage() {
         phMessage: "Write any additional details here.",
         btnSending: "Sending...",
         btnSubmit: "Submit Application",
-        success: "✅ Submitted successfully! We’ll contact you shortly.",
+        success: "✅ Submitted successfully! We'll contact you shortly.",
         error: "❌ Failed to send. Please try again.",
         backHome: "← Back to Home",
         langKOR: "KOR",
@@ -305,7 +305,6 @@ export default function ApplyPage() {
         plan_krw: krwPriceLabel,
         plan_usdt: usdtPriceLabel,
 
-        exchange_rate: `${exchangeRate.toLocaleString()} KRW/USDT`,
         rate_updated: lastUpdatedAt ? formatTime(lastUpdatedAt) : "-",
 
         message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
@@ -454,20 +453,20 @@ export default function ApplyPage() {
 
         .rateBox {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: space-between;
-          gap: 12px;
+          justify-content: center;
+          gap: 8px;
           padding: 12px 14px;
           border-radius: 14px;
           border: 1px solid rgba(167,139,250,0.18);
           background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.06));
           box-shadow: 0 0 26px rgba(124,58,237,0.16);
-          max-width: 860px;
+          max-width: 600px;
           margin: 18px auto 0;
-          flex-wrap: wrap;
         }
-        .rateBox .left { font-size: 12px; font-weight: 900; color: rgba(233, 221, 255, 0.92); }
-        .rateBox .right { font-size: 12px; font-weight: 800; color: rgba(186, 196, 230, 0.88); }
+        .rateBox .left { font-size: 12px; font-weight: 900; color: rgba(233, 221, 255, 0.92); text-align: center; }
+        .rateBox .right { font-size: 12px; font-weight: 800; color: rgba(186, 196, 230, 0.88); text-align: center; }
 
         /* ✅ prevent clipping for floating bubbles */
         .applyTabs { 
@@ -583,7 +582,7 @@ export default function ApplyPage() {
         .planDesc { font-size: 13px; color: rgba(200,206,235,0.62); margin-top: 10px; font-weight: 700; }
         .planPrice { text-align:right; font-weight: 900; color:#e0d7ff; }
         .planPriceMain { font-size: 15px; white-space: nowrap; }
-        .planPriceSub { margin-top: 6px; font-size: 12px; font-weight: 900; color: rgba(168,148,255,0.95); white-space: nowrap; }
+        .planPriceSub { font-size: 11px; color: rgba(186,196,230,0.72); margin-top:4px; }
 
         .savingTag {
           display: inline-flex; align-items: center; gap: 6px;
