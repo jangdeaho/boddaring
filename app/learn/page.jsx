@@ -68,7 +68,7 @@ export default function LearnPage() {
                 무료체험 신청하기 <span className="arrow">→</span>
               </Link>
 
-              <Link href="/apply" className="btn-cta-u btn-cta-u--pink">
+              <Link href="/apply" className="btn-cta-u btn-cta-u--blue">
                 신청하기 <span className="arrow">→</span>
               </Link>
             </div>

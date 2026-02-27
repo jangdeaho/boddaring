@@ -588,9 +588,9 @@ export default function ApplyPage() {
 
                 const isVip = String(p.id).toUpperCase() === "VIP";
                 const periodKo = activeTab === "monthly" ? "월" : activeTab === "yearly" ? "연" : "";
-                const periodEn = activeTab === "monthly" ? "mo" : activeTab === "yearly" ? "yr" : "";
+                const periodEn = activeTab === "monthly" ? "Month" : activeTab === "yearly" ? "Year" : "";
                 const krwLine = !isVip && p.krw ? `${periodKo} ${p.krw.toLocaleString()} KRW` : (lang === "ko" ? (p.priceKo || "별도 문의") : (p.priceEn || "Contact us"));
-                const usdLine = !isVip && p.krw ? `$ ${formatUSDT(p.krw)}${periodEn ? ` / ${periodEn}` : ""}` : "";
+                const usdLine = !isVip && p.krw ? `${formatUSDT(p.krw)} USDT${periodEn ? ` / ${periodEn}` : ""}` : "";
                 const priceMain = lang === "ko" ? krwLine : (usdLine || krwLine);
                 const priceSub = lang === "ko" ? (usdLine || "") : (!isVip && p.krw ? krwLine : "");
 
