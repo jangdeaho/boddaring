@@ -2048,23 +2048,29 @@
 
   .planCard { position: relative; overflow: hidden; }
   
-  .planCard .selectedBadge{
+  .planCard .selectedPill{
     position: absolute;
-    top: 14px;
-    right: 14px;
+    right: 16px;
+    bottom: 16px;
+  
     font-size: 11px;
     font-weight: 800;
-    padding: 5px 10px;
+    padding: 6px 10px;
     border-radius: 999px;
+  
     background: rgba(124,58,237,0.18);
     border: 1px solid rgba(124,58,237,0.35);
     color: #e9ddff;
+  
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(6px);
     transition: opacity .18s ease, transform .18s ease;
     pointer-events: none;
+  
+    z-index: 50; /* ✅ 항상 위로 */
   }
-  .planCard.selected .selectedBadge{
+  
+  .planCard.selected .selectedPill{
     opacity: 1;
     transform: translateY(0);
   }

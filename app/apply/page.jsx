@@ -75,7 +75,7 @@ export default function ApplyPage() {
     const timeStr = formatTime(lastUpdatedAt);
     const dict = {
       ko: {
-        pageTitle: "서비스 신청하기",
+        pageTitle: "구독 신청하기",
         pageDesc: "원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.",
         tabMonthly: "월 플랜",
         tabYearly: "연 플랜",
@@ -85,7 +85,7 @@ export default function ApplyPage() {
         exchangeInfo: `현재 USDT 환율 : ${rateStr} KRW (${timeStr})`,
         exchangeNote: "플랜 가격은 결제 당시 환율(USDT)로 계산됩니다.",
         selectedBadge: "선택됨",
-        requiredHint: "필수 항목을 모두 입력하면 제출 버튼이 활성화됩니다.",
+        requiredHint: "필수 항목을 모두 입력하셔야 제출 버튼이 활성화됩니다.",
         name: "이름",
         phone: "연락처",
         email: "이메일",
@@ -109,7 +109,7 @@ export default function ApplyPage() {
         yearlySaveSmall: (krw) => `월 플랜 대비 ${krw.toLocaleString()}원 절약!`,
       },
       en: {
-        pageTitle: "Apply for Service",
+        pageTitle: "Sign up for a subscription",
         pageDesc: "Select a plan and submit the application. We'll review it and get back to you shortly.",
         tabMonthly: "Monthly",
         tabYearly: "Yearly",
@@ -184,12 +184,12 @@ export default function ApplyPage() {
     () => ({
       monthly: [
         { id: "BASIC", krw: 2200000, descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", krw: 3000000, descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "PRO", krw: 3000000, descKo: "실시간 시그널 + 종합 BOT", descEn: "Real-time signals + Execution BOT" },
         { id: "BOT", krw: 880000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
         { id: "BASIC", krw: 20000000, descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", krw: 30000000, descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "PRO", krw: 30000000, descKo: "실시간 시그널 + 종합 BOT", descEn: "Real-time signals + Execution BOT" },
         { id: "BOT", krw: 8000000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       vip: [
@@ -792,7 +792,7 @@ export default function ApplyPage() {
                 const desc = lang === "ko" ? p.descKo : p.descEn;
 
                 const periodKo = activeTab === "monthly" ? "월" : activeTab === "yearly" ? "연" : "";
-                const periodEn = activeTab === "monthly" ? "mo" : activeTab === "yearly" ? "yr" : "";
+                const periodEn = activeTab === "monthly" ? "Month" : activeTab === "yearly" ? "Year" : "";
 
                 const krwLine = !isVip && p.krw
                   ? `${periodKo} ${p.krw.toLocaleString()} KRW`
