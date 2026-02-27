@@ -1,180 +1,797 @@
 "use client";
-import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-export default function Apply() {
-  const [tab, setTab] = useState("monthly"); // monthly, yearly, vip
-  const [selectedPlan, setSelectedPlan] = useState("BASIC");
-  const [usdtRate, setUsdtRate] = useState(1450);
-  const [lastUpdate, setLastUpdate] = useState("");
-  const [formStatus, setFormStatus] = useState("idle");
+export default function ApplyPage() {
+  const [lang, setLang] = useState("ko"); // "ko" | "en"
+  const [activeTab, setActiveTab] = useState("monthly"); // monthly, yearly, vip
   const [formData, setFormData] = useState({
-    name: "", phone: "", email: "", telegram: "", experience: "1년 미만", budget: "1,000만원 미만", message: ""
+    name: "",
+    phone: "",
+    email: "",
+    telegram: "",
+    experience: "beginner",
+    fundSize: "small",
+    plan: "BASIC",
+    message: "",
   });
 
-  /* 환율 실시간 연동 (10초 주기) */
-  useEffect(() => {
-    const fetchRate = async () => {
-      try {
-        const [upbitRes, binanceRes] = await Promise.all([
-          fetch("https://api.upbit.com/v1/ticker?markets=KRW-BTC"),
-          fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
-        ]);
-        const upbitData = await upbitRes.json();
-        const binanceData = await binanceRes.json();
-        const rate = upbitData[0].trade_price / parseFloat(binanceData.price);
-        setUsdtRate(Math.round(rate));
-        setLastUpdate(new Date().toLocaleTimeString());
-      } catch (e) { console.error("Rate fetch error", e); }
+  const [formStatus, setFormStatus] = useState("idle");
+  const [emailjsReady, setEmailjsReady] = useState(false);
+
+  // -----------------------------
+  // i18n dictionary
+  // -----------------------------
+  const T = useMemo(() => {
+    const dict = {
+      ko: {
+        pageTitle: "서비스 신청하기",
+        pageDesc: "원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.",
+        tabMonthly: "월 플랜",
+        tabYearly: "연 플랜",
+        tabVIP: "VIP",
+        plansTitle: "플랜 선택",
+        vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
+        yearlyPromoTitle: "연 플랜 혜택",
+        yearlyPromoDesc: "연 플랜은 2개월 할인 혜택이 적용됩니다.",
+        yearlyBadge: "2개월 할인 혜택!",
+        selectedBadge: "선택됨",
+
+        formRequiredNote: " 는 필수 입력 항목입니다.",
+        name: "이름",
+        phone: "연락처",
+        email: "이메일",
+        telegram: "텔레그램 ID",
+        experience: "코인 투자 경험",
+        fundSize: "예상 운용 자금",
+        message: "문의사항",
+
+        phName: "홍길동",
+        phPhone: "010-0000-0000",
+        phEmail: "example@email.com",
+        phTelegram: "@username",
+        phMessage: "추가 문의사항이 있으시면 입력해 주세요.",
+
+        btnSending: "전송 중...",
+        btnSubmit: "신청서 제출하기",
+        success: "✅ 신청서가 성공적으로 제출되었습니다! 빠르게 연락드리겠습니다.",
+        error: "❌ 전송 실패. 다시 시도해 주세요.",
+        backHome: "← 메인으로 돌아가기",
+
+        langKOR: "KOR",
+        langENG: "ENG",
+      },
+      en: {
+        pageTitle: "Apply for Service",
+        pageDesc: "Select a plan and submit the application. We’ll review it and get back to you shortly.",
+        tabMonthly: "Monthly",
+        tabYearly: "Yearly",
+        tabVIP: "VIP",
+        plansTitle: "Select a Plan",
+        vatNote: "* All prices include VAT.",
+        yearlyPromoTitle: "Yearly Benefit",
+        yearlyPromoDesc: "Yearly plans include a 2-month discount.",
+        yearlyBadge: "2-Month Discount Included!",
+        selectedBadge: "Selected",
+
+        formRequiredNote: " Required fields.",
+        name: "Name",
+        phone: "Phone",
+        email: "Email",
+        telegram: "Telegram ID",
+        experience: "Crypto Experience",
+        fundSize: "Estimated Capital",
+        message: "Message",
+
+        phName: "John Doe",
+        phPhone: "+82 10-0000-0000",
+        phEmail: "example@email.com",
+        phTelegram: "@username",
+        phMessage: "Write any additional details here.",
+
+        btnSending: "Sending...",
+        btnSubmit: "Submit Application",
+        success: "✅ Submitted successfully! We’ll contact you shortly.",
+        error: "❌ Failed to send. Please try again.",
+        backHome: "← Back to Home",
+
+        labelFund: "(Fund Size)",
+
+        langKOR: "KOR",
+        langENG: "ENG",
+      },
     };
-    fetchRate();
-    const timer = setInterval(fetchRate, 10000);
-    return () => clearInterval(timer);
+    return dict[lang];
+  }, [lang]);
+
+  // persist language
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("boddaring_lang");
+      if (saved === "ko" || saved === "en") setLang(saved);
+    } catch {}
   }, []);
 
-  const plans = {
-    monthly: [
-      { id: "BASIC", name: "BASIC", price: 2200000, items: ["실시간 시그널", "월 금액"] },
-      { id: "PRO", name: "PRO", price: 3300000, items: ["실시간 시그널", "종합 BOT"] },
-      { id: "BOT", name: "BOT", price: 1100000, items: ["종합 BOT"] }
-    ],
-    yearly: [
-      { id: "BASIC_Y", name: "BASIC", price: 22000000, items: ["실시간 시그널", "연 금액", "✨2개월 할인 혜택!"] },
-      { id: "PRO_Y", name: "PRO", price: 33000000, items: ["실시간 시그널", "종합 BOT", "✨2개월 할인 혜택!"] },
-      { id: "BOT_Y", name: "BOT", price: 11000000, items: ["종합 BOT", "✨2개월 할인 혜택!"] }
-    ],
-    vip: [
-      { id: "VIP", name: "VIP PASS", price: 100000000, items: ["모든 기능 무제한", "1:1 컨설팅", "전용 서버 구축"] }
-    ]
+  const setLanguage = (next) => {
+    setLang(next);
+    try {
+      localStorage.setItem("boddaring_lang", next);
+    } catch {}
   };
 
-  const currentPlans = plans[tab];
-  const activePlan = currentPlans.find(p => p.id === selectedPlan) || currentPlans[0];
-  const usdtPrice = Math.round(activePlan.price / usdtRate);
+  // -----------------------------
+  // Options (value + label)
+  // -----------------------------
+  const experienceOptions = useMemo(
+    () => [
+      { value: "beginner", labelKo: "1년 미만", labelEn: "Less than 1 year" },
+      { value: "intermediate", labelKo: "1~3년", labelEn: "1–3 years" },
+      { value: "advanced", labelKo: "3년 이상", labelEn: "3+ years" },
+    ],
+    []
+  );
+
+  const fundOptions = useMemo(
+    () => [
+      { value: "small", labelKo: "1,000만원 이하", labelEn: "Under $ 10M" },
+      { value: "medium", labelKo: "1,000만원 ~ 1억원", labelEn: "$ 10M ~ $ 100M" },
+      { value: "large", labelKo: "1억원 이상", labelEn: "$ 100M+" },
+    ],
+    []
+  );
+
+  // -----------------------------
+  // Plans (use stable ids, localize display)
+  // -----------------------------
+  const plans = useMemo(
+    () => ({
+      monthly: [
+        { id: "BASIC", priceKo: "월 2,200,000 KRW", priceEn: "$ 1,522 / mo", descKo: "실시간 시그널", descEn: "Real-time signals" },
+        { id: "PRO", priceKo: "월 3,000,000 KRW", priceEn: "$ 2,076 / mo", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "BOT", priceKo: "월 880,000 KRW", priceEn: "$ 609 / mo", descKo: "종합 BOT", descEn: "Execution BOT" },
+      ],
+      yearly: [
+        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "$ 13,840 / yr", descKo: "2개월 할인 혜택!"},
+        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "$ 20,761 / yr", descKo: "2개월 할인 혜택!"},
+        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "$ 5,536 / yr", descKo: "2개월 할인 혜택!"},
+      ],
+      vip: [{ id: "VIP", priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
+    }),
+    []
+  );
+
+  const getPlanLabel = (tab, planId) => {
+    const found = (plans[tab] || []).find((p) => p.id === planId);
+    if (!found) return planId;
+    // plan display name (keep BASIC/PRO/BOT/VIP)
+    return planId;
+  };
+
+  const getExperienceLabel = (val) => {
+    const found = experienceOptions.find((o) => o.value === val);
+    if (!found) return val;
+    return lang === "ko" ? found.labelKo : found.labelEn;
+  };
+
+  const getFundLabel = (val) => {
+    const found = fundOptions.find((o) => o.value === val);
+    if (!found) return val;
+    return lang === "ko" ? found.labelKo : found.labelEn;
+  };
+
+  // -----------------------------
+  // EmailJS init
+  // -----------------------------
+  useEffect(() => {
+    const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (pk) {
+      emailjs.init(pk);
+      setEmailjsReady(true);
+    }
+  }, []);
+
+  // -----------------------------
+  // Handlers
+  // -----------------------------
+  const handleInput = (field) => (e) => {
+    setFormData((p) => ({ ...p, [field]: e.target.value }));
+  };
+
+  const onTabClick = (tab) => {
+    setActiveTab(tab);
+    // default to first plan in tab
+    const first = plans[tab]?.[0]?.id;
+    if (first) setFormData((p) => ({ ...p, plan: first }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!emailjsReady) return;
+
     setFormStatus("sending");
+
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION,
-        {
-          ...formData,
-          plan_name: `${tab.toUpperCase()} - ${activePlan.name}`,
-          krw_price: activePlan.price.toLocaleString(),
-          usdt_price: usdtPrice.toLocaleString(),
-          exchange_rate: usdtRate.toLocaleString(),
-          to_email: "boddaring@endholdings.com"
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
+
+      const experienceLabel = getExperienceLabel(formData.experience);
+      const fundLabel = getFundLabel(formData.fundSize);
+
+      await emailjs.send(serviceId, templateId, {
+        from_name: formData.name,
+        from_phone: formData.phone,
+        from_email: formData.email,
+        telegram_id: formData.telegram,
+
+        // ✅ label로 전송
+        experience: experienceLabel,
+        fund_size: fundLabel,
+
+        // 선택 플랜도 사람이 읽기 쉽게
+        selected_plan: `${activeTab.toUpperCase()} - ${getPlanLabel(activeTab, formData.plan)}`,
+
+        // 참고로 value도 필요하면 템플릿에 추가로 써도 됨(선택)
+        experience_value: formData.experience,
+        fund_size_value: formData.fundSize,
+
+        message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
+        to_name: lang === "ko" ? "BODDARING 관리자" : "BODDARING Admin",
+        ui_lang: lang,
+      });
+
       setFormStatus("sent");
       setTimeout(() => setFormStatus("idle"), 5000);
-    } catch (e) { setFormStatus("error"); }
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setFormStatus("error");
+    }
   };
 
+  const isYearly = activeTab === "yearly";
+
   return (
-    <div className="apply-wrap container">
-      <Link href="/" className="brand" style={{ marginBottom: '40px' }}>
-        <img src="/doge.png" alt="BODDARING" className="brand-icon" />
-        <span className="brand-name">BODDARING</span>
-      </Link>
-
-      <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-        <h1 className="hero-title" style={{ fontSize: '36px' }}>서비스 신청하기</h1>
-        <p className="hero-desc" style={{ margin: '0 auto' }}>원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.</p>
-      </div>
-
-      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginBottom: '40px' }}>
-        <button className={`tab-btn ${tab === "monthly" ? "active" : ""}`} onClick={() => {setTab("monthly"); setSelectedPlan("BASIC");}}>월 플랜</button>
-        <button className={`tab-btn ${tab === "yearly" ? "active" : ""}`} onClick={() => {setTab("yearly"); setSelectedPlan("BASIC_Y");}}>연 플랜</button>
-        <button className={`tab-btn vip-gold-btn ${tab === "vip" ? "active" : ""}`} onClick={() => {setTab("vip"); setSelectedPlan("VIP");}}>👑 VIP 플랜</button>
-      </div>
-
-      <div className="plan-row">
-        {currentPlans.map(plan => (
-          <div key={plan.id} className={`plan-box ${selectedPlan === plan.id ? "active" : ""} ${tab === 'vip' ? 'vip-card-gold' : ''}`} onClick={() => setSelectedPlan(plan.id)}>
-            {selectedPlan === plan.id && <span className="plan-check">✓ 선택됨</span>}
-            <h3 className="timeline-title" style={{ fontSize: '24px', marginBottom: '16px' }}>{plan.name}</h3>
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff' }}>₩ {plan.price.toLocaleString()}</div>
-              <div style={{ fontSize: '14px', color: 'var(--accent2)', marginTop: '4px' }}>≈ {Math.round(plan.price / usdtRate).toLocaleString()} USDT</div>
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {plan.items.map((item, i) => (
-                <li key={i} style={{ fontSize: '14px', color: 'var(--muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ color: 'var(--accent2)' }}>•</span> {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '12px', color: 'var(--muted2)' }}>
-        현재 환율: 1 USDT = {usdtRate.toLocaleString()} KRW (갱신: {lastUpdate})<br />
-        * 모든 플랜은 부가세(VAT) 포함입니다. 플랜 가격은 결제 당시 환율로 계산합니다.
-      </div>
-
-      <form onSubmit={handleSubmit} className="contact-form" style={{ marginTop: '60px', maxWidth: '800px', margin: '60px auto 0' }}>
-        <h3 className="timeline-title" style={{ marginBottom: '24px', textAlign: 'center' }}>신청서 작성 <span style={{ fontSize: '12px', color: '#ff4d4d', fontWeight: 'normal' }}>* 필수 입력</span></h3>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>이름 (Name) <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="text" className="form-input" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>연락처 (Phone) <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="text" className="form-input" required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-          </div>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>이메일 (E-mail) <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="email" className="form-input" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>텔레그램 ID <span style={{ color: '#ff4d4d' }}>*</span></label>
-            <input type="text" className="form-input" required value={formData.telegram} onChange={e => setFormData({...formData, telegram: e.target.value})} />
-          </div>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>코인 투자 경험</label>
-            <select className="form-input" value={formData.experience} onChange={e => setFormData({...formData, experience: e.target.value})}>
-              <option>1년 미만</option><option>1~3년</option><option>3~5년</option><option>5년 이상</option>
-            </select>
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>예상 운용 자금</label>
-            <select className="form-input" value={formData.budget} onChange={e => setFormData({...formData, budget: e.target.value})}>
-              <option>1,000만원 미만</option><option>1,000~5,000만원</option><option>5,000만원~1억</option><option>1억 이상</option>
-            </select>
-          </div>
-        </div>
-
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', fontSize: '13px', marginBottom: '8px' }}>추가 문의사항</label>
-          <textarea className="form-input" style={{ minHeight: '120px' }} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} />
-        </div>
-
-        <button type="submit" className="btn-primary" style={{ width: '100%', padding: '16px' }}>
-          {formStatus === "sending" ? "신청서 제출 중..." : formStatus === "sent" ? "제출 완료! 곧 연락드리겠습니다." : "신청서 제출하기"}
-        </button>
-      </form>
-
-      <style jsx>{`
-        .apply-wrap { position: relative; z-index: 1; }
-        .contact-form { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 24px; border: 1px solid var(--stroke); }
-        .form-input { width: 100%; padding: 14px 20px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--stroke); color: #fff; font-size: 15px; outline: none; transition: all 0.2; }
-        .form-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
-        select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 18px; }
+    <div
+      style={{
+        padding: "120px 40px",
+        maxWidth: "1400px",
+        margin: "0 auto",
+        color: "#fff",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* keyframes / classes */}
+      <style jsx global>{`
+        @keyframes bod_pop {
+          0% { transform: scale(0.98); }
+          45% { transform: scale(1.03); }
+          100% { transform: scale(1.0); }
+        }
+        @keyframes bod_pulse {
+          0%, 100% { transform: scale(1); opacity: 0.85; }
+          50% { transform: scale(1.06); opacity: 1; }
+        }
+        @keyframes bod_shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .planCard {
+          position: relative;
+          will-change: transform, box-shadow, border;
+        }
+        .planCard.selected {
+          animation: bod_pop 320ms ease-out;
+          transform: translateZ(0) scale(1.01);
+        }
+        .planCard .selectedBadge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          font-size: 12px;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.22);
+          background: rgba(124,58,237,0.18);
+          color: #d9ccff;
+          opacity: 0;
+          transform: translateY(-4px);
+          transition: all 220ms ease;
+          pointer-events: none;
+        }
+        .planCard.selected .selectedBadge {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .yearlyBanner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 14px 16px;
+          border-radius: 14px;
+          border: 1px solid rgba(167,139,250,0.18);
+          background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
+          box-shadow: 0 0 24px rgba(124,58,237,0.16);
+          margin-bottom: 14px;
+        }
+        .yearlyBadge {
+          font-size: 12px;
+          font-weight: 800;
+          padding: 7px 10px;
+          border-radius: 999px;
+          color: #f1eaff;
+          background: linear-gradient(90deg, rgba(124,58,237,0.35), rgba(167,139,250,0.18));
+          border: 1px solid rgba(167,139,250,0.24);
+          animation: bod_pulse 1.6s ease-in-out infinite;
+          white-space: nowrap;
+        }
+        .discountTag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.22);
+          color: #e9ddff;
+          background: rgba(124,58,237,0.14);
+          animation: bod_pulse 1.8s ease-in-out infinite;
+          margin-top: 10px;
+          width: fit-content;
+        }
+        .langToggleWrap {
+          position: absolute;
+          top: 26px;
+          right: 26px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          z-index: 5;
+        }
+        .langBtn {
+          padding: 9px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(120,100,255,0.18);
+          background: rgba(255,255,255,0.03);
+          color: #a7b0c8;
+          font-weight: 800;
+          font-size: 12px;
+          cursor: pointer;
+          transition: all 180ms ease;
+          letter-spacing: 0.5px;
+        }
+        .langBtn.active {
+          color: #e0d7ff;
+          border-color: rgba(167,139,250,0.35);
+          background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
+          box-shadow: 0 0 18px rgba(124,58,237,0.18);
+        }
+        .yearlyTabShimmer {
+          background-size: 200% 100%;
+          background-image: linear-gradient(
+            90deg,
+            rgba(124,58,237,0.10),
+            rgba(167,139,250,0.18),
+            rgba(124,58,237,0.10)
+          );
+          animation: bod_shimmer 1.8s linear infinite;
+        }
       `}</style>
+
+      {/* 배경 */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background:
+            "radial-gradient(circle at 20% 50%, rgba(120,100,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(100,120,255,0.06) 0%, transparent 50%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* 언어 토글 */}
+        <div className="langToggleWrap" aria-label="Language selector">
+          <button className={`langBtn ${lang === "ko" ? "active" : ""}`} onClick={() => setLanguage("ko")} type="button">
+            {T.langKOR}
+          </button>
+          <button className={`langBtn ${lang === "en" ? "active" : ""}`} onClick={() => setLanguage("en")} type="button">
+            {T.langENG}
+          </button>
+        </div>
+
+        {/* 헤더 */}
+        <div style={{ textAlign: "center", marginBottom: "60px" }}>
+          <h1
+            style={{
+              fontSize: "48px",
+              fontWeight: 800,
+              marginBottom: "16px",
+              background: "linear-gradient(135deg, #e0d7ff, #a78bfa)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {T.pageTitle}
+          </h1>
+          <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "24px", lineHeight: 1.6 }}>
+            {T.pageDesc}
+          </p>
+        </div>
+
+        {/* 탭 메뉴 */}
+        <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "50px" }}>
+          {["monthly", "yearly", "vip"].map((tab) => {
+            const isActive = activeTab === tab;
+            const isYearlyTab = tab === "yearly";
+            return (
+              <button
+                key={tab}
+                onClick={() => onTabClick(tab)}
+                type="button"
+                className={isYearlyTab && isActive ? "yearlyTabShimmer" : ""}
+                style={{
+                  padding: "14px 36px",
+                  borderRadius: "30px",
+                  border: `2px solid ${isActive ? "#7c3aed" : "rgba(120, 100, 255, 0.2)"}`,
+                  background: isActive
+                    ? "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(167,139,250,0.1))"
+                    : "rgba(255,255,255,0.02)",
+                  color: isActive ? "#c4b5fd" : "#8080b0",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  transition: "all 0.3s ease",
+                  boxShadow: isActive ? "0 0 20px rgba(124,58,237,0.3)" : "none",
+                }}
+              >
+                {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : T.tabVIP}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 메인 */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "50px" }}>
+          {/* 플랜 선택 */}
+          <div>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: "16px", gap: "16px" }}>
+              <h3 style={{ color: "#e0d7ff", fontSize: "20px", fontWeight: 700, margin: 0 }}>{T.plansTitle}</h3>
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "#9aa8c7",
+                  background: "rgba(112,128,160,0.12)",
+                  border: "1px solid rgba(112,128,160,0.18)",
+                  padding: "5px 10px",
+                  borderRadius: "999px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {T.vatNote}
+              </span>
+            </div>
+
+            {/* 연 플랜 강조 배너 */}
+            {isYearly && (
+              <div className="yearlyBanner" role="note" aria-label="Yearly promotion">
+                <div>
+                  <div style={{ fontWeight: 900, color: "#e7ddff", marginBottom: "4px" }}>{T.yearlyPromoTitle}</div>
+                  <div style={{ fontSize: "13px", color: "#b2b6d6", lineHeight: 1.4 }}>{T.yearlyPromoDesc}</div>
+                </div>
+                <div className="yearlyBadge">{T.yearlyBadge}</div>
+              </div>
+            )}
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {plans[activeTab].map((p) => {
+                const selected = formData.plan === p.id;
+                const price = lang === "ko" ? p.priceKo : p.priceEn;
+                const desc = lang === "ko" ? p.descKo : p.descEn;
+
+                const isVip = String(p.id).toUpperCase() === "VIP";
+
+                return (
+                  <label
+                    key={`${activeTab}-${p.id}`}
+                    className={`planCard ${selected ? "selected" : ""} ${isYearly ? "yearly" : ""} ${isVip ? "vip" : ""}`}
+                    style={{
+                      padding: "24px",
+                      borderRadius: "16px",
+                      border: `2px solid ${selected ? "#7c3aed" : "rgba(255,255,255,0.08)"}`,
+                      background: selected
+                        ? "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.08))"
+                        : "rgba(255,255,255,0.02)",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      boxShadow: selected ? "0 0 30px rgba(124,58,237,0.2)" : "none",
+                      transform: selected ? "scale(1.01)" : "scale(1.0)",
+                    }}
+                  >
+                    <span className="selectedBadge">✓ {T.selectedBadge}</span>
+
+                    <input
+                      type="radio"
+                      name="plan"
+                      value={p.id}
+                      checked={selected}
+                      onChange={handleInput("plan")}
+                      style={{ display: "none" }}
+                    />
+
+                    {/* 상단 */}
+                    <div>
+                      <div style={{ fontWeight: 900, fontSize: "18px", color: "#e0d7ff" }}>{p.id}</div>
+                      <div style={{ fontSize: "13px", color: "#8080b0", marginTop: "6px" }}>{desc}</div>
+
+                      {isYearly && (
+                        <div className="discountTag" style={{ marginTop: "10px" }}>
+                          ✨ {T.yearlyBadge}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 하단 */}
+                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "14px" }}>
+                      <div className="planPrice">{price}</div>
+                    </div>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 폼 */}
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(120,100,255,0.03))",
+              padding: "40px",
+              borderRadius: "20px",
+              border: "1px solid rgba(120,100,255,0.15)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            {/* 이름 / 연락처 */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
+              <div>
+                <p style={{ fontSize: "13px", color: "#8080b0", marginBottom: "20px" }}>
+                  <span style={{ color: "#ff6b6b" }}>*</span> {T.formRequiredNote}
+                </p>
+
+                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>{T.name}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelName}</span>
+                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleInput("name")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    background: "rgba(0,0,0,0.2)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    fontSize: "14px",
+                    transition: "all 0.2s",
+                  }}
+                  placeholder={T.phName}
+                />
+              </div>
+
+              <div>
+                <p style={{ marginBottom: "20px", opacity: 0 }}>&nbsp;</p>
+
+                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>{T.phone}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelPhone}</span>
+                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={formData.phone}
+                  onChange={handleInput("phone")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    background: "rgba(0,0,0,0.2)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    fontSize: "14px",
+                  }}
+                  placeholder={T.phPhone}
+                />
+              </div>
+            </div>
+
+            {/* 이메일 / 텔레그램 */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
+              <div>
+                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>{T.email}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelEmail}</span>
+                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleInput("email")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    background: "rgba(0,0,0,0.2)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    fontSize: "14px",
+                  }}
+                  placeholder={T.phEmail}
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>{T.telegram}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelTelegram}</span>
+                  <span style={{ color: "#ff6b6b", marginLeft: "4px" }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.telegram}
+                  onChange={handleInput("telegram")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    background: "rgba(0,0,0,0.2)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    fontSize: "14px",
+                  }}
+                  placeholder={T.phTelegram}
+                />
+              </div>
+            </div>
+
+            {/* 경험 / 자금 */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "20px" }}>
+              <div>
+                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>{T.experience}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelExperience}</span>
+                </label>
+                <select
+                  required
+                  value={formData.experience}
+                  onChange={handleInput("experience")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    background: "rgba(0,0,0,0.2)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    fontSize: "14px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {experienceOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
+                      {lang === "ko" ? opt.labelKo : opt.labelEn}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                  <span style={{ color: "#e0d7ff" }}>{T.fundSize}</span>
+                  <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelFund}</span>
+                </label>
+                <select
+                  required
+                  value={formData.fundSize}
+                  onChange={handleInput("fundSize")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "8px",
+                    background: "rgba(0,0,0,0.2)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    fontSize: "14px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {fundOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value} style={{ background: "#1a1a2e", color: "#fff" }}>
+                      {lang === "ko" ? opt.labelKo : opt.labelEn}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* 메시지 */}
+            <div style={{ marginBottom: "24px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600 }}>
+                <span style={{ color: "#e0d7ff" }}>{T.message}</span>
+                <span style={{ color: "#8080b0", fontSize: "12px", marginLeft: "4px" }}>{T.labelMessage}</span>
+              </label>
+              <textarea
+                value={formData.message}
+                onChange={handleInput("message")}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "8px",
+                  background: "rgba(0,0,0,0.2)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "#fff",
+                  fontSize: "14px",
+                  minHeight: "100px",
+                  fontFamily: "inherit",
+                  resize: "vertical",
+                }}
+                placeholder={T.phMessage}
+              />
+            </div>
+
+            {/* 제출 */}
+            <button
+              type="submit"
+              disabled={formStatus === "sending"}
+              style={{
+                width: "100%",
+                padding: "16px",
+                borderRadius: "12px",
+                background: formStatus === "sending" ? "rgba(124, 58, 237, 0.5)" : "linear-gradient(135deg, #7c3aed, #a78bfa)",
+                color: "#fff",
+                border: "none",
+                fontWeight: 800,
+                fontSize: "16px",
+                cursor: formStatus === "sending" ? "not-allowed" : "pointer",
+                transition: "all 0.3s",
+                boxShadow: "0 0 20px rgba(124, 58, 237, 0.3)",
+              }}
+            >
+              {formStatus === "sending" ? T.btnSending : T.btnSubmit}
+            </button>
+
+            {formStatus === "sent" && (
+              <p style={{ color: "#4ade80", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}>
+                {T.success}
+              </p>
+            )}
+            {formStatus === "error" && (
+              <p style={{ color: "#ff6b6b", marginTop: "16px", textAlign: "center", fontSize: "14px", fontWeight: 700 }}>
+                {T.error}
+              </p>
+            )}
+          </form>
+        </div>
+
+        {/* 하단 링크 */}
+        <div style={{ textAlign: "center", marginTop: "60px" }}>
+          <Link href="/" style={{ color: "#8080b0", textDecoration: "none", fontSize: "14px", fontWeight: 700, transition: "color 0.2s" }}>
+            {T.backHome}
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
