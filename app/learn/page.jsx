@@ -11,6 +11,13 @@ const SECTIONS = [
 export default function LearnPage() {
   const [activeId, setActiveId] = useState("arbitrage");
 
+  const scrollToId = (id) => {
+    if (typeof window === "undefined") return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -57,6 +64,10 @@ export default function LearnPage() {
               </Link>
             </div>
             <div className="nav-cta">
+              <Link href="/trial" className="btn-trial-top">
+                무료체험 신청하기
+                <span className="btn-shine" />
+              </Link>
               <Link href="/apply" className="btn-apply">
                 신청하기 <span className="arrow">→</span>
               </Link>
@@ -114,21 +125,88 @@ export default function LearnPage() {
             <h2 className="learn-section-title">아비트라지란?</h2>
             <div className="learn-section-body">
               <p>
-                <strong>아비트라지(Arbitrage)</strong>란 동일한 자산이 서로 다른 시장에서 상이한 가격으로 거래될 때, 저가 시장에서 매수하고 고가 시장에서 매도하여 그 차익을 실현하는 거래 전략입니다. 이는 가격 비효율성을 활용하는 방식으로, 전통 금융 시장에서도 오랫동안 활용되어 온 개념입니다.
+                <strong>아비트라지(Arbitrage)</strong>는 같은 자산이 서로 다른 시장에서 서로 다른 가격으로 거래될 때,
+                <strong>싸게 사서 비싸게 파는 가격 차이</strong>를 이용해 차익을 만드는 방식이에요.
+                “방향성(상승/하락)을 맞히는 투자”라기보다는, <strong>가격 괴리</strong>가 생겼을 때 그 틈을 빠르게 집어내는 전략에 가깝습니다.
               </p>
               <p>
-                암호화폐 시장에서는 국내 거래소(KRW 마켓)와 해외 거래소(USDT 마켓) 간의 가격 차이가 발생하는 구조적 특성이 있습니다. 이를 <strong>김치 프리미엄(Kimchi Premium)</strong> 또는 역프리미엄이라고 부르며, 이 격차가 일정 수준 이상일 때 차익 거래의 기회가 형성됩니다.
+                암호화폐 시장에서는 특히 국내 거래소(KRW 마켓)와 해외 거래소(USDT 마켓) 사이에 가격 차이가 자주 생깁니다.
+                국내가 더 비싸면 <strong>김치 프리미엄</strong>이고,
+                반대로 국내가 더 싸면 <strong>역프리미엄</strong>입니다.
+                이 괴리가 의미 있게 커질 때 차익 기회가 만들어져요.
+                <button
+                  type="button"
+                  className="footnote-ref"
+                  onClick={() => scrollToId("premium-1")}
+                  aria-label="프리미엄 1 설명으로 이동"
+                >
+                  [프리미엄1]
+                </button>
               </p>
 
               <h4>왜 가격 차이가 발생하는가?</h4>
               <p>
-                국내 거래소는 원화(KRW) 기반으로 운영되며, 해외 거래소는 주로 USDT(테더) 기반으로 운영됩니다. 두 시장 간에는 환율, 유동성, 수요·공급 구조, 규제 환경 등의 차이가 존재하며, 이로 인해 동일 코인의 가격이 실시간으로 다르게 형성됩니다. 이 격차는 수 초에서 수 분 사이에 빠르게 변동하기 때문에, 실시간 데이터 수집이 핵심입니다.
+                이유는 단순합니다. 시장이 같지 않거든요.
+                국내는 원화(KRW), 해외는 USDT를 기준으로 가격이 만들어지고,
+                두 시장의 <strong>수요·공급, 유동성, 송금/입출금 제약, 규제 환경</strong>이 다르면 가격도 자연스럽게 벌어집니다.
+                게다가 이 괴리는 <strong>수 초 단위로</strong> 줄었다 늘었다 하기 때문에,
+                “지금 이 순간 체결 가능한 가격”을 확인하는 게 핵심입니다.
+                <button
+                  type="button"
+                  className="footnote-ref"
+                  onClick={() => scrollToId("premium-2")}
+                  aria-label="프리미엄 2 설명으로 이동"
+                >
+                  [프리미엄2]
+                </button>
               </p>
 
               <h4>아비트라지의 실행 흐름</h4>
               <p>
-                일반적인 아비트라지 실행 흐름은 다음과 같습니다. 먼저 두 거래소 간 가격 격차를 실시간으로 탐지하고, 수수료·환율·슬리피지를 반영한 실질 수익률을 계산합니다. 이후 오더북 유동성을 확인하여 실제 체결 가능한 수량을 검증하고, 조건이 충족되면 매수·매도를 동시에 또는 순차적으로 실행합니다.
+                흐름은 크게 4단계입니다.
+                ① 가격 괴리 탐지 → ② 비용(수수료/환율/슬리피지) 반영 → ③ 오더북으로 “실제 체결 가능 수량” 검증 → ④ 조건 충족 시 실행(동시/순차).
+                BODDARING은 이 중 <strong>①~③을 빠르게, 실제에 가깝게</strong> 해주는 데이터·계산 플랫폼입니다.
+                <button
+                  type="button"
+                  className="footnote-ref"
+                  onClick={() => scrollToId("premium-3")}
+                  aria-label="프리미엄 3 설명으로 이동"
+                >
+                  [프리미엄3]
+                </button>
               </p>
+
+              <h4>실전에서 자주 놓치는 포인트</h4>
+              <ul>
+                <li><strong>입출금 상태</strong>가 막혀 있으면, 괴리가 커도 실행이 어렵습니다.</li>
+                <li><strong>오더북 깊이</strong>가 얕으면, 표시된 Per보다 실제 수익률이 급격히 낮아질 수 있어요.</li>
+                <li><strong>환율</strong>은 “원/달러”가 아니라 <strong>USDT 실거래 환율</strong>을 기준으로 보는 게 더 현실적입니다.</li>
+              </ul>
+
+              <div className="learn-footnotes">
+                <div className="learn-footnotes-title">캡션(주석)</div>
+                <div id="premium-1" className="learn-footnote-item">
+                  <div className="learn-footnote-label">[프리미엄1]</div>
+                  <div className="learn-footnote-body">
+                    프리미엄은 “같은 코인인데 국내/해외 가격이 다르게 형성되는 현상”을 말합니다.
+                    국내가 더 비싸면 김치 프리미엄, 국내가 더 싸면 역프리미엄이라고 부릅니다.
+                  </div>
+                </div>
+                <div id="premium-2" className="learn-footnote-item">
+                  <div className="learn-footnote-label">[프리미엄2]</div>
+                  <div className="learn-footnote-body">
+                    괴리의 원인은 환율·유동성·수요·공급·입출금 제약 등 복합적입니다.
+                    중요한 건 “왜 벌어졌나”보다, <strong>지금 이 순간 실제로 체결 가능한 괴리인가</strong>입니다.
+                  </div>
+                </div>
+                <div id="premium-3" className="learn-footnote-item">
+                  <div className="learn-footnote-label">[프리미엄3]</div>
+                  <div className="learn-footnote-body">
+                    실행은 생각보다 ‘속도 게임’입니다. 시그널이 떠도 체결/슬리피지/수수료 때문에 결과가 달라질 수 있어요.
+                    그래서 오더북 기반 계산과 필터링(Per/Amount)이 실전에서는 더 중요합니다.
+                  </div>
+                </div>
+              </div>
 
               <div style={{
                 background: "rgba(120,100,255,0.08)",
@@ -153,22 +231,38 @@ export default function LearnPage() {
             <h2 className="learn-section-title">차익 계산 시스템이란?</h2>
             <div className="learn-section-body">
               <p>
-                BODDARING의 차익 계산 시스템은 단순한 가격 비교를 넘어, 실제 거래에서 발생하는 모든 비용 요소를 반영한 <strong>실질 수익률(Net Per)</strong>을 산출합니다.
+                “국내 1% 비싸다” 같은 단순 비교는 실전에서 거의 도움이 안 됩니다.
+                중요한 건 <strong>실제로 사고 팔았을 때 남는 돈</strong>이죠.
+                BODDARING의 계산은 시세 차이(Per)를 만들 때부터 <strong>현실적인 비용</strong>을 같이 넣어,
+                체감 수익률에 가까운 값으로 정리합니다.
               </p>
 
               <h4>반영되는 비용 요소</h4>
               <p>
-                계산에 반영되는 주요 요소는 다음과 같습니다. <strong>거래 수수료</strong>는 각 거래소별 메이커/테이커 수수료를 반영하며, <strong>환율</strong>은 단순 원·달러 환율이 아닌 USDT 실거래 환율(비트코인 환율 기반)을 적용합니다. <strong>슬리피지</strong>는 오더북 호가 데이터를 기반으로 실제 체결 시 발생하는 가격 미끄러짐을 추정하여 반영합니다.
+                기본은 3가지예요.
+                <strong>거래 수수료</strong>(거래소/주문유형별), <strong>USDT 실거래 환율</strong>, 그리고 <strong>슬리피지</strong>(오더북 깊이에 따른 체결 손실).
+                이 3개를 빼고 계산하면 “수익처럼 보이는데 실제로는 남는 게 없는” 시그널이 쉽게 생깁니다.
               </p>
 
               <h4>오더북 기반 Amount 계산</h4>
               <p>
-                일반적인 시스템이 종목별 최종 거래가(Last Price)를 기준으로 시그널을 발생시키는 것과 달리, BODDARING은 <strong>100% 실시간 호가창(Order Book)</strong>을 기준으로 Amount를 표기합니다. 이는 실제로 해당 수량만큼 체결이 가능한 가격 범위 내에서의 수익률을 의미하며, 허수 시그널을 최소화합니다.
+                BODDARING은 “마지막 체결가”가 아니라 <strong>실시간 호가(Order Book)</strong>를 기준으로 Amount를 잡습니다.
+                즉, 화면에 보이는 수익률이 아니라 <strong>그 수량이 실제로 체결 가능한 구간</strong>에서 계산해요.
+                그래서 허수 시그널을 줄이고, ‘될 만한’ 구간만 남기도록 설계했습니다.
               </p>
 
               <h4>Per(격차 비율) 계산 공식</h4>
               <p>
-                Per는 다음과 같이 계산됩니다. 국내 거래소 매도 가격을 USDT 환산 후, 해외 거래소 매수 가격과 비교하여 수수료·슬리피지를 차감한 순 격차 비율을 백분율로 표시합니다. 사용자는 최소 Per 임계값을 직접 설정하여 원하는 수준 이상의 시그널만 필터링할 수 있습니다.
+                Per는 “국내(USDT 환산) − 해외”의 차이를 백분율로 표현한 값이고,
+                여기서 수수료·슬리피지 같은 비용을 반영해 <strong>순수 격차</strong>에 가깝게 만듭니다.
+                사용자는 최소 Per를 정해두고, 그 이하 구간은 아예 필터링할 수 있어요.
+              </p>
+
+              <h4>필터가 중요한 이유</h4>
+              <p>
+                같은 1%라도 코인마다, 거래소마다 실행 난이도가 다릅니다.
+                그래서 BODDARING은 <strong>Per + Amount</strong>를 같이 보도록 만들었고,
+                “나는 이 정도 규모는 되어야 움직인다” 같은 기준을 사용자 설정으로 고정할 수 있게 했습니다.
               </p>
             </div>
           </section>
@@ -181,23 +275,34 @@ export default function LearnPage() {
             <h2 className="learn-section-title">실시간 데이터 수집 방법</h2>
             <div className="learn-section-body">
               <p>
-                BODDARING은 국내·해외 주요 거래소의 공개 API를 통해 오더북 데이터를 <strong>초 단위로 수집</strong>합니다. 각 거래소의 WebSocket 스트림을 활용하여 지연 없이 실시간 호가 데이터를 수신하고, 이를 즉시 계산 파이프라인에 공급합니다.
+                BODDARING은 국내·해외 주요 거래소의 API(WebSocket/REST)를 통해 오더북 데이터를 <strong>초 단위로 수집</strong>합니다.
+                단순히 “가격만 긁어오는” 수준이 아니라, <strong>호가/수량/깊이</strong>까지 받아서 실제 체결 관점으로 계산합니다.
               </p>
 
               <h4>수집 대상 데이터</h4>
               <p>
-                수집되는 데이터는 각 거래소의 전 종목 오더북(매수/매도 호가 및 수량), 실시간 체결가, 입출금 상태(Deposit/Withdrawal status), USDT 실거래 환율 등을 포함합니다. 이를 통해 단순 가격 비교가 아닌, 실제 실행 가능성까지 검증된 시그널을 제공합니다.
+                오더북(매수/매도 호가·수량), 체결가, 종목 상태, 입출금 가능 여부, 그리고 USDT 실거래 환율까지 함께 봅니다.
+                결국 “지금 이 수량이 가능한지”가 중요하기 때문에, 데이터도 그 방향으로 구성되어 있어요.
               </p>
 
               <h4>데이터 처리 구조</h4>
               <p>
-                수집된 원시 데이터는 실시간 계산 엔진을 통해 처리됩니다. 연동된 거래소 내 모든 코인 페어에 대해 초당 30만 회 이상의 계산이 수행되며, 사용자가 설정한 Per·Amount 필터 조건에 부합하는 시그널만 선별하여 제공합니다.
+                들어온 원시 데이터는 즉시 정규화(포맷 통일) → 계산(Per/Amount) → 필터링(사용자 조건) 과정을 거칩니다.
+                그 다음에야 화면/알림으로 나가요.
+                그래서 ‘보이기 좋은 숫자’보다, <strong>실전에 가까운 숫자</strong>가 먼저 나오도록 구조를 짰습니다.
               </p>
 
               <h4>텔레그램 알림 시스템</h4>
               <p>
                 조건에 부합하는 시그널이 탐지되면, 사용자 개인 텔레그램 봇을 통해 즉시 알림이 발송됩니다. 개인 봇 기반 구조이므로 타 사용자와 알림이 공유되지 않으며, 독립적이고 안전한 시그널 수신 환경을 제공합니다.
               </p>
+
+              <h4>추가로 알면 좋은 것</h4>
+              <ul>
+                <li><strong>지연(latency)</strong>: 거래소/네트워크 상황에 따라 체감이 달라질 수 있습니다.</li>
+                <li><strong>정책 변경</strong>: 거래소 API/입출금 정책은 예고 없이 바뀔 수 있어요.</li>
+                <li><strong>안전장치</strong>: 실전에서는 최소 Per, 최소 Amount, 입출금 상태를 함께 보는 걸 추천합니다.</li>
+              </ul>
 
               <div style={{
                 background: "rgba(30,20,60,0.5)",
@@ -227,15 +332,15 @@ export default function LearnPage() {
               직접 경험해보세요
             </h3>
             <p style={{ fontSize: "14px", color: "#8080b0", marginBottom: "20px", lineHeight: 1.6 }}>
-              BODDARING의 실시간 아비트라지 데이터 시그널을 지금 바로 신청하세요.
+              먼저 24시간 무료 체험으로 흐름을 확인하고, 필요하면 플랜을 선택하세요.
             </p>
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/trial" className="btn-free-trial" style={{ textDecoration: "none" }}>
+              <Link href="/trial" className="btn-trial-top" style={{ textDecoration: "none" }}>
                 24시간 무료 체험하기 🚀
                 <span className="btn-shine" />
               </Link>
-              <Link href="/#contact" className="btn-outline" style={{ textDecoration: "none" }}>
-                문의하기
+              <Link href="/#contact" className="btn-outline btn-outline--glow" style={{ textDecoration: "none" }}>
+                문의하기 ✉️
               </Link>
             </div>
           </div>

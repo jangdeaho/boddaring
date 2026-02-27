@@ -6,6 +6,8 @@ import Link from "next/link";
 export default function ApplyPage() {
   const [lang, setLang] = useState("ko"); // "ko" | "en"
   const [activeTab, setActiveTab] = useState("monthly"); // monthly, yearly, vip
+  const [exchangeRate, setExchangeRate] = useState(1471); // KRW per 1 USDT (derived via BTC cross-rate)
+  const [lastUpdated, setLastUpdated] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -21,6 +23,46 @@ export default function ApplyPage() {
   const [emailjsReady, setEmailjsReady] = useState(false);
 
   // -----------------------------
+  // USDT exchange rate (KRW/USDT) via BTC cross-rate (Upbit KRW-BTC / Binance BTCUSDT)
+  // 1 minute refresh to avoid rate-limit / jitter
+  // -----------------------------
+  const fetchExchangeRate = async () => {
+    try {
+      const [upbitRes, binanceRes] = await Promise.all([
+        fetch("https://api.upbit.com/v1/ticker?markets=KRW-BTC"),
+        fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"),
+      ]);
+      const upbitData = await upbitRes.json();
+      const binanceData = await binanceRes.json();
+
+      const upbitBTC = upbitData?.[0]?.trade_price;
+      const binanceBTC = parseFloat(binanceData?.price);
+
+      if (upbitBTC && binanceBTC) {
+        const rate = Math.round(upbitBTC / binanceBTC);
+        if (Number.isFinite(rate) && rate > 0) {
+          setExchangeRate(rate);
+          setLastUpdated(new Date().toLocaleTimeString());
+        }
+      }
+    } catch (err) {
+      console.error("Exchange Rate Error:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchExchangeRate();
+    const timer = setInterval(fetchExchangeRate, 60_000); // 1 min
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatUSDT = (krw) => {
+    if (!krw || !exchangeRate) return "0";
+    const usdt = Math.round(Number(krw) / Number(exchangeRate));
+    return usdt.toLocaleString();
+  };
+
+  // -----------------------------
   // i18n dictionary
   // -----------------------------
   const T = useMemo(() => {
@@ -33,9 +75,11 @@ export default function ApplyPage() {
         tabVIP: "VIP",
         plansTitle: "플랜 선택",
         vatNote: "* 모든 플랜은 부가세(VAT) 포함입니다.",
+        exchangeInfo: `현재 환율: ${exchangeRate.toLocaleString()} KRW (1분 단위 갱신: ${lastUpdated || "-"})`,
+        priceNote: "* 플랜 가격은 결제 당시 환율로 계산됩니다.",
         yearlyPromoTitle: "연 플랜 혜택",
         yearlyPromoDesc: "연 플랜은 2개월 할인 혜택이 적용됩니다.",
-        yearlyBadge: "2개월 할인 혜택!",
+        yearlyBadge: "✨2개월 할인 혜택!",
         selectedBadge: "선택됨",
 
         formRequiredNote: " 는 필수 입력 항목입니다.",
@@ -70,9 +114,11 @@ export default function ApplyPage() {
         tabVIP: "VIP",
         plansTitle: "Select a Plan",
         vatNote: "* All prices include VAT.",
+        exchangeInfo: `Exchange rate: ${exchangeRate.toLocaleString()} KRW (Updated: ${lastUpdated || "-"})`,
+        priceNote: "* Plan prices are calculated using the exchange rate at the time of payment.",
         yearlyPromoTitle: "Yearly Benefit",
         yearlyPromoDesc: "Yearly plans include a 2-month discount.",
-        yearlyBadge: "2-Month Discount Included!",
+        yearlyBadge: "✨2-Month Discount!",
         selectedBadge: "Selected",
 
         formRequiredNote: " Required fields.",
@@ -103,7 +149,9 @@ export default function ApplyPage() {
       },
     };
     return dict[lang];
-  }, [lang]);
+  },
+    [lang, exchangeRate, lastUpdated]
+  );
 
   // persist language
   useEffect(() => {
@@ -147,17 +195,17 @@ export default function ApplyPage() {
   const plans = useMemo(
     () => ({
       monthly: [
-        { id: "BASIC", priceKo: "월 2,200,000 KRW", priceEn: "$ 1,522 / mo", descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", priceKo: "월 3,000,000 KRW", priceEn: "$ 2,076 / mo", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
-        { id: "BOT", priceKo: "월 880,000 KRW", priceEn: "$ 609 / mo", descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", krw: 2200000, descKo: "실시간 시그널", descEn: "Real-time signals" },
+        { id: "PRO", krw: 3000000, descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "BOT", krw: 880000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
         // ✅ 연 플랜도 월 플랜과 동일하게 "무엇이 포함되는지"가 항상 보이도록 통일
-        { id: "BASIC", priceKo: "연 20,000,000 KRW", priceEn: "$ 13,840 / yr", descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", priceKo: "연 30,000,000 KRW", priceEn: "$ 20,761 / yr", descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
-        { id: "BOT", priceKo: "연 8,000,000 KRW", priceEn: "$ 5,536 / yr", descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", krw: 20000000, descKo: "실시간 시그널", descEn: "Real-time signals" },
+        { id: "PRO", krw: 30000000, descKo: "시그널 + 종합 BOT", descEn: "Signals + Execution BOT" },
+        { id: "BOT", krw: 8000000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
-      vip: [{ id: "VIP", priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
+      vip: [{ id: "VIP", krw: 0, priceKo: "별도 문의", priceEn: "Contact us", descKo: "커스텀 전략 및 전용 인프라 구축", descEn: "Custom strategy & dedicated infrastructure" }],
     }),
     []
   );
@@ -219,6 +267,11 @@ export default function ApplyPage() {
       const experienceLabel = getExperienceLabel(formData.experience);
       const fundLabel = getFundLabel(formData.fundSize);
 
+      const selectedPlan = (plans[activeTab] || []).find((p) => p.id === formData.plan);
+      const selectedKrw = selectedPlan?.krw || 0;
+      const krwPriceLabel = selectedKrw > 0 ? `${selectedKrw.toLocaleString()} KRW` : (lang === "ko" ? "별도 문의" : "Contact us");
+      const usdtPriceLabel = selectedKrw > 0 ? `${formatUSDT(selectedKrw)} USDT` : (lang === "ko" ? "별도 문의" : "Contact us");
+
       await emailjs.send(serviceId, templateId, {
         from_name: formData.name,
         from_phone: formData.phone,
@@ -231,6 +284,10 @@ export default function ApplyPage() {
 
         // 선택 플랜도 사람이 읽기 쉽게
         selected_plan: `${activeTab.toUpperCase()} - ${getPlanLabel(activeTab, formData.plan)}`,
+        krw_price: krwPriceLabel,
+        usdt_price: usdtPriceLabel,
+        exchange_rate: `${exchangeRate.toLocaleString()} KRW/USDT`,
+        rate_updated: lastUpdated || "-",
 
         // 참고로 value도 필요하면 템플릿에 추가로 써도 됨(선택)
         experience_value: formData.experience,
@@ -316,6 +373,28 @@ export default function ApplyPage() {
           box-shadow: 0 0 24px rgba(124,58,237,0.16);
           margin-bottom: 14px;
         }
+        
+        .planPrice {
+          text-align: right;
+          font-weight: 900;
+          color: #e0d7ff;
+          letter-spacing: 0.2px;
+        }
+        .planPriceMain {
+          font-size: 15px;
+          white-space: nowrap;
+        }
+        .planPriceSub {
+          margin-top: 6px;
+          font-size: 12px;
+          font-weight: 800;
+          color: rgba(168, 148, 255, 0.95);
+          white-space: nowrap;
+        }
+        .planHeader {
+          padding-right: 92px; /* space for ✓ 선택됨 */
+        }
+
         .yearlyBadge {
           font-size: 12px;
           font-weight: 800;
@@ -425,6 +504,15 @@ export default function ApplyPage() {
           <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "24px", lineHeight: 1.6 }}>
             {T.pageDesc}
           </p>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
+            <span style={{ fontSize: "12px", color: "#b9b0e6", background: "rgba(124,58,237,0.10)", border: "1px solid rgba(167,139,250,0.20)", padding: "7px 10px", borderRadius: "999px" }}>
+              {T.exchangeInfo}
+            </span>
+            <span style={{ fontSize: "12px", color: "#9aa8c7", background: "rgba(112,128,160,0.10)", border: "1px solid rgba(112,128,160,0.18)", padding: "7px 10px", borderRadius: "999px" }}>
+              {T.priceNote}
+            </span>
+          </div>
         </div>
 
         {/* 탭 메뉴 */}
@@ -496,10 +584,15 @@ export default function ApplyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {plans[activeTab].map((p) => {
                 const selected = formData.plan === p.id;
-                const price = lang === "ko" ? p.priceKo : p.priceEn;
                 const desc = lang === "ko" ? p.descKo : p.descEn;
 
                 const isVip = String(p.id).toUpperCase() === "VIP";
+                const periodKo = activeTab === "monthly" ? "월" : activeTab === "yearly" ? "연" : "";
+                const periodEn = activeTab === "monthly" ? "mo" : activeTab === "yearly" ? "yr" : "";
+                const krwLine = !isVip && p.krw ? `${periodKo} ${p.krw.toLocaleString()} KRW` : (lang === "ko" ? (p.priceKo || "별도 문의") : (p.priceEn || "Contact us"));
+                const usdLine = !isVip && p.krw ? `$ ${formatUSDT(p.krw)}${periodEn ? ` / ${periodEn}` : ""}` : "";
+                const priceMain = lang === "ko" ? krwLine : (usdLine || krwLine);
+                const priceSub = lang === "ko" ? (usdLine || "") : (!isVip && p.krw ? krwLine : "");
 
                 return (
                   <label
@@ -536,14 +629,17 @@ export default function ApplyPage() {
 
                       {isYearly && (
                         <div className="discountTag" style={{ marginTop: "10px" }}>
-                          ✨ {T.yearlyBadge}
+                          {T.yearlyBadge}
                         </div>
                       )}
                     </div>
 
                     {/* 하단 */}
                     <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "14px" }}>
-                      <div className="planPrice">{price}</div>
+                      <div className="planPrice">
+                        <div className="planPriceMain">{priceMain}</div>
+                        {priceSub ? <div className="planPriceSub">{priceSub}</div> : null}
+                      </div>
                     </div>
                   </label>
                 );
