@@ -173,7 +173,6 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
-  const [learnOpen, setLearnOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
   const [contactTab, setContactTab] = useState("inquiry"); // inquiry, development
   const [formData, setFormData] = useState({
@@ -193,7 +192,6 @@ export default function Home() {
   const [emailjsReady, setEmailjsReady] = useState(false);
   const serviceRef = useRef(null);
   const serviceCloseT = useRef(null);
-  const learnCloseT = useRef(null);
 
   /* 스크롤 감지 */
   useEffect(() => {
@@ -427,42 +425,17 @@ const handleDevSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* 더 알아보기 (3개 메뉴) */}
-              <div
-                className={`nav-dropdown nav-dropdown--learn${learnOpen ? " open" : ""}`}
-                onMouseEnter={() => openWithCancel(setLearnOpen, learnCloseT)}
-                onMouseLeave={() => closeWithDelay(setLearnOpen, learnCloseT)}
-              >
-                <button className="nav-link nav-dropdown-trigger nav-learn-link" type="button">
-                  더 알아보기
-                  <span className="nav-learn-badge">!</span>
-                  <svg className="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                <div className="dropdown-menu" onMouseEnter={() => openWithCancel(setLearnOpen, learnCloseT)}>
-                  <Link href="/learn#arbitrage" className="dropdown-item" onClick={() => setLearnOpen(false)}>
-                    <span className="dropdown-item-icon">📘</span>
-                    <div>
-                      <div className="dropdown-item-title">아비트라지란?</div>
-                      <div className="dropdown-item-desc">개념 · 구조 · 실행 흐름</div>
-                    </div>
-                  </Link>
-                  <Link href="/learn#calc-system" className="dropdown-item" onClick={() => setLearnOpen(false)}>
-                    <span className="dropdown-item-icon">🧮</span>
-                    <div>
-                      <div className="dropdown-item-title">김프 매매란?</div>
-                      <div className="dropdown-item-desc">차익 계산 · 비용 반영</div>
-                    </div>
-                  </Link>
-                  <Link href="/learn#realtime" className="dropdown-item" onClick={() => setLearnOpen(false)}>
-                    <span className="dropdown-item-icon">🛰️</span>
-                    <div>
-                      <div className="dropdown-item-title">데이터 수집 방법</div>
-                      <div className="dropdown-item-desc">실시간 오더북 수집 구조</div>
-                    </div>
-                  </Link>
-                </div>
+              {/* 더 알아보기: PC 상단 카테고리로 고정 */}
+              <div className="nav-inline">
+                <Link href="/learn#arbitrage" className="nav-link nav-link--inline">
+                  아비트라지란?
+                </Link>
+                <Link href="/learn#calc-system" className="nav-link nav-link--inline">
+                  김프 매매란?
+                </Link>
+                <Link href="/learn#realtime" className="nav-link nav-link--inline">
+                  데이터 수집 방법
+                </Link>
               </div>
             </div>
 
@@ -514,8 +487,14 @@ const handleDevSubmit = async (e) => {
             <a href="#contact" className="mobile-service-item" onClick={() => setMenuOpen(false)}>문의하기</a>
           </div>
         )}
-        <Link href="/learn" className="nav-link" onClick={() => setMenuOpen(false)}>
-          더 알아보기
+        <Link href="/learn#arbitrage" className="nav-link" onClick={() => setMenuOpen(false)}>
+          아비트라지란?
+        </Link>
+        <Link href="/learn#calc-system" className="nav-link" onClick={() => setMenuOpen(false)}>
+          김프 매매란?
+        </Link>
+        <Link href="/learn#realtime" className="nav-link" onClick={() => setMenuOpen(false)}>
+          데이터 수집 방법
         </Link>
         <Link href="/trial" className="btn-trial-top" onClick={() => setMenuOpen(false)}>
           무료체험 신청하기
