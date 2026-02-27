@@ -886,7 +886,7 @@ const handleDevSubmit = async (e) => {
               {/* 탭 1: 일반 문의 */}
               {contactTab === "inquiry" && (
                 <>
-                  <h3>문의하기 <span className="req"> (*는 필수 항목입니다.)</span></h3>
+                  <h3>문의하기 <span className="ftl-note"> <span className="req"> (*는 필수 항목입니다.)</span></span></h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
                     최대한 빠르게 답변 드리겠습니다.<br />

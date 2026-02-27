@@ -57,7 +57,7 @@ export default function LearnPage() {
               </div>
             </Link>
             <div className="nav-links">
-              <Link href="/#signal" className="nav-link">서비스</Link>
+              <Link href="/#signal" className="nav-link">대표 서비스</Link>
               <Link href="/learn" className="nav-link nav-learn-link" style={{ color: "#a78bfa" }}>
                 더 알아보기
                 <span className="nav-learn-badge">!</span>
@@ -69,7 +69,7 @@ export default function LearnPage() {
               </Link>
 
               <Link href="/apply" className="btn-cta-u btn-cta-u--blue">
-                신청하기 <span className="arrow">→</span>
+                구독하기 <span className="arrow">→</span>
               </Link>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function LearnPage() {
             <nav className="learn-sidebar-nav">
               <Link href="/" className="learn-sidebar-link">← 메인으로</Link>
               <Link href="/#contact" className="learn-sidebar-link">문의하기</Link>
-              <Link href="/apply" className="learn-sidebar-link">서비스 신청</Link>
+              <Link href="/apply" className="learn-sidebar-link">구독하기</Link>
             </nav>
           </div>
         </aside>
