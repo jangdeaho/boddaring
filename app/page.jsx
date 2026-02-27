@@ -495,7 +495,7 @@ const handleDevSubmit = async (e) => {
                 <a href="#contact" className="btn-primary">
                   궁금한 것이 있으신가요? 🙄
                 </a>
-                <a href="/apply" className="btn-free-trial">
+                <a href="/trial" className="btn-free-trial">
                   24시간 무료체험 신청하기 🚀
                   <span className="btn-shine"></span>
                 </a>
