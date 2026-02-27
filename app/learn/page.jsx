@@ -6,6 +6,9 @@ const SECTIONS = [
   { id: "arbitrage", label: "아비트라지란?" },
   { id: "calc-system", label: "차익 계산 시스템이란?" },
   { id: "realtime", label: "실시간 데이터 수집 방법" },
+  { id: "guidebook", label: "A to Z 가이드북" },
+  { id: "aboutus", label: "회사 소개" },
+  { id: "tos", label: "이용약관" },
 ];
 
 export default function LearnPage() {

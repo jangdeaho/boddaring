@@ -585,10 +585,15 @@ const handleDevSubmit = async (e) => {
                   <span className="live-dot" />
                   LIVE Signal
                 </div>
-                <div className="hero-video-placeholder">
-                  <div className="video-icon">▶</div>
-                  <span className="video-label">소개 영상 넣을자리</span>
-                </div>
+                <video
+                  className="hero-video"
+                  src="/intro.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
               </div>
             </div>
           </div>
