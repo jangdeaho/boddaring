@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export default function Trial() {
   const [formStatus, setFormStatus] = useState("idle");
+  const [userIP, setUserIP] = useState("정보 수집 중...");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -14,6 +15,21 @@ export default function Trial() {
     message: ""
   });
   const [emailjsReady, setEmailjsReady] = useState(false);
+
+  // Get user IP
+  useEffect(() => {
+    const fetchIP = async () => {
+      try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        setUserIP(data.ip);
+      } catch (error) {
+        console.error("IP fetch error:", error);
+        setUserIP("IP 정보 수집 실패");
+      }
+    };
+    fetchIP();
+  }, []);
 
   // EmailJS init
   useEffect(() => {
@@ -33,7 +49,7 @@ export default function Trial() {
     setFormStatus("sending");
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_APPLICATION;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_TRIAL;
       if (!serviceId || !templateId) throw new Error("Missing EmailJS env vars.");
 
       await emailjs.send(serviceId, templateId, {
@@ -42,7 +58,8 @@ export default function Trial() {
         from_email: formData.email,
         telegram_id: formData.telegram,
         experience: formData.experience,
-        selected_plan: "24시간 무료체험",
+        selected_plan: "24시간 무료체험 (실시간 시그널)",
+        user_ip: userIP,
         message: formData.message || "(메시지 없음)",
         to_name: "BODDARING 관리자",
         ui_lang: "ko",
@@ -58,29 +75,45 @@ export default function Trial() {
   return (
     <div className="trialWrap">
       <style jsx global>{`
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        html, body {
+          width: 100%;
+          height: 100%;
+        }
+
         /* =========================
-           Aurora Background (Trial Page)
+           Aurora Background (Trial Page - Full Screen)
            ========================= */
         .trialWrap {
           position: relative;
-          padding: 100px 40px;
-          max-width: 1200px;
-          margin: 0 auto;
-          color: #fff;
-          overflow: hidden;
-          background: #0a0e27;
+          width: 100vw;
           min-height: 100vh;
+          color: #fff;
+          overflow-x: hidden;
+          background: #0a0e27;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 60px 40px;
         }
         @media (max-width: 1024px) {
-          .trialWrap { padding: 80px 20px; }
+          .trialWrap { padding: 50px 20px; }
         }
 
         .trialAurora {
-          position: absolute;
-          inset: -160px;
+          position: fixed;
+          inset: 0;
           pointer-events: none;
           z-index: 0;
           opacity: 1;
+          width: 100vw;
+          height: 100vh;
         }
         .trialAurora::before {
           content: "";
@@ -100,7 +133,7 @@ export default function Trial() {
         .trialAurora::after {
           content: "";
           position: absolute;
-          inset: -60px;
+          inset: 0;
           background:
             conic-gradient(from 210deg at 50% 50%,
               rgba(124,58,237,0.12),
@@ -125,7 +158,7 @@ export default function Trial() {
           100% { transform: translate(0%, 0%) scale(1); }
         }
         .trialNoise {
-          position: absolute;
+          position: fixed;
           inset: 0;
           pointer-events: none;
           z-index: 0;
@@ -134,8 +167,15 @@ export default function Trial() {
             repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 3px),
             repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 4px);
           mix-blend-mode: overlay;
+          width: 100vw;
+          height: 100vh;
         }
-        .trialContent { position: relative; z-index: 1; }
+        .trialContent { 
+          position: relative; 
+          z-index: 1; 
+          width: 100%;
+          max-width: 900px;
+        }
 
         .backLink {
           display: inline-flex;
@@ -162,16 +202,56 @@ export default function Trial() {
         .trialHeader {
           text-align: center;
           margin-bottom: 60px;
+          position: relative;
+        }
+        .trialTitleWrapper {
+          position: relative;
+          display: inline-block;
+          margin-bottom: 16px;
         }
         .trialTitle {
           font-size: 48px;
           font-weight: 900;
-          margin-bottom: 16px;
+          margin-bottom: 0;
           background: linear-gradient(135deg, #e0d7ff, #a78bfa);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
+        .trialBubble {
+          position: absolute;
+          top: -28px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 7px 10px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 900;
+          color: #f8f2ff;
+          background: linear-gradient(135deg, rgba(236,72,153,0.42), rgba(124,58,237,0.22));
+          border: 1px solid rgba(255,255,255,0.16);
+          box-shadow: 0 0 18px rgba(236,72,153,0.18), 0 0 18px rgba(124,58,237,0.16);
+          animation: floaty 2.6s ease-in-out infinite;
+          white-space: nowrap;
+          z-index: 3;
+        }
+        .trialBubble:after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -7px;
+          width: 12px;
+          height: 12px;
+          transform: translateX(-50%) rotate(45deg);
+          background: rgba(236,72,153,0.25);
+          border-right: 1px solid rgba(255,255,255,0.12);
+          border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        @keyframes floaty {
+          0%, 100% { transform: translateX(-50%) translateY(0); }
+          50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
         .trialSubtitle {
           font-size: 16px;
           color: #a0a0c0;
@@ -184,10 +264,10 @@ export default function Trial() {
 
         .trialBenefits {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           gap: 16px;
           margin-bottom: 48px;
-          max-width: 800px;
+          max-width: 700px;
           margin-left: auto;
           margin-right: auto;
         }
@@ -217,11 +297,6 @@ export default function Trial() {
         .benefitDesc {
           font-size: 12px;
           color: rgba(200,206,235,0.72);
-        }
-
-        .trialFormContainer {
-          max-width: 700px;
-          margin: 0 auto;
         }
 
         .formSection {
@@ -349,6 +424,9 @@ export default function Trial() {
         .warningList li:last-child {
           margin-bottom: 0;
         }
+        .warningList strong {
+          color: rgba(255,220,230,0.95);
+        }
 
         .submitBtn {
           width: 100%;
@@ -417,10 +495,13 @@ export default function Trial() {
         <Link href="/" className="backLink">← 메인으로 돌아가기</Link>
 
         <div className="trialHeader">
-          <h1 className="trialTitle">24시간 무료체험</h1>
+          <div className="trialTitleWrapper">
+            <span className="trialBubble">⏰ 24시간 제한</span>
+            <h1 className="trialTitle">무료체험 신청</h1>
+          </div>
           <p className="trialSubtitle">
-            BODDARING의 압도적인 기술력을 제한 없이 경험해 보세요.<br />
-            실시간 시그널부터 자동화 BOT까지 모든 기능을 24시간 동안 무료로 이용할 수 있습니다.
+            BODDARING의 실시간 시그널을 제한 없이 경험해 보세요.<br />
+            초 단위로 업데이트되는 압도적인 데이터를 24시간 동안 무료로 이용할 수 있습니다.
           </p>
         </div>
 
@@ -428,153 +509,154 @@ export default function Trial() {
           <div className="benefitCard">
             <div className="benefitIcon">⚡</div>
             <div className="benefitTitle">실시간 시그널</div>
-            <div className="benefitDesc">초 단위 업데이트 데이터</div>
-          </div>
-          <div className="benefitCard">
-            <div className="benefitIcon">🤖</div>
-            <div className="benefitTitle">자동화 BOT</div>
-            <div className="benefitDesc">종합 매매 자동화 기능</div>
+            <div className="benefitDesc">초 단위 업데이트</div>
           </div>
           <div className="benefitCard">
             <div className="benefitIcon">📊</div>
             <div className="benefitTitle">고급 분석</div>
             <div className="benefitDesc">15개+ 거래소 데이터</div>
           </div>
+          <div className="benefitCard">
+            <div className="benefitIcon">🔍</div>
+            <div className="benefitTitle">차익 탐지</div>
+            <div className="benefitDesc">정교한 계산 시스템</div>
+          </div>
         </div>
 
-        <div className="trialFormContainer">
-          <div className="formSection">
-            <h2 className="formTitle">
-              무료체험 신청서
-              <span className="formTitleRequired">* 필수 입력</span>
-            </h2>
+        <div className="formSection">
+          <h2 className="formTitle">
+            무료체험 신청서
+            <span className="formTitleRequired">* 필수 입력</span>
+          </h2>
 
-            <form onSubmit={handleSubmit}>
-              <div className="formGrid">
-                <div className="formGroup">
-                  <label className="formLabel">
-                    이름 (Name)
-                    <span className="formRequired">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="formInput"
-                    required
-                    placeholder="홍길동"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  />
-                </div>
-                <div className="formGroup">
-                  <label className="formLabel">
-                    연락처 (Phone)
-                    <span className="formRequired">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    className="formInput"
-                    required
-                    placeholder="010-0000-0000"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
-                </div>
-              </div>
-
-              <div className="formGrid">
-                <div className="formGroup">
-                  <label className="formLabel">
-                    이메일 (E-mail)
-                    <span className="formRequired">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    className="formInput"
-                    required
-                    placeholder="example@email.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  />
-                </div>
-                <div className="formGroup">
-                  <label className="formLabel">
-                    텔레그램 ID
-                    <span className="formRequired">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="formInput"
-                    required
-                    placeholder="@username"
-                    value={formData.telegram}
-                    onChange={(e) => setFormData({...formData, telegram: e.target.value})}
-                  />
-                </div>
-              </div>
-
-              <div className="formGroup" style={{ marginBottom: "16px" }}>
-                <label className="formLabel">코인 투자 경험</label>
-                <select
-                  className="formSelect"
-                  value={formData.experience}
-                  onChange={(e) => setFormData({...formData, experience: e.target.value})}
-                >
-                  <option value="beginner">1년 미만</option>
-                  <option value="intermediate">1~3년</option>
-                  <option value="advanced">3년 이상</option>
-                </select>
-              </div>
-
-              <div className="formGroup" style={{ marginBottom: "24px" }}>
-                <label className="formLabel">추가 문의사항</label>
-                <textarea
-                  className="formTextarea"
-                  placeholder="추가 문의사항이 있으시면 입력해 주세요."
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+          <form onSubmit={handleSubmit}>
+            <div className="formGrid">
+              <div className="formGroup">
+                <label className="formLabel">
+                  이름 (Name)
+                  <span className="formRequired">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="formInput"
+                  required
+                  placeholder="홍길동"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
               </div>
-
-              <div className="warningBox">
-                <div className="warningTitle">
-                  ⚠️ 무료체험 이용 주의사항
-                </div>
-                <ul className="warningList">
-                  <li><strong>24시간 제한:</strong> 무료체험은 신청 후 정확히 24시간 동안만 이용 가능합니다.</li>
-                  <li><strong>실명 인증 필수:</strong> 정확한 개인정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.</li>
-                  <li><strong>텔레그램 필수:</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.</li>
-                  <li><strong>데이터 신뢰성:</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.</li>
-                  <li><strong>자동 종료:</strong> 24시간 경과 후 자동으로 서비스 접근이 차단되며, 계속 이용하려면 구독이 필요합니다.</li>
-                  <li><strong>기술 지원:</strong> 무료체험 기간 중 기술 지원은 제한될 수 있습니다.</li>
-                </ul>
+              <div className="formGroup">
+                <label className="formLabel">
+                  연락처 (Phone)
+                  <span className="formRequired">*</span>
+                </label>
+                <input
+                  type="tel"
+                  className="formInput"
+                  required
+                  placeholder="010-0000-0000"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                />
               </div>
+            </div>
 
-              <button
-                type="submit"
-                className="submitBtn"
-                disabled={formStatus === "sending" || !isFormValid}
+            <div className="formGrid">
+              <div className="formGroup">
+                <label className="formLabel">
+                  이메일 (E-mail)
+                  <span className="formRequired">*</span>
+                </label>
+                <input
+                  type="email"
+                  className="formInput"
+                  required
+                  placeholder="example@email.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                />
+              </div>
+              <div className="formGroup">
+                <label className="formLabel">
+                  텔레그램 ID
+                  <span className="formRequired">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="formInput"
+                  required
+                  placeholder="@username"
+                  value={formData.telegram}
+                  onChange={(e) => setFormData({...formData, telegram: e.target.value})}
+                />
+              </div>
+            </div>
+
+            <div className="formGroup" style={{ marginBottom: "16px" }}>
+              <label className="formLabel">코인 투자 경험</label>
+              <select
+                className="formSelect"
+                value={formData.experience}
+                onChange={(e) => setFormData({...formData, experience: e.target.value})}
               >
-                {formStatus === "sending"
-                  ? "신청서 제출 중..."
-                  : formStatus === "sent"
-                  ? "제출 완료! 곧 연락드리겠습니다."
-                  : "24시간 무료체험 신청하기 🚀"}
-              </button>
+                <option value="beginner">1년 미만</option>
+                <option value="intermediate">1~3년</option>
+                <option value="advanced">3년 이상</option>
+              </select>
+            </div>
 
-              {formStatus === "error" && (
-                <div className="statusMessage statusError">
-                  ❌ 전송 실패. 다시 시도해 주세요.
-                </div>
-              )}
-            </form>
-          </div>
+            <div className="formGroup" style={{ marginBottom: "24px" }}>
+              <label className="formLabel">추가 문의사항</label>
+              <textarea
+                className="formTextarea"
+                placeholder="추가 문의사항이 있으시면 입력해 주세요."
+                value={formData.message}
+                onChange={(e) => setFormData({...formData, message: e.target.value})}
+              />
+            </div>
+            
+            <div className="warningBox">
+              <div className="warningTitle">
+                ⚠️ 무료체험 이용 주의사항
+              </div>
+              <ul className="warningList">
+                <li><strong>24시간 제한 :</strong> 무료체험은 계정 생성 후 정확히 24시간 동안만 이용 가능합니다.</li>
+                <li><strong>자동 종료 :</strong> 24시간 경과 후 자동으로 서비스 접근이 차단되며, 계속 이용하려면 구독이 필요합니다.</li>
+                <li><strong>실명 인증 필수 :</strong> 정확한 개인정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.</li>
+                <li><strong>텔레그램 필수 :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.</li>
+                <li><strong>데이터 신뢰성 :</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.</li>
+                <li><strong>보안 접속 정책</strong><br />
+                계정 보안을 위해 로그인 시 접속 기록(예: IP 등)을 확인하며, 보안 정책에 따라 등록된 환경과 다른 접속은 제한될 수 있습니다.<br />
+                🚨 무료체험 신청 및 이용을 진행하시면 해당 정책에 동의한 것으로 간주됩니다.</li>
+                
+              </ul>
+            </div>
 
-          <div className="trialFooter">
-            <p className="trialFooterText">
-              문의사항이 있으신가요?<br />
-              <strong>boddaring@endholdings.com</strong>으로 문의해 주세요.
-            </p>
-          </div>
+            <button
+              type="submit"
+              className="submitBtn"
+              disabled={formStatus === "sending" || !isFormValid}
+            >
+              {formStatus === "sending"
+                ? "신청서 제출 중..."
+                : formStatus === "sent"
+                ? "제출 완료! 곧 연락드리겠습니다."
+                : "무료체험 신청하기 🚀"}
+            </button>
+
+            {formStatus === "error" && (
+              <div className="statusMessage statusError">
+                ❌ 전송 실패. 다시 시도해 주세요.
+              </div>
+            )}
+          </form>
+        </div>
+
+        <div className="trialFooter">
+          <p className="trialFooterText">
+            문의사항이 있으신가요?<br />
+            <strong>boddaring@endholdings.com</strong>으로 문의해 주세요.
+          </p>
         </div>
       </div>
     </div>
