@@ -446,7 +446,7 @@ const handleDevSubmit = async (e) => {
               </Link>
 
               <Link href="/apply" className="btn-cta-u btn-cta-u--blue">
-                신청하기 <span className="arrow">→</span>
+                구독하기 <span className="arrow">→</span>
               </Link>
             </div>
 
@@ -1070,7 +1070,7 @@ const handleDevSubmit = async (e) => {
                 <li><a href="#signal">시그널 소개</a></li>
                 <li><a href="#bot">BOT 소개</a></li>
                 <li><a href="#exchanges">연동 거래소</a></li>
-                <li><Link href="/apply">서비스 신청</Link></li>
+                <li><Link href="/apply">구독하기</Link></li>
               </ul>
             </div>
             <div className="footer-col">
