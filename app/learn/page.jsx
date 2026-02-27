@@ -64,11 +64,10 @@ export default function LearnPage() {
               </Link>
             </div>
             <div className="nav-cta">
-              <Link href="/trial" className="btn-trial-top">
-                무료체험 신청하기
-                <span className="btn-shine" />
+              <Link href="/trial" className="btn-primary">
+                무료체험 신청하기 <span className="arrow">→</span>
               </Link>
-              <Link href="/apply" className="btn-apply">
+              <Link href="/apply" className="btn-free-trial">
                 신청하기 <span className="arrow">→</span>
               </Link>
             </div>
@@ -342,10 +341,10 @@ export default function LearnPage() {
               먼저 24시간 무료 체험으로 흐름을 확인하고, 필요하면 플랜을 선택하시는게 어떨까요?
             </p>
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/trial" className="btn-cta-u btn-cta-u--pink">
+            <Link href="/trial" className="btn-primary">
               24시간 무료 체험하기 🚀
             </Link>
-              <Link href="/#contact" className="btn-cta-u btn-cta-u--blue">
+              <Link href="/#contact" className="btn-primary">
                 궁금한 것이 있으신가요? 🙄
               </Link>
             </div>
