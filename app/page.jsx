@@ -441,10 +441,11 @@ const handleDevSubmit = async (e) => {
 
             {/* CTA */}
             <div className="nav-cta">
-              <Link href="/trial" className="btn-primary">
+              <Link href="/trial" className="btn-cta-u btn-cta-u--pink">
                 무료체험 신청하기 <span className="arrow">→</span>
               </Link>
-              <Link href="/apply" className="btn-free-trial">
+
+              <Link href="/apply" className="btn-cta-u btn-cta-u--pink">
                 신청하기 <span className="arrow">→</span>
               </Link>
             </div>
