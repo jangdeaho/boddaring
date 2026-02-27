@@ -522,9 +522,9 @@ const handleDevSubmit = async (e) => {
 
               <p className="hero-desc">
                 수많은 아비트라지 서비스들, 그동안 실망만 하셨나요?<br />
-                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고,실행 가능한 기회만 선별해 <span className="pulse">초 단위로 시그널</span>을 제공합니다.<br />
+                국내·해외 거래소에 상장된 모든 코인의 데이터를 수집하여 가격을 비교해 차익을 계산하고,실행 가능한 기회만 선별해 <span className="hero-title-animated">초 단위로 시그널</span>을 제공합니다.<br />
                 차원이 다른 압도적인 데이터 수집 속도와 정교한 계산 시스템을<br />
-                <span className="highlight highlight-neon">지금 바로 24시간 무료 체험</span>으로 직접 경험해 보세요!
+                <span className="pulse">지금 바로 24시간 무료 체험</span>으로 직접 경험해 보세요!
               </p>
 
               <div className="hero-actions">
@@ -886,7 +886,7 @@ const handleDevSubmit = async (e) => {
               {/* 탭 1: 일반 문의 */}
               {contactTab === "inquiry" && (
                 <>
-                  <h3>문의하기 <span className="ftl-note"> <span className="req"> (*는 필수 항목입니다.)</span></span></h3>
+                  <h3>문의하기 <span className="ftl-note2"> (*는 필수 항목입니다.)</span></h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
                     최대한 빠르게 답변 드리겠습니다.<br />

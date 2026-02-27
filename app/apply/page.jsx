@@ -533,7 +533,6 @@ export default function ApplyPage() {
           transform: scale(1.01);
         }
 
-        /* ✅ VIP gold aura/border */
         .planCard.vip {
           border-color: rgba(245, 158, 11, 0.55);
           background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(255,255,255,0.02));

@@ -1617,7 +1617,13 @@
     color: var(--muted2, #a0a0c0);
     line-height: 1.75;
   }
-  
+
+  .ftl-note2 {
+    font-size: 12px;
+    color: rgba(0, 196, 240, 0.6);
+    font-style: italic;
+  }
+
   .ftl-note {
     font-size: 12px;
     color: rgba(160, 160, 192, 0.6);
