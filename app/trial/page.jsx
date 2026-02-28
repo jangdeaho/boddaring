@@ -497,7 +497,7 @@ export default function Trial() {
         <div className="trialHeader">
           <div className="trialTitleWrapper">
             <span className="trialBubble">⏰ 24시간 체험</span>
-            <h1 className="trialTitle">무료체험 신청 🎁</h1>
+            <h1 className="trialTitle">무료체험 신청</h1>
           </div>
           <p className="trialSubtitle">
             BODDARING의 실시간 시그널을 제한 없이 경험해 보세요.<br />
