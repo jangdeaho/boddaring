@@ -496,8 +496,8 @@ export default function Trial() {
 
         <div className="trialHeader">
           <div className="trialTitleWrapper">
-            <span className="trialBubble">⏰ 24시간 제한</span>
-            <h1 className="trialTitle">무료체험 신청</h1>
+            <span className="trialBubble">⏰ 24시간 체험</span>
+            <h1 className="trialTitle">무료체험 신청 🎁</h1>
           </div>
           <p className="trialSubtitle">
             BODDARING의 실시간 시그널을 제한 없이 경험해 보세요.<br />
@@ -625,8 +625,7 @@ export default function Trial() {
                 <li><strong>연락 가능한 정보 :</strong> 정확한 정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.</li>
                 <li><strong>텔레그램 필수 :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.</li>
                 <li><strong>데이터 신뢰성 :</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.</li>
-                <li><strong>보안 접속 정책</strong><br />
-                보안 확인을 위해 접속기록(예: IP 등)이 처리될 수 있으며, 보안 정책에 따라 다른 환경 접속은 제한될 수 있습니다.<br />
+                <li><strong>보안 접속 정책 :</strong> 보안 확인을 위해 접속기록(예: IP 등)이 처리될 수 있으며, 보안 정책에 따라 다른 환경 접속은 제한될 수 있습니다.<br />
                 🚨 무료체험 신청 및 이용을 진행하시면 해당 정책에 동의한 것으로 간주되며, 신청 정보는 검토 및 안내 목적으로만 사용됩니다.</li>
                 
               </ul>
