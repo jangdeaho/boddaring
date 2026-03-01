@@ -801,24 +801,8 @@ export default function ApplyPage() {
           text-align: left;
         }
 
-        .yearlyBenefitBubble::before{
-          content:"";
-          position:absolute;
-          left: 26px;
-          top: -7px;
-          width: 14px;
-          height: 14px;
-          transform: rotate(45deg);
-          background: rgba(34,211,238,0.12);
-          border-left: 1px solid rgba(34,211,238,0.22);
-          border-top: 1px solid rgba(34,211,238,0.22);
-        }
-
-        .yearlyBenefitBubble::after{ content: none;
-        }
-
         .yearlyBenefitBubble .ybTitle{
-          font-size: 12.5px;
+          font-size: 18px;
           font-weight: 900;
           color: rgba(186, 230, 253, 0.95);
           margin-bottom: 4px;
@@ -837,7 +821,7 @@ export default function ApplyPage() {
           font-weight: 700;
           font-size: 12.5px;
         }
-          
+
         @media (max-width: 980px){
           .yearlyBenefitBubble{ width: 100%; }
         }
@@ -896,7 +880,7 @@ export default function ApplyPage() {
 
         {activeTab === "yearly" && (
           <div className="yearlyBenefitBubble" role="note" aria-label="Yearly benefits">
-            <div className="ybTitle">연간 회원 전용 특별 혜택</div>
+            <div className="ybTitle">연간 회원 전용 특별 혜택🎉</div>
             <div className="ybLead">보따링 운영진과 함께해요!</div>
             <ul className="ybList">
               <li>연간 회원 전용 텔레그램 대화방 (운영진 상시 참여)</li>
