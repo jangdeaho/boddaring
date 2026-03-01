@@ -3,13 +3,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const SECTIONS = [
-  { id: "arbitrage", label: "아비트라지란?" },
+  { id: "arbitrage", label: "코인 아비트라지란?" },
   { id: "calc-system", label: "차익 계산 시스템이란?" },
-  { id: "realtime", label: "실시간 데이터 수집 방법" },
   { id: "guidebook", label: "A to Z 가이드북" },
   { id: "glossary", label: "용어 사전" },
-  { id: "aboutus", label: "회사 소개" },
-  { id: "tos", label: "이용약관" },
 ];
 
 export default function LearnPage() {
@@ -304,6 +301,7 @@ export default function LearnPage() {
                 <strong>두 번째로,</strong><br />
                 이미 과세가 진행 중인 해외 거래소 간에도 프리미엄이 존재합니다.<br />
                 <strong>해외A 거래소의 X/USDT</strong>와 <strong>해외B 거래소의 X/USDT</strong> 또한 가격 괴리가 빈번하게 발생합니다.<br />
+                <br />
                 그럼 해외A 거래소의 현물페어 X/USDT와 선물페어 XUSDTPERP의 가격도 항상 같을까요?<br />
                 아닙니다. 같은 거래소 내에 현물, 선물이 동시 상장되어 있어도 이 둘의 가격 괴리는 발생합니다.<br />
               </p>
@@ -522,26 +520,6 @@ export default function LearnPage() {
                   </div>
                 </dl>
               </div>
-            </div>
-          </section>
-
-          <section id="aboutus" className="learn-section">
-            <div className="learn-section-label">회사 소개</div>
-            <h2 className="learn-section-title">EndHoldings</h2>
-            <div className="learn-section-body">
-              <p>
-                엔드홀딩스 어쩌구
-              </p>
-            </div>
-          </section>
-
-          <section id="tos" className="learn-section">
-            <div className="learn-section-label">개인정보 보호정책</div>
-            <h2 className="learn-section-title">이용 약관</h2>
-            <div className="learn-section-body">
-              <p>
-                -
-              </p>
             </div>
           </section>
 

@@ -768,7 +768,7 @@ const handleDevSubmit = async (e) => {
         <div className="container">
           <div className="section-head center reveal">
             <div className="section-label">Supported Exchanges</div>
-            <h2 className="section-title">연동된 거래소</h2>
+            <h2 className="section-title">연동 거래소</h2>
             <p className="section-desc">
               BODDARING은 데이터 신뢰성을 기준으로 거래소를 선별합니다.<br />
               국내·글로벌 주요 거래소의 공개 API 데이터를 기반으로 KRW / USDT 시장 간 가격 격차 정보를 제공합니다.
@@ -1126,7 +1126,7 @@ const handleDevSubmit = async (e) => {
               <ul>
                 <li>
                   <a href="https://x.com/" target="_blank" rel="noreferrer">
-                    X
+                    X (준비중)
                   </a>
                 </li>
                 <li>
@@ -1136,19 +1136,19 @@ const handleDevSubmit = async (e) => {
                 </li>
                 <li>
                   <a href="https://t.me/ttarihunter" target="_blank" rel="noreferrer">
-                    Telegram
+                    Telegram (준비중)
                   </a>
                 </li>
                 <li>
                   <a href="https://open.kakao.com/o/" target="_blank" rel="noreferrer">
-                    KakaoTalk OpenChat
+                    KakaoTalk OpenChat (준비중)
                   </a>
                 </li>
               </ul>
             </div>
           </div>
 
-          {/* 하단 라인(원하면) */}
+          {/* 하단 라인 */}
           <div className="footer-bottom">
             <div className="footer-copy">© {new Date().getFullYear()} END HOLDINGS Inc. All rights reserved.</div>
           </div>
