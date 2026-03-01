@@ -1169,7 +1169,7 @@
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-top: 50px;
+    margin-top: 25px;
     padding-top: 40px;
     border-top: 1px solid var(--stroke);
     font-size: 12px;
@@ -2630,6 +2630,26 @@
   font-size: 12px;
   color: rgba(160,160,192,0.65);
   font-style: italic;
+}
+
+.site-footer{
+  position: relative;
+}
+
+.site-footer .footer-divider-full{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--stroke2) 30%, var(--stroke2) 70%, transparent);
+  opacity: 0.9;
+  margin-top: 44px;
+  margin-bottom: 44px;
+}
+
+.site-footer .footer-bottom{
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .site-footer .footer-brand-stack{

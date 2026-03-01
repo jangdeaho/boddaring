@@ -1151,7 +1151,8 @@ const handleDevSubmit = async (e) => {
             </div>
           </div>
 
-          {/* 하단 라인 */}
+          <div className="footer-divider-full" aria-hidden="true" />
+
           <div className="footer-bottom">
             <div className="footer-copy">© {new Date().getFullYear()} END HOLDINGS Inc. All rights reserved.</div>
           </div>
