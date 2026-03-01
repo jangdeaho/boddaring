@@ -68,11 +68,11 @@ export default function LearnPage() {
             </div>
             <div className="nav-cta">
               <Link href="/trial" className="btn-cta-u btn-cta-u--pink">
-                무료체험 신청하기 <span className="arrow">→</span>
+                무료체험 요청 <span className="arrow">→</span>
               </Link>
 
               <Link href="/apply" className="btn-cta-u btn-cta-u--blue">
-                구독하기 <span className="arrow">→</span>
+                구독 신청 <span className="arrow">→</span>
               </Link>
             </div>
           </div>
@@ -124,25 +124,25 @@ export default function LearnPage() {
           {/* 섹션 1: 아비트라지란? */}
           <section id="arbitrage" className="learn-section">
             <div className="learn-section-label">개념 이해</div>
-            <h2 className="learn-section-title">아비트라지란?</h2>
+            <h2 className="learn-section-title">코인 아비트라지란?</h2>
             <div className="learn-section-body">
               <p>
-                <strong>아비트라지(Arbitrage)</strong>는 같은 자산이 서로 다른 시장에서 서로 다른 가격으로 거래될 때,<br />
-                <strong>싸게 사서 비싸게 파는 가격 차이</strong>를 이용해 차익을 만드는 방식입니다.<br />
-                “방향성(상승/하락)을 맞히는 투자”라기보다는, <strong>가격 괴리</strong>가 생겼을 때 그 틈을 빠르게 집어내는 전략에 가깝습니다.<br />
+                <strong>코인 아비트라지(Arbitrage)</strong>는 같은 코인이 서로 다른 거래소에서 서로 다른 가격으로 거래될 때,<br />
+                <strong>저렴하게 파는 거래소에서</strong>코인을 <button
+                  type="button"
+                  className="footnote-ref"
+                  onClick={() => scrollToId("premium-1")}
+                  aria-label="프리미엄 설명으로 이동"
+                >
+                  [프리미엄]
+                </button>이 붙은 거래소에 전송하여 가격 차이를 이용해 차익을 만드는 방식입니다.<br />
+                코인 아비트라지는 <strong>시장의 방향성(상승/하락)</strong>이 어느 방향으로 가도 전혀 상관없습니다.<br />
+                그 과정에서 가격 괴리가 생겼을 때 그 틈을 이용하는 전략에 가깝습니다.
               </p>
               <p>
                 암호화폐 시장에서는 특히 국내 거래소(KRW 마켓)와 해외 거래소(USDT 마켓) 사이에 가격 차이가 자주 생깁니다.<br />
                 국내가 더 비싸면 <strong>김치 프리미엄</strong>이고, 반대로 국내가 더 싸면 <strong>역프리미엄</strong>입니다.<br />
-                이 괴리가 의미 있게 커질 때 차익 기회가 만들어져요.
-                <button
-                  type="button"
-                  className="footnote-ref"
-                  onClick={() => scrollToId("premium-1")}
-                  aria-label="프리미엄 1 설명으로 이동"
-                >
-                  [프리미엄1]
-                </button>
+                이 괴리가 의미 있게 커질 때 차익 기회가 만들어집니다.
               </p>
 
               <h4>왜 가격 차이가 발생하는가?</h4>
@@ -151,8 +151,8 @@ export default function LearnPage() {
                 시장이 같지 않거든요.<br />
                 국내는 원화(KRW), 해외는 테더(USDT)를 기준으로 가격이 만들어지고,<br />
                 두 시장의 <strong>수요·공급, 유동성, 입·출금 제약, 그 외 규제 환경</strong>이 다르면 가격도 자연스럽게 벌어집니다.<br />
-                게다가 이 괴리는 <strong>수 초 단위로</strong> 줄었다 늘었다 하기 때문에,<br />
-                “지금 이 순간 체결 가능한 가격”을 확인하는 게 핵심입니다.
+                게다가 이 괴리는 메인 홈페이지에 삽입된 영상처럼 종목, 페어, 거래소별 다양한 조건에서 <strong>수 초 단위로</strong> 변동하기 때문에,<br />
+                “지금 이 순간 체결 가능한 가격”을 확인하는 게 핵심입니다. 
                 <button
                   type="button"
                   className="footnote-ref"
@@ -163,14 +163,34 @@ export default function LearnPage() {
                 </button>
               </p>
 
-              <h4>아비트라지의 흐름</h4>
+              <h4>언제까지 아비트라지 생태계가 지속될 수 있느냐?</h4>
               <p>
+                첫 번째로, 대한민국 특금법 중 하나인 오더북 공유 금지 법령에 따라 김프와 역프는 구조적으로 발생할 수 밖에 없습니다.<br />
+                국내에서 오더북 공유가 불가능한 이유는 법적·제도적 한계 때문입니다.<br />
+                우선 특금법에 따라 오더북 공유를 하려면 양쪽 거래소가 모두 자금세탁방지(AML) 의무를 준수하고 고객 신원확인(KYC)을 이행할 수 있어야 합니다.<br />
+                하지만 해외 거래소의 AML 이행 여부를 확인하기 어렵고, 해외 고객 정보를 국내에서 검증하는 것은 현실적으로 불가능에 가깝습니다.<br />
+                또한 공유받은 오더북 데이터가 실제 사용자 간의 거래에 기반한 것인지, 아니면 허수 주문이나 가짜 호가인지를 검증하기 어렵다는 문제도 있습니다.<br />
+                결국 금융당국 입장에서는 자금세탁 가능성과 거래 진위성 검증 문제를 우려할 수밖에 없습니다.<br />
+              </p>
+              <p>
+                두 번째로, 이미 과세가 진행 중인 해외 거래소 간에도 프리미엄이 존재합니다.<br />
+                <strong>해외A 거래소의 X/USDT</strong>와 <strong>해외B 거래소의 X/USDT</strong> 또한 가격 괴리가 빈번하게 발생합니다.<br />
+                그럼 해외A 거래소의 현물페어 X/USDT와 선물페어 XUSDTPERP의 가격도 항상 같을까요?<br />
+                아닙니다. 같은 거래소 내에 현물, 선물이 동시 상장되어 있어도 이 둘의 가격괴리는 발생합니다.<br />
+              </p>
+              <p>
+                 세 번째로, 다가올 과세를 두려워 하지 마세요. <strong>과세 구간까지 수익을 내야 본인 손에 남는 돈이 있습니다.</strong>
+              </p>
+
+              <h5>보따링 아비트라지의 흐름</h5>
+              <p>
+                보따링 시스템의 흐름은 크게 4단계입니다.<br />
                 흐름은 크게 4단계입니다.<br />
                 ① 가격 괴리 탐지<br />
                 ② 비용(수수료/환율/슬리피지) 반영<br />
                 ③ <strong>호가창(매수벽·매도벽)</strong>으로 “실제 체결 가능 수량” 검증<br />
                 ④ 조건 충족 시 실행<br />
-                <span className="pulse">BODDARING</span>은 이 중 <strong>①~③을 빠르게, 실제에 가깝게</strong> 해주는 데이터·계산 플랫폼입니다.
+                <span className="pulse">BODDARING</span>은 이 중 <strong>①~③을 빠르고 정확하게 표기하는</strong> 데이터·계산 플랫폼입니다.
                 <button
                   type="button"
                   className="footnote-ref"
@@ -181,12 +201,20 @@ export default function LearnPage() {
                 </button>
               </p>
 
-              <h4>실전에서 자주 놓치는 포인트</h4>
-              <ul>
-                <li><strong>입출금 상태</strong>가 막혀 있으면, 괴리가 커도 아비트라지가 어렵습니다.</li>
-                <li><strong>호가창이 얇으면</strong> (매수벽·매도벽이 약하면), 표시된 Per보다 실제 수익률이 낮아질 수 있습니다.</li>
-                <li><strong>환율</strong>은 “원/달러”가 아니라 <strong>USDT 실거래 환율</strong>을 기준으로 보는 게 더 현실적입니다.</li>
-              </ul>
+              <h4>아비트라지에서 흔히 하는 착각</h4>
+                <ul>
+                  <li><strong>코인 입출금</strong>이 불가능한 경우, 괴리가 커도 아비트라지가 어렵습니다.</li>
+
+                  <li><strong>호가창이 얇으면</strong> (매수벽·매도벽 수량이 적을 때), 표시된 Per보다 실제 수익률이 낮아질 수 있습니다.</li>
+
+                  <li>
+                    <strong>환율</strong>은 “원/달러(KRW/USD)”가 아니라 <strong>비트코인 기반 USDT 실거래 환율</strong>을 기준으로 실행해야 합니다.
+                    <ul>
+                      <li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
+                      <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며, 그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.</li>
+                    </ul>
+                  </li>
+                </ul>
 
               <div className="learn-footnotes">
                 <div className="learn-footnotes-title">캡션</div>
@@ -238,65 +266,38 @@ export default function LearnPage() {
             <h2 className="learn-section-title">차익 계산 시스템이란?</h2>
             <div className="learn-section-body">
               <p>
-                “국내 1% 비싸다” 같은 단순 비교는 실전에서 거의 도움이 안 됩니다.<br />
-                중요한 건 <strong>실제로 사고 팔았을 때 남는 돈</strong>이죠.<br />
-                BODDARING의 계산은 시세 차이(Per)를 만들 때부터 <strong>현실적인 비용</strong>을 같이 넣어,<br />
-                체감 수익률에 가까운 값으로 정리합니다.
+                “국내 1% 비싸다”, "역프가 3%" 단순 최종 거래가 비교는 실전에서 즉각 판단이 불가합니다.<br />
+                중요한 건 <strong>실제로 어느 평단에 얼만큼의 어마운트를 사고 팔았을 때 남는 차익금 아닌가요?</strong><br />
+                BODDARING 시스템은 구매 물량(Amount) 및 차익(%, Per) 표기 시 <strong>실제 수익률에 가장 근접한 값으로 정리합니다.</strong>
               </p>
 
               <h4>반영되는 비용 요소</h4>
               <p>
                 기본은 3가지입니다.<br />
-                <strong>거래 수수료</strong>(거래소/주문유형별), <strong>USDT 실거래 환율</strong>, 그리고 <strong>슬리피지</strong>(호가에 따른 체결 손실).<br />
-                이 3개를 빼고 계산하면 “수익처럼 보이는데 실제로는 남는 게 없는” 시그널이 쉽게 생깁니다.
+                <strong>거래 수수료</strong>(거래소/주문유형별), <strong>비트코인 기반의 USDT 실거래 환율</strong> 그리고 <strong>슬리피지</strong>(호가에 따른 체결 손실).<br />
+                이 3가지 항목을 제외하고 계산하면 “수익처럼 보이는데 실제로는 남는 게 없는” 차익 거래 탐지 기능이 쉽게 생깁니다.
               </p>
 
-              <h4>오더북(매수/매도 호가·수량) 기반 Amount 계산</h4>
+              <h4>오더북(매수/매도 호가·수량) 기반 총액(Amount) 및 차익률(%, Per) 시스템</h4>
               <p>
-                BODDARING은 “마지막 체결가”가 아니라 <strong>실시간 호가(Order Book)</strong>를 기준으로 Amount를 잡습니다.<br />
-                즉, 화면에 보이는 수익률이 아니라 <strong>그 수량이 실제로 체결 가능한 구간</strong>에서 계산합니다.<br />
-                그래서 허수 시그널을 줄이고, ‘될 만한’ 구간만 남기도록 설계했습니다.
-              </p>
-
-              <h4>Per(격차 비율) 계산 공식</h4>
-              <p>
+                BODDARING은 “마지막 체결가”가 아니라 <strong>실시간 호가(Order Book)</strong>를 기준으로 Amount, Per를 표기합니다.<br />
                 Per는 “국내(USDT 환산) − 해외”의 차이를 백분율로 표현한 값이고,<br />
-                여기서 수수료·슬리피지 같은 비용을 반영해 <strong>순수 격차</strong>에 가깝게 만듭니다.<br />
-                사용자는 최소 Per를 정해두고, 그 이하 구간은 아예 필터링할 수 있습니다.
+                여기서 수수료·슬리피지 같은 비용을 반영해 순수 격차에 가깝게 만듭니다.<br />
+                즉, 화면에 보이는 수익률이 아니라 <strong>그 수량이 실제로 체결 가능한 구간</strong>에서 계산합니다.<br />
+              </p>
+
+              <h4>BODDARING 아비트라지 플랫폼의 타사 대비 대체불가 특장점</h4>
+              <p>
+                국내와해외 간 차익이 전부가 아닌 양방향, 국내-국내 / 해외-해외 간의 시그널도 발생됩니다.<br />
+                사용자는 최소 Amount 및 Per(%)를 정해두고, 설정값 미만의 구간을 표기하지 않도록 필터링할 수 있습니다.<br />
               </p>
 
               <h4>필터가 중요한 이유</h4>
               <p>
-                같은 1%라도 코인마다, 거래소마다 아비트라지 난이도가 다릅니다.<br />
-                그래서 BODDARING은 <strong>Per + Amount</strong>를 같이 보도록 만들었고,<br />
-                “나는 이 정도 규모는 되어야 움직인다” 같은 기준을 사용자 설정으로 고정할 수 있게 했습니다.<br />
-              </p>
-            </div>
-          </section>
-
-          <hr className="learn-divider" />
-
-          {/* 섹션 3: 실시간 데이터 수집 */}
-          <section id="realtime" className="learn-section">
-            <div className="learn-section-label">데이터 인프라</div>
-            <h2 className="learn-section-title">실시간 데이터 수집 방법</h2>
-            <div className="learn-section-body">
-              <p>
-                BODDARING은 국내·해외 주요 거래소의 API(WebSocket/REST)를 통해 오더북 데이터를 <strong>초 단위로 수집</strong>합니다.<br />
-                단순히 “가격만 긁어오는” 수준이 아니라, <strong>호가/수량/퍼센트</strong>까지 받아서 실제 체결 관점으로 계산합니다.
-              </p>
-
-              <h4>수집 대상 데이터</h4>
-              <p>
-                오더북(매수/매도 호가·수량), 체결가, 종목 상태, 입·출금 가능 여부, 그리고 USDT 실거래 환율까지 함께 봅니다.<br />
-                결국 “지금 이 수량이 가능한지”가 중요하기 때문에, 데이터도 그 방향으로 구성되어 있어요.
-              </p>
-
-              <h4>데이터 처리 구조</h4>
-              <p>
-                들어온 원시 데이터는 즉시 정규화(포맷 통일) → 계산(Per/Amount) → 필터링(사용자 조건) 과정을 거칩니다.<br />
-                그 다음에야 사이트에 시그널이 표시됩니다.<br />
-                그래서 ‘보이기 좋은 숫자’보다, <strong>실전에 가까운 숫자</strong>가 먼저 나오도록 구조를 짰습니다.
+                1% 차익이라도 코인마다, 거래소마다 아비트라지 난이도 및 거래 변수가 다릅니다.<br />
+                BODDARING은 <strong>Amount, Per</strong> 수치를 한 눈에 확인할 수 있도록 만들었고,<br />
+                불필요한 계산 없이 1초라도 앞서갈 수 있도록 코인명/페어, 출발지 및 도착지의 평단가 체크기능 등의 다양한 시스템이 구축되어 있습니다.<br />
+                “나는 이 정도 규모와 차익률이 충족해야 진입한다” 같은 명확한 기준을 개인별 설정 값을 지정하여 사용할 수 있습니다.<br />
               </p>
 
               <h4>텔레그램 알림 시스템</h4>
@@ -326,21 +327,23 @@ export default function LearnPage() {
                 </p>
               </div>
             </div>
-          </section>
+          </section>         
 
           <section id="guidebook" className="learn-section">
             <div className="learn-section-label">초심자도 쉽게</div>
             <h2 className="learn-section-title">A to Z 가이드북 제공</h2>
             <div className="learn-section-body">
               <p>
-                BODDARING은 초심자도 쉽게 배울 수 있는 A to Z 가이드북을 제공합니당 영상 넣고 내용 추가
+                (초반에 영상삽입, title 아래)
+                차트가 이렇고 저렇고 거래량이 이렇고 저렇고.. 평생 공부해도 시장 싸이클은 바뀌어요.<br />
+                BODDARING은 초심자도 쉽게 배울 수 있는 A to Z 가이드북을 제공합니다.<br/>
               </p>
             </div>
           </section>
 
           <section id="aboutus" className="learn-section">
             <div className="learn-section-label">회사 소개</div>
-            <h2 className="learn-section-title">우린 이런 사람이다</h2>
+            <h2 className="learn-section-title">EndHoldings</h2>
             <div className="learn-section-body">
               <p>
                 엔드홀딩스 어쩌구
@@ -349,11 +352,11 @@ export default function LearnPage() {
           </section>
 
           <section id="tos" className="learn-section">
-            <div className="learn-section-label">이용 약관</div>
+            <div className="learn-section-label">개인정보 보호정책</div>
             <h2 className="learn-section-title">이용 약관</h2>
             <div className="learn-section-body">
               <p>
-                투자는 본인의 어쩌구
+                -
               </p>
             </div>
           </section>

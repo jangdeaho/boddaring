@@ -448,11 +448,11 @@ const handleDevSubmit = async (e) => {
             {/* CTA */}
             <div className="nav-cta">
               <Link href="/trial" className="btn-cta-u btn-cta-u--pink">
-                무료체험 신청하기 <span className="arrow">→</span>
+                무료체험 요청 <span className="arrow">→</span>
               </Link>
 
               <Link href="/apply" className="btn-cta-u btn-cta-u--blue">
-                구독하기 <span className="arrow">→</span>
+                구독 신청 <span className="arrow">→</span>
               </Link>
             </div>
 
@@ -1073,33 +1073,34 @@ const handleDevSubmit = async (e) => {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <div className="brand-name">BODDARING</div>
+              <div className="brand-name">BODDARING | END HOLDINGS Inc.</div>
               <p className="footer-desc">
-                아비트라지 데이터 플랫폼.
               </p>
             </div>
             <div className="footer-col">
               <h4>서비스</h4>
               <ul>
-                <li><a href="#signal">시그널 소개</a></li>
-                <li><a href="#bot">BOT 소개</a></li>
+                <li><a href="#signal">차익 시그널 시스템</a></li>
+                <li><a href="#bot">BOT</a></li>
                 <li><a href="#exchanges">연동 거래소</a></li>
-                <li><Link href="/apply">구독하기</Link></li>
+                <li><Link href="/apply">구독 신청</Link></li>
               </ul>
             </div>
             <div className="footer-col">
-              <h4>문의</h4>
+              <h4>Contact</h4>
               <ul>
-                <li><a href="#contact">문의하기</a></li>
-                <li><a href="mailto:boddaring@endholdings.com">이메일 문의</a></li>
+                <li><a href="#contact">문의 접수</a></li>
+                <li><a href="mailto:developmentg@endholdings.com">개발 문의</a></li>
               </ul>
             </div>
-          </div>
-          <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} BODDARING. All rights reserved.</span>
-            <div className="footer-bottom-links">
-              <a href="/learn">더 알아보기</a>
-              <a href="#contact">문의하기</a>
+            <div className="footer-col">
+              <h4>소셜</h4>
+              <ul>
+                <li><a href="">X</a></li>
+                <li><a href="">NAVER BLOG</a></li>
+                <li><a href="">Telegram</a></li>
+                <li><a href="">KakaoTalk OpenChat</a></li>
+              </ul>
             </div>
           </div>
         </div>
