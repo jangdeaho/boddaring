@@ -1073,8 +1073,9 @@ const handleDevSubmit = async (e) => {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
-              <div className="brand-name">BODDARING | END HOLDINGS Inc.</div>
+              <div className="brand-name">BODDARING</div>
               <p className="footer-desc">
+              | END HOLDINGS Inc.
               </p>
             </div>
             <div className="footer-col">
