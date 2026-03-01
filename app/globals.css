@@ -1083,6 +1083,12 @@
     padding: 56px 0 52px;
     border-top: 1px solid var(--stroke);
   }
+
+  .footer-brand-top{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
   
   .footer-grid{
     display: grid;
@@ -1103,7 +1109,6 @@
     margin-bottom: 0;
   }
   
-  /* ✅ 줄바꿈 과민 원인 제거 (max-width 삭제) */
   .footer-brand p{
     font-size: 13px;
     color: var(--muted2);
@@ -1111,19 +1116,22 @@
     max-width: none;
   }
   
-  /* (로고 넣을 거면) 로고 + 텍스트 정렬용 */
   .footer-brand .footer-logo-row{
     display: flex;
     align-items: center;
     gap: 10px;
   }
+  
   .footer-brand .footer-logo{
-    width: 840px;
-    height: 380px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(255,255,255,.04);
-    object-fit: cover;
+    height: 44px;
+    width: auto;
+    max-width: 240px;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    object-fit: contain;
+    display: block;
+    flex: 0 0 auto;
   }
   
   /* 컬럼 공통 */
@@ -1194,7 +1202,12 @@
   @media (max-width: 980px){
     .footer-grid{ grid-template-columns: 1fr; gap: 22px; }
   }
-
+  @media (max-width: 768px){
+    .footer-brand .footer-logo{
+      height: 38px;
+      max-width: 200px;
+    }
+  }
 
   .reveal {
     opacity: 0;
