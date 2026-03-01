@@ -183,13 +183,13 @@ export default function ApplyPage() {
   const plans = useMemo(
     () => ({
       monthly: [
-        { id: "BASIC", krw: 2200000, descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", krw: 3000000, descKo: "실시간 시그널 + 종합 BOT", descEn: "Real-time signals + Execution BOT" },
+        { id: "BASIC", krw: 2200000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 3000000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
         { id: "BOT", krw: 880000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
-        { id: "BASIC", krw: 20000000, descKo: "실시간 시그널", descEn: "Real-time signals" },
-        { id: "PRO", krw: 30000000, descKo: "실시간 시그널 + 종합 BOT", descEn: "Real-time signals + Execution BOT" },
+        { id: "BASIC", krw: 20000000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 30000000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
         { id: "BOT", krw: 8000000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       vip: [
@@ -786,17 +786,17 @@ export default function ApplyPage() {
 
         .yearlyBenefitBubble{
           position: relative;
-          width: 100%;
-          max-width: none;
-          margin: 0 0 14px;
-          padding: 16px 18px;
+          width: 460px;
+          max-width: 100%;
+          margin: 0 0 14px 0;
+          padding: 14px 16px;
           border-radius: 16px;
 
           border: 1px solid rgba(34,211,238,0.28);
           background: linear-gradient(135deg, rgba(34,211,238,0.14), rgba(59,130,246,0.08));
           box-shadow:
             0 0 0 1px rgba(255,255,255,0.04) inset,
-            0 0 26px rgba(34,211,238,0.14);
+            0 0 22px rgba(34,211,238,0.12);
 
           text-align: left;
         }
@@ -804,7 +804,7 @@ export default function ApplyPage() {
         .yearlyBenefitBubble::before{
           content:"";
           position:absolute;
-          left: 28px;
+          left: 26px;
           top: -7px;
           width: 14px;
           height: 14px;
@@ -814,7 +814,8 @@ export default function ApplyPage() {
           border-top: 1px solid rgba(34,211,238,0.22);
         }
 
-        .yearlyBenefitBubble::after{ content: none; }
+        .yearlyBenefitBubble::after{ content: none;
+        }
 
         .yearlyBenefitBubble .ybTitle{
           font-size: 12.5px;
@@ -826,27 +827,19 @@ export default function ApplyPage() {
           font-size: 14px;
           font-weight: 900;
           color: #e8eeff;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
         .yearlyBenefitBubble .ybList{
           margin: 0;
           padding-left: 18px;
           color: rgba(186,196,230,0.92);
-          line-height: 1.65;
+          line-height: 1.6;
           font-weight: 700;
           font-size: 12.5px;
         }
-
-        @media (max-width: 768px){
-          .applyHeaderRow{
-            flex-direction: column;
-            gap: 12px;
-          }
-          .applyHeaderRow .langToggle{
-            position: static;
-            transform: none;
-          }
-          .applyTitle{ font-size: 38px; }
+          
+        @media (max-width: 980px){
+          .yearlyBenefitBubble{ width: 100%; }
         }
       `}</style>
 
