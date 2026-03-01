@@ -336,13 +336,20 @@ export default function LearnPage() {
                   <li><strong>호가창이 얇으면</strong> (매수벽·매도벽 수량이 적을 때), 표시된 Per보다 실제 수익률이 낮아질 수 있습니다.</li>
 
                   <li>
-                    <strong>환율</strong>은 “원/달러(KRW/USD)”가 아니라 <strong>비트코인 기반 USDT 실거래 환율</strong>을 기준으로 실행해야 합니다.
-                    <ul>
+                    <strong>환율</strong>은 “원/달러(KRW/USD)”가 아니라{" "}
+                    <strong>비트코인 기반 USDT 실거래 환율</strong>을 기준으로 실행해야 합니다.
+
+                    <div className="learn-callout">
+                      <div className="learn-callout-title">참고</div>
+                      <ul className="learn-callout-list">
                         <li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
-                        <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
-                        그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.</li>
-                        ※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.
-                    </ul>
+                        <li>
+                          원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
+                          그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.
+                        </li>
+                      </ul>
+                      <div className="learn-callout-footnote">※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.</div>
+                    </div>
                   </li>
                 </ul>
 
@@ -491,7 +498,8 @@ export default function LearnPage() {
                 몇 년을 공부해도 단 하루만에 흐름이 뒤집히는 게 현실입니다.<br />
                 <br />
                 그래서 {`BODDARING`}은 방향성 예측보다,<br />
-                <strong>‘지금 이 순간’ 실제로 벌어지는 가격 괴리</strong>를 기반으로 판단하는 아비트라지 관점의 <strong>“A to Z 가이드북”</strong>을 제공합니다.<br />
+                <strong>‘지금 이 순간’ 실제로 벌어지는 가격 괴리</strong>를 기반으로 판단하는 아비트라지 관점의<br />
+                <strong>“A to Z 가이드북”</strong>을 제공합니다.<br />
                 <span style={{ color: "#c4b5fd", fontWeight: 700 }}>
                   세팅 → 조건 필터 → 시그널 해석 → 실행 체크리스트
                 </span>

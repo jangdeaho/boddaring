@@ -33,8 +33,8 @@ useEffect(() => {
 const T = {
   ko: {
     back: "← 메인으로 돌아가기",
-    bubble: "⏰ 24시간 체험",
-    title: "무료체험 요청",
+    bubble: "⏰ 하루면 충분합니다!",
+    title: "무료 체험 요청",
     subtitle: (
       <>
         BODDARING의 실시간 시그널을 제한 없이 경험해 보세요.<br />
@@ -80,7 +80,7 @@ const T = {
         <strong>연락 가능한 정보 :</strong> 정확한 정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.
       </>,
       <>
-        <strong>텔레그램 필수 :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.
+        <strong>텔레그램 ID :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.
       </>,
       <>
         <strong>데이터 신뢰성 :</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.
@@ -88,7 +88,7 @@ const T = {
       <>
         <strong>보안 접속 정책(접속기록 처리)</strong>: 서비스 보안 및 부정 이용 방지(계정 공유·무단 접근 방지)를 위해<br />
         <strong> 접속기록(예: IP 주소, 접속 시각, 기기/브라우저 정보 등)</strong>이 처리될 수 있으며, 보안 정책에 따라 다른 환경 접속은 제한될 수 있습니다.<br />
-        자세한 내용은{" "} <a href="/terms/privacy" className="inlineLink">개인정보처리방침</a>에서 확인해 주세요.
+        자세한 내용은{" "} <a href="/terms/privacy" className="inlineLink"><strong>* 개인정보처리방침</strong></a>에서 확인해 주세요.
       </>,
     ],
     btn: {
@@ -103,7 +103,7 @@ const T = {
         <strong>boddaring@endholdings.com</strong>으로 문의해 주세요.
       </>
     ),
-    langKR: "국문",
+    langKR: "KOR",
     langEN: "ENG",
   },
   en: {
