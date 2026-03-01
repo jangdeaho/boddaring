@@ -1077,8 +1077,6 @@ const handleDevSubmit = async (e) => {
                   alt="END HOLDINGS Inc."
                   className="footer-logo"
                 />
-
-                <div className="footer-brand-sub">END HOLDINGS Inc.</div>
               </div>
             </div>
 
@@ -1154,7 +1152,7 @@ const handleDevSubmit = async (e) => {
           </div>
 
           {/* 하단 라인 */}
-          <div className="footer-bottom">
+          <div className="site-footer">
             <div className="footer-copy">© {new Date().getFullYear()} END HOLDINGS Inc. All rights reserved.</div>
           </div>
         </div>

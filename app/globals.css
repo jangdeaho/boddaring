@@ -2676,3 +2676,12 @@
     margin-top: 14px;
   }
 }
+
+.site-footer .footer-brand-stack{
+  align-items: flex-start;
+  text-align: left;
+}
+
+.site-footer .footer-logo{
+  margin-left: 0 !important;
+}

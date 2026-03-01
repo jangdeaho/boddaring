@@ -493,6 +493,7 @@ export default function LearnPage() {
 
             <div className="learn-section-body">
               <p>
+                <br></br>
                 주식도, 코인도 결국 시장은 ‘사이클’이 돌죠.<br />
                 반감기, 조정 구간, 불장·약세장… 용어는 많지만<br />
                 몇 년을 공부해도 단 하루만에 흐름이 뒤집히는 게 현실입니다.<br />
