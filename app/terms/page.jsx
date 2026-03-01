@@ -365,7 +365,7 @@ export default function TermsPage() {
           </>
         ),
         privacyLinkText: "View Privacy Policy",
-        privacyLinkText2: "Main Page",
+        privacyLinkText2: "Back to Home",
       },
     };
     return dict[lang];
