@@ -7,9 +7,9 @@ const SECTIONS = [
   { id: "calc-system", label: "차익 계산 시스템이란?" },
   { id: "realtime", label: "실시간 데이터 수집 방법" },
   { id: "guidebook", label: "A to Z 가이드북" },
+  { id: "glossary", label: "용어 사전" },
   { id: "aboutus", label: "회사 소개" },
   { id: "tos", label: "이용약관" },
-  { id: "glossary", label: "용어 사전" },
 ];
 
 export default function LearnPage() {
@@ -255,7 +255,8 @@ export default function LearnPage() {
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-1")}
                   aria-label="프리미엄 설명으로 이동"
-                  data-tip="같은 코인이 국내/해외에서 다르게 가격이 형성되는 ‘가격 괴리’ 현상"
+                  data-tip="같은 코인이 국내/해외에서 다르게 가격이 형성되는
+                  ‘가격 괴리’ 현상"
                 >
                   프리미엄이란?
                 </button>
@@ -274,7 +275,8 @@ export default function LearnPage() {
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-2")}
                   aria-label="제약요인 설명으로 이동"
-                  data-tip="환율·유동성·입출금 제약 등 ‘실행을 막는 변수’가 괴리를 만든다"
+                  data-tip="환율·유동성·입출금 제약 등
+                  ‘실행을 막는 변수’가 괴리를 만든다"
                 >
                   제약요인
                 </button>
@@ -471,33 +473,13 @@ export default function LearnPage() {
             </div>
           </section>
 
-          <section id="aboutus" className="learn-section">
-            <div className="learn-section-label">회사 소개</div>
-            <h2 className="learn-section-title">EndHoldings</h2>
-            <div className="learn-section-body">
-              <p>
-                엔드홀딩스 어쩌구
-              </p>
-            </div>
-          </section>
-
-          <section id="tos" className="learn-section">
-            <div className="learn-section-label">개인정보 보호정책</div>
-            <h2 className="learn-section-title">이용 약관</h2>
-            <div className="learn-section-body">
-              <p>
-                -
-              </p>
-            </div>
-          </section>
-
           <section id="glossary" className="learn-section">
             <div className="learn-section-label">Glossary</div>
             <h2 className="learn-section-title">용어 사전</h2>
             <div className="learn-section-body">
               <div className="glossary-card">
                 <div className="glossary-head">
-                  <div className="glossary-title">KEY TERMS</div>
+                  <div className="glossary-title">주요 용어</div>
                   <div className="glossary-hint">본문 용어를 한 번에 정리해둔 영역입니다.</div>
                 </div>
 
@@ -523,21 +505,41 @@ export default function LearnPage() {
                   </div>
 
                   <div className="glossary-item">
-                    <dt>USDT 실거래 환율(크로스 레이트)</dt>
+                    <dt>USDT 실거래 환율(Cross Rate)</dt>
                     <dd>원/달러 고시 환율이 아니라, 실제 시장 거래(예: BTC 기반 교차환산)로 형성되는 KRW↔USDT 체감 환율.</dd>
                   </div>
 
                   <div className="glossary-item">
-                    <dt>Per(%) / Amount</dt>
-                    <dd>Per는 차익률(%) 지표, Amount는 실제 체결 가능 규모(수량/총액). 실전에서는 둘을 함께 봐야 정확함.</dd>
+                    <dt>Amount / Per(%)</dt>
+                    <dd>Amount는 실제 체결 가능 규모, Per는 차익률(%) 지표, (수량/총액). 실전에서는 둘을 함께 봐야 정확함.</dd>
                   </div>
 
                   <div className="glossary-item">
                     <dt>입·출금 제약</dt>
-                    <dd>거래소/네트워크/정책(점검, 제한 등)으로 입출금이 막히는 상태. 괴리가 커도 실행이 어려울 수 있음.</dd>
+                    <dd>거래소/네트워크/정책(점검, 제한 등)으로 입출금이 중단되는 상태. 괴리가 커도 실행이 어려울 수 있음.</dd>
                   </div>
                 </dl>
               </div>
+            </div>
+          </section>
+
+          <section id="aboutus" className="learn-section">
+            <div className="learn-section-label">회사 소개</div>
+            <h2 className="learn-section-title">EndHoldings</h2>
+            <div className="learn-section-body">
+              <p>
+                엔드홀딩스 어쩌구
+              </p>
+            </div>
+          </section>
+
+          <section id="tos" className="learn-section">
+            <div className="learn-section-label">개인정보 보호정책</div>
+            <h2 className="learn-section-title">이용 약관</h2>
+            <div className="learn-section-body">
+              <p>
+                -
+              </p>
             </div>
           </section>
 
