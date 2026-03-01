@@ -2640,10 +2640,10 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--stroke2) 30%, var(--stroke2) 70%, transparent);
+  background: rgba(255,255,255,0.09);
   opacity: 0.9;
   margin-top: 44px;
-  margin-bottom: 44px;
+  margin-bottom: 25px;
 }
 
 .site-footer .footer-bottom{
