@@ -9,7 +9,6 @@ const SECTIONS = [
   { id: "guidebook", label: "A to Z 가이드북" },
   { id: "aboutus", label: "회사 소개" },
   { id: "tos", label: "이용약관" },
-  // ✅ 추가: 용어 사전(하단으로 이동)
   { id: "glossary", label: "용어 사전" },
 ];
 
@@ -43,7 +42,6 @@ export default function LearnPage() {
 
   return (
     <>
-      {/* ✅ 추가: 툴팁 + 용어사전 스타일 (CSS로만) */}
       <style jsx global>{`
         /* ---------- Tooltip (for .footnote-ref) ---------- */
         .footnote-ref{
@@ -278,7 +276,7 @@ export default function LearnPage() {
                   aria-label="제약요인 설명으로 이동"
                   data-tip="환율·유동성·입출금 제약 등 ‘실행을 막는 변수’가 괴리를 만든다"
                 >
-                  [제약요인]
+                  제약요인
                 </button>
               </p>
 
@@ -325,7 +323,7 @@ export default function LearnPage() {
                   aria-label="체결 가능성 설명으로 이동"
                   data-tip="표시된 괴리가 ‘실제로 체결 가능한 구간’인지가 실전 핵심"
                 >
-                  [체결 가능성]
+                  체결 가능성
                 </button>
               </p>
 
@@ -341,7 +339,7 @@ export default function LearnPage() {
                         <li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
                         <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
                         그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.</li>
-                        <li>※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.</li>
+                        ※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.
                     </ul>
                   </li>
                 </ul>
@@ -493,7 +491,6 @@ export default function LearnPage() {
             </div>
           </section>
 
-          {/* ✅ 추가: 용어 사전 섹션 (하단) */}
           <section id="glossary" className="learn-section">
             <div className="learn-section-label">Glossary</div>
             <h2 className="learn-section-title">용어 사전</h2>
