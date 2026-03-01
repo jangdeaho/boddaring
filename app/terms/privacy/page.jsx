@@ -6,7 +6,7 @@ export default function PrivacyPage() {
   const COMPANY = "END HOLDINGS Inc.";
   const SERVICE = "BODDARING";
   const SUPPORT_EMAIL = "ceo@endholdings.com"; // 변경
-  const DPO_NAME = "Yonghyeon Lee"; // 변경 (또는 개인정보책임자 이름)
+  const DPO_NAME = "YONGHYEON LEE"; // 변경 (또는 개인정보책임자 이름)
   const DPO_TITLE = "CEO"; // 변경 가능
   const LAST_REVISED = "2026-03-01"; // 변경 가능
   const [lang, setLang] = useState("ko");
@@ -157,8 +157,8 @@ export default function PrivacyPage() {
               개인정보 관련 문의 및 권리 행사는 아래로 연락해 주세요.
               <ul>
                 <li>회사명: <strong>{COMPANY}</strong></li>
-                <li>개인정보 보호책임자: <strong>{DPO_NAME}</strong> ({DPO_TITLE})</li>
-                <li>이메일: <a href={`mailto:${SUPPORT_EMAIL}`} style={{ textDecoration: "underline" }}>{SUPPORT_EMAIL}</a></li>
+                <li>개인정보 보호 책임자: <strong>{DPO_NAME}</strong> ({DPO_TITLE})</li>
+                <li>E-Mail: <a href={`mailto:${SUPPORT_EMAIL}`} style={{ textDecoration: "underline" }}>{SUPPORT_EMAIL}</a></li>
               </ul>
             </>
           ),
@@ -294,7 +294,7 @@ export default function PrivacyPage() {
               For privacy requests and inquiries:
               <ul>
                 <li>Company: <strong>{COMPANY}</strong></li>
-                <li>Contact person: <strong>{DPO_NAME}</strong> ({DPO_TITLE})</li>
+                <li>DPO: <strong>{DPO_NAME}</strong> ({DPO_TITLE})</li>
                 <li>Email: <a href={`mailto:${SUPPORT_EMAIL}`} style={{ textDecoration: "underline" }}>{SUPPORT_EMAIL}</a></li>
               </ul>
             </>

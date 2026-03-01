@@ -115,7 +115,7 @@ export default function TermsPage() {
             <br />
             유료 서비스 제공 시 가격, 결제 주기, 세금/VAT 포함 여부, 환불/해지 조건은 결제 화면 또는 별도 고지에 따릅니다.
             <br />
-            <strong>현재 운영 방식</strong>: 구독 신청 접수 후 회사가 텔레그램/이메일로 안내한 금액을 <strong>계좌이체</strong>로 납부하고,
+            <strong>현재 운영 방식</strong>: 구독 신청 접수 후 회사가 텔레그램/이메일로 안내한 금액을 <strong>계좌이체 혹은 가상자산</strong>으로 납부하고,
             입금 확인 후 서비스 접근/안내가 제공될 수 있습니다.
             <br />
             <strong>환불/해지</strong>: 서비스는 데이터/디지털 성격을 가지며, 접근 정보 제공 또는 서비스 제공이 개시된 이후에는
@@ -300,7 +300,7 @@ export default function TermsPage() {
             The Company may revise prices and plans with prior notice as reasonably practicable.
           <br />
             <strong>Current flow</strong>: After you submit a subscription request, the Company may quote the price via Telegram/email.
-            Payment may be completed via <strong>bank transfer</strong>, and access/instructions may be provided after payment confirmation.
+            Payment may be completed via <strong>bank transfer or virtual assets(digital assets)</strong>, and access/instructions may be provided after payment confirmation.
             <br />
             <strong>Cancellations & refunds</strong>: The Service is digital/data-oriented. Once access has been granted or delivery has started,
             refunds may be limited except where required by law or where the Company fails to provide the Service.
