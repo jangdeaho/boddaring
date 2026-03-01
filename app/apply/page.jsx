@@ -786,47 +786,53 @@ export default function ApplyPage() {
 
         .yearlyBenefitBubble{
           position: relative;
+          width: 100%;
+          max-width: none;
           margin: 0 0 14px;
-          padding: 14px 16px;
-          border-radius: 14px;
-          border: 1px solid rgba(34,211,238,0.24);
-          background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(59,130,246,0.06));
-          box-shadow: 0 0 18px rgba(34,211,238,0.10);
+          padding: 16px 18px;
+          border-radius: 16px;
+
+          border: 1px solid rgba(34,211,238,0.28);
+          background: linear-gradient(135deg, rgba(34,211,238,0.14), rgba(59,130,246,0.08));
+          box-shadow:
+            0 0 0 1px rgba(255,255,255,0.04) inset,
+            0 0 26px rgba(34,211,238,0.14);
+
           text-align: left;
         }
 
-        .yearlyBenefitBubble::after{
+        .yearlyBenefitBubble::before{
           content:"";
           position:absolute;
-          left: 26px;
-          bottom: -7px;
-          width: 12px;
-          height: 12px;
+          left: 28px;
+          top: -7px;
+          width: 14px;
+          height: 14px;
           transform: rotate(45deg);
-          background: rgba(34,211,238,0.10);
-          border-right: 1px solid rgba(34,211,238,0.18);
-          border-bottom: 1px solid rgba(34,211,238,0.18);
+          background: rgba(34,211,238,0.12);
+          border-left: 1px solid rgba(34,211,238,0.22);
+          border-top: 1px solid rgba(34,211,238,0.22);
         }
 
+        .yearlyBenefitBubble::after{ content: none; }
+
         .yearlyBenefitBubble .ybTitle{
-          font-size: 12px;
+          font-size: 12.5px;
           font-weight: 900;
           color: rgba(186, 230, 253, 0.95);
           margin-bottom: 4px;
         }
-
         .yearlyBenefitBubble .ybLead{
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 900;
           color: #e8eeff;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
         }
-
         .yearlyBenefitBubble .ybList{
           margin: 0;
           padding-left: 18px;
           color: rgba(186,196,230,0.92);
-          line-height: 1.6;
+          line-height: 1.65;
           font-weight: 700;
           font-size: 12.5px;
         }
