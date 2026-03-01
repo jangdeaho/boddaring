@@ -784,38 +784,53 @@ export default function ApplyPage() {
         .submitBtn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
         .submitBtn:disabled{ opacity:0.45; cursor:not-allowed; transform:none; filter:none; box-shadow:none; }
 
-        .yearlyBenefitBox{
-          max-width: 980px;
-          margin: -18px auto 34px;
-          padding: 18px 20px;
-          border-radius: 16px;
-          border: 1px solid rgba(34,211,238,0.22);
-          background: linear-gradient(135deg, rgba(34,211,238,0.10), rgba(59,130,246,0.06));
-          box-shadow: 0 0 26px rgba(34,211,238,0.10);
+        .yearlyBenefitBubble{
+          position: relative;
+          margin: 0 0 14px;
+          padding: 14px 16px;
+          border-radius: 14px;
+          border: 1px solid rgba(34,211,238,0.24);
+          background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(59,130,246,0.06));
+          box-shadow: 0 0 18px rgba(34,211,238,0.10);
           text-align: left;
         }
-        .ybTitle{
-          font-size: 13px;
+
+        .yearlyBenefitBubble::after{
+          content:"";
+          position:absolute;
+          left: 26px;
+          bottom: -7px;
+          width: 12px;
+          height: 12px;
+          transform: rotate(45deg);
+          background: rgba(34,211,238,0.10);
+          border-right: 1px solid rgba(34,211,238,0.18);
+          border-bottom: 1px solid rgba(34,211,238,0.18);
+        }
+
+        .yearlyBenefitBubble .ybTitle{
+          font-size: 12px;
           font-weight: 900;
           color: rgba(186, 230, 253, 0.95);
-          margin-bottom: 6px;
+          margin-bottom: 4px;
         }
-        .ybLead{
-          font-size: 14px;
+
+        .yearlyBenefitBubble .ybLead{
+          font-size: 13px;
           font-weight: 900;
           color: #e8eeff;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
-        .ybList{
+
+        .yearlyBenefitBubble .ybList{
           margin: 0;
           padding-left: 18px;
           color: rgba(186,196,230,0.92);
-          line-height: 1.65;
+          line-height: 1.6;
           font-weight: 700;
-          font-size: 13px;
+          font-size: 12.5px;
         }
 
-        /* 모바일에서 겹침 방지 */
         @media (max-width: 768px){
           .applyHeaderRow{
             flex-direction: column;
@@ -881,7 +896,7 @@ export default function ApplyPage() {
         </div>
 
         {activeTab === "yearly" && (
-          <div className="yearlyBenefitBox">
+          <div className="yearlyBenefitBubble" role="note" aria-label="Yearly benefits">
             <div className="ybTitle">연간 회원 전용 특별 혜택</div>
             <div className="ybLead">보따링 운영진과 함께해요!</div>
             <ul className="ybList">
