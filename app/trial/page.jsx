@@ -63,7 +63,7 @@ const T = {
       phoneEn: "+1 555 000 0000",
       email: "example@email.com",
       telegram: "@username",
-      msg: "추가 문의사항이 있으시면 입력해 주세요.",
+      msge: "추가 문의사항이 있으시면 입력해 주세요.",
     },
     expOptions: {
       beginner: "1년 미만",
@@ -129,7 +129,7 @@ const T = {
       email: "E-mail",
       telegram: "Telegram ID",
       exp: "Crypto investing experience",
-      msg: "Additional notes",
+      msge: "Additional notes",
     },
     placeholders: {
       name: "John Doe",
@@ -138,7 +138,7 @@ const T = {
       phoneKo: "010-0000-0000",
       email: "example@email.com",
       telegram: "@username",
-      msg: "Tell us anything we should know (optional).",
+      msge: "Tell us anything we should know (optional).",
     },
     expOptions: {
       beginner: "Less than 1 year",
@@ -833,7 +833,7 @@ const L = T[lang];
             </div>
 
             <div className="formGroup" style={{ marginBottom: "24px" }}>
-              <label className="formLabel">{L.labels.msg}</label>
+              <label className="formLabel">{L.labels.msge}</label>
               <textarea
                 className="formTextarea"
                 placeholder="{L.labels.msg}이 있으시면 입력해 주세요."

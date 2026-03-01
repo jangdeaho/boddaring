@@ -128,7 +128,7 @@ export default function ApplyPage() {
         fundSize: "Estimated Capital",
         message: "Message",
         phName: "John Doe",
-        phPhone: "+82 10-0000-0000",
+        phPhone: "+1 555 0000 0000",
         phEmail: "example@email.com",
         phTelegram: "@username",
         phMessage: "Write any additional details here.",
