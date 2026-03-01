@@ -6,8 +6,8 @@ export default function TermsPage() {
   // ✅ 바꿔 넣기 (너가 이미 바꿔놨다 했으니 여기만 확인하면 됨)
   const COMPANY = "END HOLDINGS Inc.";
   const SERVICE = "BODDARING";
-  const SUPPORT_EMAIL = "support@endholdings.com"; // 너가 바꾼 이메일로
-  const CEO_NAME = "CEO NAME"; // 너가 바꾼 CEO 이름으로
+  const SUPPORT_EMAIL = "ceo@endholdings.com"; // 너가 바꾼 이메일로
+  const CEO_NAME = "Yonghyeon Lee"; // 너가 바꾼 CEO 이름으로
   const LAST_REVISED = "2026-03-01"; // 필요 시 수정
 
   const [lang, setLang] = useState("ko");
