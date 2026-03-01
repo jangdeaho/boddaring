@@ -1068,12 +1068,17 @@ const handleDevSubmit = async (e) => {
           <div className="footer-grid">
             {/* 브랜드 */}
             <div className="footer-brand">
-              <div className="footer-brand-top">
-                <img src="/img/endlogo.png" alt="BODDARING logo" className="footer-logo" />
-                <div className="footer-brand-text">
-                  <div className="footer-brand-name">BODDARING</div>
-                  <div className="footer-brand-sub">END HOLDINGS Inc.</div>
-                </div>
+              <div className="footer-brand-stack">
+                <div className="footer-brand-name">BODDARING</div>
+
+                {/* 로고 */}
+                <img
+                  src="/img/endlogo.png"
+                  alt="END HOLDINGS Inc."
+                  className="footer-logo"
+                />
+
+                <div className="footer-brand-sub">END HOLDINGS Inc.</div>
               </div>
             </div>
 
