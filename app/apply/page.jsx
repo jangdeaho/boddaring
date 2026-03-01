@@ -503,50 +503,92 @@ export default function ApplyPage() {
           box-shadow: 0 0 20px rgba(124,58,237,0.30);
         }
 
-.applyWrap.is-monthly .tabBtn.active{
-  border-color: #7c3aed;
-  background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
-  box-shadow: 0 0 22px rgba(124,58,237,0.32);
-  color: #c4b5fd;
-}
-.applyWrap.is-yearly .tabBtn.active{
-  border-color: rgba(34,211,238,0.85);
-  background: linear-gradient(135deg, rgba(34,211,238,0.16), rgba(59,130,246,0.10));
-  box-shadow: 0 0 22px rgba(34,211,238,0.26), 0 0 18px rgba(59,130,246,0.16);
-  color: rgba(186, 230, 253, 0.95);
-}
-.applyWrap.is-vip .tabBtn.active{
-  border-color: rgba(245,158,11,0.85);
-  background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(234,179,8,0.08));
-  box-shadow: 0 0 22px rgba(245,158,11,0.26), 0 0 18px rgba(234,179,8,0.14);
-  color: rgba(255, 235, 200, 0.95);
-}
+        .applyWrap.is-monthly .tabBtn.active{
+          border-color: #7c3aed;
+          background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
+          box-shadow: 0 0 22px rgba(124,58,237,0.32);
+          color: #c4b5fd;
+        }
+        .applyWrap.is-yearly .tabBtn.active{
+          border-color: rgba(34,211,238,0.85);
+          background: linear-gradient(135deg, rgba(34,211,238,0.16), rgba(59,130,246,0.10));
+          box-shadow: 0 0 22px rgba(34,211,238,0.26), 0 0 18px rgba(59,130,246,0.16);
+          color: rgba(186, 230, 253, 0.95);
+        }
+        .applyWrap.is-vip .tabBtn.active{
+          border-color: rgba(245,158,11,0.85);
+          background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(234,179,8,0.08));
+          box-shadow: 0 0 22px rgba(245,158,11,0.26), 0 0 18px rgba(234,179,8,0.14);
+          color: rgba(255, 235, 200, 0.95);
+        }
 
-.tabBtn[data-tab="monthly"]{ border-color: rgba(124,58,237,0.22); }
-.tabBtn[data-tab="yearly"]{ border-color: rgba(34,211,238,0.20); }
-.tabBtn[data-tab="vip"]{ border-color: rgba(245,158,11,0.22); }
+        .tabBtn[data-tab="monthly"]{ border-color: rgba(124,58,237,0.22); }
+        .tabBtn[data-tab="yearly"]{ border-color: rgba(34,211,238,0.20); }
+        .tabBtn[data-tab="vip"]{ border-color: rgba(245,158,11,0.22); }
 
-.applyWrap.is-monthly .planCard.selected:not(.vip){
-  border-color: #7c3aed;
-  background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
-  box-shadow: 0 0 34px rgba(124,58,237,0.22);
-}
-.applyWrap.is-yearly .planCard.selected:not(.vip){
-  border-color: rgba(34,211,238,0.78);
-  background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(59,130,246,0.06));
-  box-shadow: 0 0 34px rgba(34,211,238,0.18), 0 0 26px rgba(59,130,246,0.12);
-}
+        .applyWrap.is-monthly .planCard.selected:not(.vip){
+          border-color: #7c3aed;
+          background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
+          box-shadow: 0 0 34px rgba(124,58,237,0.22);
+        }
+        .applyWrap.is-yearly .planCard.selected:not(.vip){
+          border-color: rgba(34,211,238,0.78);
+          background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(59,130,246,0.06));
+          box-shadow: 0 0 34px rgba(34,211,238,0.18), 0 0 26px rgba(59,130,246,0.12);
+        }
 
-.applyWrap.is-yearly .planCard.selected:not(.vip) .selectedPill{
-  border-color: rgba(34,211,238,0.28);
-  background: rgba(34,211,238,0.14);
-  color: rgba(186, 230, 253, 0.95);
-}
-.applyWrap.is-monthly .planCard.selected:not(.vip) .selectedPill{
-  border-color: rgba(167,139,250,0.22);
-  background: rgba(124,58,237,0.18);
-  color: #d9ccff;
-}
+        .applyWrap.is-yearly .planCard.selected:not(.vip) .selectedPill{
+          border-color: rgba(34,211,238,0.28);
+          background: rgba(34,211,238,0.14);
+          color: rgba(186, 230, 253, 0.95);
+        }
+        .applyWrap.is-monthly .planCard.selected:not(.vip) .selectedPill{
+          border-color: rgba(167,139,250,0.22);
+          background: rgba(124,58,237,0.18);
+          color: #d9ccff;
+        }
+        .applyHeaderRow{
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          margin-bottom: 14px;
+        }
+
+        .applyTitle{
+          font-size: 48px;
+          font-weight: 900;
+          margin: 0;
+          background: linear-gradient(135deg, #e0d7ff, #a78bfa);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .applyHeaderRow .langToggle{
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .backTop.backTopInline{
+          top: 24px;
+          left: 24px;
+        }
+
+        @media (max-width: 768px){
+          .applyHeaderRow{
+            flex-direction: column;
+            gap: 12px;
+          }
+          .applyHeaderRow .langToggle{
+            position: static;
+            transform: none;
+          }
+          .applyTitle{ font-size: 38px; }
+        }
         .vipCrown {
           position: absolute;
           top: -10px;
@@ -651,7 +693,6 @@ export default function ApplyPage() {
           animation: floatyY 2.8s ease-in-out infinite;
         }
 
-        /* ✅ VIP gold aura/border (stronger + higher specificity) */
         .planCard.vip {
           border-color: rgba(245, 158, 11, 0.62);
           background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(255,255,255,0.02));
@@ -747,37 +788,33 @@ export default function ApplyPage() {
       <div className="aurora" />
       <div className="auroraNoise" />
 
-      <Link href="/" className="backTop">{T.backHome}</Link>
+      <Link href="/" className="backTop backTopInline">{T.backHome}</Link>
 
       <div className="content">
-        <div className="langToggle" aria-label="Language selector">
-          <button
-            type="button"
-            className={`langBtn${lang === "ko" ? " active" : ""}`}
-            onClick={() => setLanguage("ko")}
-          >
-            {T.langKOR}
-          </button>
-          <button
-            type="button"
-            className={`langBtn${lang === "en" ? " active" : ""}`}
-            onClick={() => setLanguage("en")}
-          >
-            {T.langENG}
-          </button>
-        </div>
-
         <div style={{ textAlign: "center", marginBottom: "52px" }}>
-          <h1 style={{
-            fontSize: "48px",
-            fontWeight: 900,
-            marginBottom: "14px",
-            background: "linear-gradient(135deg, #e0d7ff, #a78bfa)",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>{T.pageTitle}</h1>
+          <div className="applyHeaderRow">
+            <h1 className="applyTitle">{T.pageTitle}</h1>
+
+            <div className="langToggle" aria-label="Language selector">
+              <button
+                type="button"
+                className={`langBtn${lang === "ko" ? " active" : ""}`}
+                onClick={() => setLanguage("ko")}
+              >
+                {T.langKOR}
+              </button>
+              <button
+                type="button"
+                className={`langBtn${lang === "en" ? " active" : ""}`}
+                onClick={() => setLanguage("en")}
+              >
+                {T.langENG}
+              </button>
+            </div>
+          </div>
+
           <p style={{ fontSize: "16px", color: "#a0a0c0", marginBottom: "0", lineHeight: 1.65 }}>{T.pageDesc}</p>
+
           <div className="rateBox" role="note" aria-label="Exchange info">
             <div className="left">{T.exchangeInfo}</div>
             <div className="right">{T.exchangeNote}</div>
@@ -798,6 +835,17 @@ export default function ApplyPage() {
             );
           })}
         </div>
+
+        {activeTab === "yearly" && (
+          <div className="yearlyBenefitBox">
+            <div className="ybTitle">연간 회원 전용 특별 혜택</div>
+            <div className="ybLead">보따링 운영진과 함께해요!</div>
+            <ul className="ybList">
+              <li>연간 회원 전용 텔레그램 대화방 (운영진 상시 참여)</li>
+              <li>요청 시 주 1회 개인별 피드백 타임 제공 (텔레그램/디스코드 · 약 20분 내외)</li>
+            </ul>
+          </div>
+        )}
 
         <div className="applyGrid">
           <div>
