@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 export default function Trial() {
   const [lang, setLang] = useState("ko");
   const [formStatus, setFormStatus] = useState("idle");
