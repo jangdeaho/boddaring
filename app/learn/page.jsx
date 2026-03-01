@@ -128,7 +128,7 @@ export default function LearnPage() {
             <div className="learn-section-body">
               <p>
                 <strong>코인 아비트라지(Arbitrage)</strong>는 같은 코인이 서로 다른 거래소에서 서로 다른 가격으로 거래될 때,<br />
-                <strong>저렴하게 파는 거래소에서</strong>코인을 프리미엄이 붙은 거래소에 전송하여 가격 차이를 이용해 차익을 만드는 방식입니다.<br />
+                <strong>저렴하게 파는 거래소에서 </strong>코인을 프리미엄이 붙은 거래소에 전송하여 가격 차이를 이용해 차익을 만드는 방식입니다.<br />
                 코인 아비트라지는 <strong>시장의 방향성(상승/하락)</strong>이 어느 방향으로 가도 전혀 상관없습니다.<br />
                 그 과정에서 가격 괴리가 생겼을 때 그 틈을 이용하는 전략에 가깝습니다.
               </p>
@@ -158,16 +158,16 @@ export default function LearnPage() {
                   type="button"
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-2")}
-                  aria-label="프리미엄 2 설명으로 이동"
+                  aria-label="제약요인 설명으로 이동"
                 >
-                  [프리미엄2]
+                  [제약요인]
                 </button>
               </p>
 
               <h4>언제까지 아비트라지 생태계가 지속될 수 있느냐?</h4>
               <p>
                 <strong>첫 번째로,</strong><br />
-                대한민국 특금법 중 하나인 오더북 공유 금지 법령에 따라 김프와 역프는 구조적으로 발생할 수 밖에 없습니다.<br />
+                국내외 규제·컴플라이언스 환경 차이로 인해 시장이 분리되고, 김프와 역프는 구조적으로 발생할 수 밖에 없습니다.<br />
                 국내에서 오더북 공유가 불가능한 이유는 법적·제도적 한계 때문입니다.<br />
                 <br />
                 우선 특금법에 따라 오더북 공유를 하려면 양쪽 거래소가 모두 자금세탁방지(AML) 의무를 준수하고<br />
@@ -185,10 +185,10 @@ export default function LearnPage() {
                 이미 과세가 진행 중인 해외 거래소 간에도 프리미엄이 존재합니다.<br />
                 <strong>해외A 거래소의 X/USDT</strong>와 <strong>해외B 거래소의 X/USDT</strong> 또한 가격 괴리가 빈번하게 발생합니다.<br />
                 그럼 해외A 거래소의 현물페어 X/USDT와 선물페어 XUSDTPERP의 가격도 항상 같을까요?<br />
-                아닙니다. 같은 거래소 내에 현물, 선물이 동시 상장되어 있어도 이 둘의 가격괴리는 발생합니다.<br />
+                아닙니다. 같은 거래소 내에 현물, 선물이 동시 상장되어 있어도 이 둘의 가격 괴리는 발생합니다.<br />
               </p>
               <p>
-                 <stonrg>세 번째로,</stonrg><br />
+                 <strong>세 번째로,</strong><br />
                  다가올 과세를 두려워 하지 마세요. <strong>과세 구간까지 수익을 내야 본인 손에 남는 돈이 있습니다.</strong>
               </p>
 
@@ -204,9 +204,9 @@ export default function LearnPage() {
                   type="button"
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-3")}
-                  aria-label="프리미엄 3 설명으로 이동"
+                  aria-label="체결 가능성 설명으로 이동"
                 >
-                  [프리미엄3]
+                  [체결 가능성]
                 </button>
               </p>
 
@@ -222,6 +222,7 @@ export default function LearnPage() {
                         <li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
                         <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
                         그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.</li>
+                        <li>※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.</li>
                     </ul>
                   </li>
                 </ul>
@@ -229,21 +230,21 @@ export default function LearnPage() {
               <div className="learn-footnotes">
                 <div className="learn-footnotes-title">캡션</div>
                 <div id="premium-1" className="learn-footnote-item">
-                  <div className="learn-footnote-label">[프리미엄1]</div>
+                  <div className="learn-footnote-label">[프리미엄의 정의]</div>
                   <div className="learn-footnote-body">
                     프리미엄은 “같은 코인인데 국내/해외 가격이 다르게 형성되는 현상”을 말합니다.<br />
                     국내가 더 비싸면 김치 프리미엄, 국내가 더 싸면 역프리미엄이라고 부릅니다.
                   </div>
                 </div>
                 <div id="premium-2" className="learn-footnote-item">
-                  <div className="learn-footnote-label">[프리미엄2]</div>
+                  <div className="learn-footnote-label">[제약요인]</div>
                   <div className="learn-footnote-body">
                     괴리의 원인은 환율·유동성·수요·공급·입출금 제약 등 복합적입니다.<br />
                     중요한 건 “왜 벌어졌나”보다, <strong>지금 이 순간 실제로 체결 가능한 괴리인가</strong>입니다.
                   </div>
                 </div>
                 <div id="premium-3" className="learn-footnote-item">
-                  <div className="learn-footnote-label">[프리미엄3]</div>
+                  <div className="learn-footnote-label">[체결 가능성]</div>
                   <div className="learn-footnote-body">
                     아비트라지는 생각보다 ‘속도 게임’입니다. 시그널이 떠도 체결/슬리피지/수수료 때문에 결과가 달라질 수 있습니다.<br />
                     그래서 호가창 기반 계산과 필터링(Per/Amount)이 실전에서는 더 중요합니다.
@@ -277,8 +278,8 @@ export default function LearnPage() {
             <div className="learn-section-body">
               <p>
                 “국내 1% 비싸다”, "역프가 3%" 단순 최종 거래가 비교는 실전에서 즉각 판단이 불가합니다.<br />
-                중요한 건 <strong>실제로 어느 평단에 얼만큼의 어마운트를 사고 팔았을 때 남는 차익금 아닌가요?</strong><br />
-                BODDARING 시스템은 구매 물량(Amount) 및 차익(%, Per) 표기 시<br />
+                중요한 건 <strong>실제로 어느 평단에 얼만큼의 수량(Amount)을 사고 팔았을 때 남는 차익금 아닌가요?</strong><br />
+                BODDARING 시스템은 수량(Amount) 및 차익(%, Per) 표기 시<br />
                 <strong>실제 수익률에 가장 근접한 값으로 정리합니다.</strong>
               </p>
 
@@ -286,11 +287,10 @@ export default function LearnPage() {
               <p>
                 기본은 3가지입니다.<br />
                 <strong>거래 수수료</strong>(거래소/주문유형별), <strong>비트코인 기반의 USDT 실거래 환율</strong> 그리고 <strong>슬리피지</strong>(호가에 따른 체결 손실).<br />
-                이 3가지 항목을 제외하고 계산하면<br />
-                <strong>“수익처럼 보이는데 실제로는 남는 게 없는” 차익 거래 탐지 기능이 쉽게 생깁니다.</strong>
+                이 3가지 항목을 제외하고 계산하면 <strong>“수익처럼 보이는데 실제로는 남는 게 없는” 차익 거래 탐지 기능이 쉽게 생깁니다.</strong>
               </p>
 
-              <h4>오더북(매수/매도 호가·수량) 기반 총액(Amount) 및 차익률(%, Per) 시스템</h4>
+              <h4>오더북(매수/매도 호가·수량) 기반 수량(Amount) 및 차익률(%, Per) 시스템</h4>
               <p>
                 BODDARING은 “마지막 체결가”가 아니라 <strong>실시간 호가(Order Book)</strong>를 기준으로 Amount, Per를 표기합니다.<br />
                 Per는 “국내(USDT 환산) − 해외”의 차이를 백분율로 표현한 값이고,<br />
@@ -300,7 +300,7 @@ export default function LearnPage() {
 
               <h4>BODDARING 아비트라지 플랫폼의 타사 대비 대체불가 특장점</h4>
               <p>
-                국내와해외 간 차익이 전부가 아닌 양방향, 국내-국내 / 해외-해외 간의 시그널도 발생됩니다.<br />
+                국내와 해외 간 차익이 전부가 아닌 양방향, 국내-국내 / 해외-해외 간의 시그널도 발생됩니다.<br />
                 사용자는 최소 Amount 및 Per(%)를 정해두고, 설정값 미만의 구간을 표기하지 않도록 필터링할 수 있습니다.<br />
               </p>
 
@@ -315,7 +315,7 @@ export default function LearnPage() {
 
               <h4>텔레그램 알림 시스템</h4>
               <p>
-                매도 봇 등 프로그램을 사용하게 되면, 사용자 개인 텔레그램 봇을 통해 즉시 알림이 발송됩니다.<br />
+                매도 봇 등 프로그램을 사용하게 되면, 사용자 개인용 텔레그램 봇을 통해 즉시 알림이 발송됩니다.<br />
                 개인 봇 기반 구조이므로 타 사용자와 알림이 공유되지 않으며, 독립적이고 안전한 시그널 수신 환경을 제공합니다.
               </p>
 
