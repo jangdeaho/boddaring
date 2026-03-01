@@ -783,6 +783,50 @@ export default function ApplyPage() {
         }
         .submitBtn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
         .submitBtn:disabled{ opacity:0.45; cursor:not-allowed; transform:none; filter:none; box-shadow:none; }
+
+        .yearlyBenefitBox{
+          max-width: 980px;
+          margin: -18px auto 34px;
+          padding: 18px 20px;
+          border-radius: 16px;
+          border: 1px solid rgba(34,211,238,0.22);
+          background: linear-gradient(135deg, rgba(34,211,238,0.10), rgba(59,130,246,0.06));
+          box-shadow: 0 0 26px rgba(34,211,238,0.10);
+          text-align: left;
+        }
+        .ybTitle{
+          font-size: 13px;
+          font-weight: 900;
+          color: rgba(186, 230, 253, 0.95);
+          margin-bottom: 6px;
+        }
+        .ybLead{
+          font-size: 14px;
+          font-weight: 900;
+          color: #e8eeff;
+          margin-bottom: 10px;
+        }
+        .ybList{
+          margin: 0;
+          padding-left: 18px;
+          color: rgba(186,196,230,0.92);
+          line-height: 1.65;
+          font-weight: 700;
+          font-size: 13px;
+        }
+
+        /* 모바일에서 겹침 방지 */
+        @media (max-width: 768px){
+          .applyHeaderRow{
+            flex-direction: column;
+            gap: 12px;
+          }
+          .applyHeaderRow .langToggle{
+            position: static;
+            transform: none;
+          }
+          .applyTitle{ font-size: 38px; }
+        }
       `}</style>
 
       <div className="aurora" />
