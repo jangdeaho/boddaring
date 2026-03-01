@@ -219,10 +219,10 @@ export default function LearnPage() {
                   <li>
                     <strong>환율</strong>은 “원/달러(KRW/USD)”가 아니라 <strong>비트코인 기반 USDT 실거래 환율</strong>을 기준으로 실행해야 합니다.
                     <ul>
-                        <li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
-                        <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
+                      <p></p><li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
+                      <p></p> <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
                         그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.</li>
-                        <li>※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.</li>
+                        ※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.
                     </ul>
                   </li>
                 </ul>
@@ -279,8 +279,7 @@ export default function LearnPage() {
               <p>
                 “국내 1% 비싸다”, "역프가 3%" 단순 최종 거래가 비교는 실전에서 즉각 판단이 불가합니다.<br />
                 중요한 건 <strong>실제로 어느 평단에 얼만큼의 수량(Amount)을 사고 팔았을 때 남는 차익금 아닌가요?</strong><br />
-                BODDARING 시스템은 수량(Amount) 및 차익(%, Per) 표기 시<br />
-                <strong>실제 수익률에 가장 근접한 값으로 정리합니다.</strong>
+                BODDARING 시스템은 수량(Amount) 및 차익(%, Per) 표기 시 <strong>실제 수익률에 가장 근접한 값으로 정리합니다.</strong>
               </p>
 
               <h4>반영되는 비용 요소</h4>
