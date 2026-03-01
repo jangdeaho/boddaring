@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: ["/", "/learn"],
-        disallow: ["/trial", "/apply", "/terms", "/terms/privacy"], // 원하면 유지/삭제 가능
+        disallow: ["/trial", "/apply", "/terms", "/terms/privacy"],
       },
     ],
     sitemap: "https://boddaring.com/sitemap.xml",
