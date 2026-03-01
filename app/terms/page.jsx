@@ -40,7 +40,7 @@ export default function TermsPage() {
             이용자는 본 서비스에 접속하거나, 무료체험 신청/구독 신청/문의 접수 등 서비스를 이용하는 경우 본 약관에 동의한 것으로
             간주됩니다.
             <br />
-            본 약관은 <Link href="/privacy" style={{ textDecoration: "underline" }}>개인정보처리방침(Privacy Policy)</Link>과 함께 적용됩니다.
+            본 약관은 <Link href="/terms/privacy" style={{ textDecoration: "underline" }}>개인정보처리방침(Privacy Policy)</Link>과 함께 적용됩니다.
           </>
         ),
         eligibilityTitle: "2. 이용 자격 및 제한",
@@ -104,7 +104,7 @@ export default function TermsPage() {
             또한 보안 및 부정 이용 방지 목적(접근 통제, 위·변조 탐지, 사고 대응)을 위해 서비스 이용 과정에서
             <strong> IP 주소, 기기/브라우저 정보, 접속 로그</strong> 등이 자동으로 수집·처리될 수 있습니다.
             <br />
-            자세한 내용은 <Link href="/privacy" style={{ textDecoration: "underline" }}>개인정보처리방침</Link>을 따릅니다.
+            자세한 내용은 <Link href="/terms/privacy" style={{ textDecoration: "underline" }}>개인정보처리방침</Link>을 따릅니다.
           </>
         ),
         paymentsTitle: "7. 결제/구독(향후 결제 기능 포함)",
@@ -115,6 +115,19 @@ export default function TermsPage() {
             <br />
             유료 서비스 제공 시 가격, 결제 주기, 세금/VAT 포함 여부, 환불/해지 조건은 결제 화면 또는 별도 고지에 따릅니다.
             <br />
+            <strong>현재 운영 방식</strong>: 구독 신청 접수 후 회사가 텔레그램/이메일로 안내한 금액을 <strong>계좌이체</strong>로 납부하고,
+            입금 확인 후 서비스 접근/안내가 제공될 수 있습니다.
+            <br />
+            <strong>환불/해지</strong>: 서비스는 데이터/디지털 성격을 가지며, 접근 정보 제공 또는 서비스 제공이 개시된 이후에는
+            원칙적으로 환불이 제한될 수 있습니다. 다만 회사의 귀책으로 서비스 제공이 불가능하거나 중대한 하자가 지속되는 등
+            합리적인 사유가 있는 경우, 법령 및 개별 안내에 따라 조정될 수 있습니다.
+            <br />
+            <strong>영수증/증빙</strong>: 결제(입금) 확인 요청 시 전자적 형태의 확인 자료를 제공할 수 있습니다(법령상 발행 의무가 있는 서류는 예외).
+            <br />
+            <strong>연락</strong>: 신청 처리, 접근 정보 전달, 보안/운영 공지 등 서비스 제공에 필수적인 안내는 텔레그램/이메일로 전송될 수 있으며,
+            해당 안내는 서비스 제공을 위해 필요한 범위에서 발송됩니다. 마케팅/프로모션 안내는 별도 동의가 있는 경우에 한해 발송합니다.
+            <br />
+
             회사는 합리적인 사유가 있는 경우 가격 및 상품 구성을 변경할 수 있으며, 변경 사항은 사전에 고지합니다.
           </>
         ),
@@ -206,7 +219,7 @@ export default function TermsPage() {
             By accessing the Service or submitting a free-trial request, subscription request, or inquiry, you agree to these Terms.
             <br />
             These Terms apply together with our{" "}
-            <Link href="/privacy" style={{ textDecoration: "underline" }}>
+            <Link href="/terms/privacy" style={{ textDecoration: "underline" }}>
               Privacy Policy
             </Link>.
           </>
@@ -271,7 +284,7 @@ export default function TermsPage() {
             <strong> IP address, device/browser data, and access logs</strong>.
             <br />
             Please review our{" "}
-            <Link href="/privacy" style={{ textDecoration: "underline" }}>
+            <Link href="/terms/privacy" style={{ textDecoration: "underline" }}>
               Privacy Policy
             </Link>{" "}
             for details.
@@ -285,7 +298,19 @@ export default function TermsPage() {
             <br />
             Pricing, billing cycles, taxes/VAT, cancellation, and refund rules will be disclosed on the checkout page or in separate notices.
             The Company may revise prices and plans with prior notice as reasonably practicable.
-          </>
+          <br />
+            <strong>Current flow</strong>: After you submit a subscription request, the Company may quote the price via Telegram/email.
+            Payment may be completed via <strong>bank transfer</strong>, and access/instructions may be provided after payment confirmation.
+            <br />
+            <strong>Cancellations & refunds</strong>: The Service is digital/data-oriented. Once access has been granted or delivery has started,
+            refunds may be limited except where required by law or where the Company fails to provide the Service.
+            <br />
+            <strong>Payment proof</strong>: Upon request, we may provide an electronic confirmation of receipt/payment (subject to applicable legal requirements).
+            <br />
+            <strong>Communications</strong>: Operational messages required to deliver the Service (approval, access details, security/maintenance notices)
+            may be sent via Telegram/email. Marketing messages are sent only with separate consent where applicable.
+            <br />
+</>
         ),
         suspensionTitle: "8. Suspension or Restriction",
         suspensionBody: (

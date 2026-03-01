@@ -57,7 +57,7 @@ export default function PrivacyPage() {
               <div style={{ marginTop: 10, color: "rgba(170,176,210,0.85)" }}>
                 ※ 현재 {SERVICE}는 회원가입 없이 신청 기반으로 운영될 수 있으나,
                 향후 로그인/결제/구독 관리 기능 도입 시 수집 항목이 추가될 수 있습니다.
-                변경 시 본 방침을 통해 안내합니다.
+                변경 시 본 방침을 통해 안내합니다. (현재 Google Analytics/광고 픽셀 등 광고·행태정보 기반 추적 도구는 사용하지 않습니다.)
               </div>
             </>
           ),
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
           h: "3. 개인정보 이용 목적",
           b: (
             <>
-              회사는 아래 목적 범위에서만 개인정보를 이용합니다.
+              회사는 아래 목적 범위에서만 개인정보를 이용합니다. 처리의 법적 근거는 (i) 이용자의 동의, (ii) 신청 처리 등 계약(신청) 이행, (iii) 보안/부정이용 방지를 위한 회사의 정당한 이익에 기반합니다.
               <ul>
                 <li>무료체험 승인/안내, 구독 신청 처리 및 연락</li>
                 <li>문의 응대, 공지 전달, 서비스 운영 커뮤니케이션</li>
@@ -83,8 +83,8 @@ export default function PrivacyPage() {
               회사는 목적 달성에 필요한 기간 동안만 개인정보를 보관하며, 목적이 달성되거나 보관 기간이 종료되면
               지체 없이 파기합니다. 다만 관련 법령에 따라 보관이 필요한 경우 해당 기간 동안 보관할 수 있습니다.
               <ul>
-                <li>신청/문의 기록: 처리 완료 후 합리적 기간 보관(분쟁 대응/운영 기록 목적)</li>
-                <li>보안 로그(IP 등): 보안/장애 대응을 위해 필요한 범위 내에서 단기간 보관</li>
+                <li>신청/문의 기록: 처리 완료 후 최대 <strong>12개월</strong> 보관(분쟁 대응/운영 기록 목적)</li>
+                <li>보안 로그(IP 등): 보안/장애 대응을 위해 최대 <strong>90일</strong> 보관</li>
               </ul>
               파기 방법은 전자적 파일은 복구 불가능한 방식으로 삭제하며, 출력물은 분쇄 또는 소각합니다.
             </>
@@ -100,8 +100,15 @@ export default function PrivacyPage() {
                 <li>이용자의 사전 동의를 받은 경우</li>
                 <li>법령에 근거하거나 수사/감사 등 적법한 절차에 따른 요청이 있는 경우</li>
               </ul>
-              또한 서비스 운영을 위해 일부 업무를 외부에 위탁할 수 있으며, 이 경우 위탁사/위탁 범위/보호 조치를
-              본 방침 또는 별도 고지로 안내합니다.
+              또한 서비스 운영을 위해 일부 업무를 외부에 위탁할 수 있으며, 이 경우 위탁사/위탁 범위/보호 조치를 본 방침 또는 별도 고지로 안내합니다.
+              <div style={{ marginTop: 10, color: "rgba(170,176,210,0.9)" }}>
+                <strong>현재 이용 중인 처리위탁(예시)</strong>
+                <ul>
+                  <li><strong>EmailJS</strong>: 신청 내용 이메일 발송(전송 목적)</li>
+                  <li><strong>Vercel</strong>: 웹사이트 호스팅/전송/운영 인프라</li>
+                </ul>
+                ※ 위탁사는 변경될 수 있으며, 변경 시 본 방침을 통해 안내합니다.
+              </div>
             </>
           ),
         },
@@ -112,6 +119,10 @@ export default function PrivacyPage() {
               서비스는 사용자 경험 개선과 보안을 위해 쿠키 또는 유사 기술을 사용할 수 있습니다.
               이용자는 브라우저 설정을 통해 쿠키 저장을 거부하거나 삭제할 수 있습니다.
               다만 쿠키 차단 시 일부 기능이 제한될 수 있습니다(향후 로그인 기능 도입 시 포함).
+              <div style={{ marginTop: 10, color: "rgba(170,176,210,0.85)" }}>
+                <strong>국외 이전 가능성</strong>: 서비스 인프라 특성상 개인정보가 국외에서 처리·보관·전송될 수 있습니다.
+                이용자는 이에 대한 동의를 거부할 수 있으나, 거부 시 신청 처리 또는 서비스 제공이 제한될 수 있습니다.
+              </div>
             </>
           ),
         },
@@ -192,7 +203,7 @@ export default function PrivacyPage() {
               </ul>
               <div style={{ marginTop: 10, color: "rgba(170,176,210,0.85)" }}>
                 Note: The Service may currently operate without user accounts, but accounts/login/payments may be introduced later.
-                If so, this Policy will be updated accordingly.
+                If so, this Policy will be updated accordingly. (As of now, we do not use Google Analytics or advertising pixels for behavioral advertising.)
               </div>
             </>
           ),
@@ -218,8 +229,8 @@ export default function PrivacyPage() {
               We retain personal data only as long as necessary for the purposes described above, unless a longer period is required by law.
               When no longer needed, we delete data using methods that make recovery impracticable.
               <ul>
-                <li>Requests/inquiries: retained for a reasonable period for support and dispute handling</li>
-                <li>Security logs (IP, etc.): retained for a short period as needed for security/incident response</li>
+                <li>Requests/inquiries: retained for up to <strong>12 months</strong> for support and dispute handling</li>
+                <li>Security logs (IP, etc.): retained for up to <strong>90 days</strong> as needed for security/incident response</li>
               </ul>
             </>
           ),
@@ -233,8 +244,15 @@ export default function PrivacyPage() {
                 <li>with your consent;</li>
                 <li>when required by law or lawful governmental requests.</li>
               </ul>
-              We may use service providers (processors) to operate the Service (e.g., email delivery, infrastructure). If so, we apply
+              We may use service providers (processors) to operate the Service (e.g., email delivery, hosting/infrastructure). If so, we apply
               reasonable safeguards and disclose material changes via this Policy or separate notice.
+              <div style={{ marginTop: 10, color: "rgba(170,176,210,0.9)" }}>
+                <strong>Current processors (examples)</strong>
+                <ul>
+                  <li><strong>EmailJS</strong>: email delivery for application requests</li>
+                  <li><strong>Vercel</strong>: hosting/infrastructure for the website</li>
+                </ul>
+              </div>
             </>
           ),
         },
@@ -244,6 +262,10 @@ export default function PrivacyPage() {
             <>
               We may use cookies or similar technologies for user experience and security. You can control cookies via browser settings.
               Blocking cookies may limit certain features (especially if login is introduced in the future).
+              <div style={{ marginTop: 10, color: "rgba(170,176,210,0.85)" }}>
+                <strong>Cross-border processing</strong>: Due to infrastructure providers, personal data may be processed or stored outside your country.
+                If you do not consent, certain services (e.g., processing your request) may be limited.
+              </div>
             </>
           ),
         },

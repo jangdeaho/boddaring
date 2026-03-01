@@ -215,6 +215,8 @@ export default function LearnPage() {
             <nav className="learn-sidebar-nav">
               <Link href="/" className="learn-sidebar-link">← 메인으로</Link>
               <Link href="/#contact" className="learn-sidebar-link">문의하기</Link>
+              <Link href="/terms" className="learn-sidebar-link">이용약관</Link>
+              <Link href="/terms/privacy" className="learn-sidebar-link">개인정보처리방침</Link>
             </nav>
           </div>
         </aside>

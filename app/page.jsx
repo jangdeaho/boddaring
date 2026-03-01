@@ -436,12 +436,6 @@ const handleDevSubmit = async (e) => {
                 <Link href="/learn#guidebook" className="nav-link nav-link--inline">
                   A to Z 가이드북
                 </Link>
-                <Link href="/learn#aboutus" className="nav-link nav-link--inline">
-                  회사소개
-                </Link>
-                <Link href="/learn#tos" className="nav-link nav-link--inline">
-                  이용약관
-                </Link>
               </div>
             </div>
 
@@ -490,7 +484,7 @@ const handleDevSubmit = async (e) => {
             <a href="#signal" className="mobile-service-item" onClick={() => setMenuOpen(false)}>시그널 소개</a>
             <a href="#exchanges" className="mobile-service-item" onClick={() => setMenuOpen(false)}>연동 거래소</a>
             <a href="#bot" className="mobile-service-item" onClick={() => setMenuOpen(false)}>BOT 소개</a>
-            <a href="#contact" className="mobile-service-item" onClick={() => setMenuOpen(false)}>문의하기</a>
+            <a href="#contact" className="mobile-service-item" onClick={() => setMenuOpen(false)}>문의 접수</a>
           </div>
         )}
         <Link href="/learn#arbitrage" className="nav-link" onClick={() => setMenuOpen(false)}>
@@ -822,7 +816,7 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 설명 + 문의하기 섹션 ── */}
+      {/* ── 설명 + 문의 섹션 ── */}
       <section id="contact" className="quote-section">
         <div className="container">
           <div className="quote-contact-grid">
@@ -877,7 +871,7 @@ const handleDevSubmit = async (e) => {
                     transition: "all 0.2s"
                   }}
                 >
-                  문의하기
+                  문의 접수
                 </button>
                 <button
                   onClick={() => setContactTab("development")}
@@ -900,7 +894,7 @@ const handleDevSubmit = async (e) => {
               {/* 탭 1: 일반 문의 */}
               {contactTab === "inquiry" && (
                 <>
-                  <h3>문의하기 <span className="ftl-note2"> (*는 필수 항목입니다.)</span></h3>
+                  <h3>일반 문의 <span className="ftl-note2"> (*는 필수 항목입니다.)</span></h3>
                   <p>
                     궁금한 점이 있으시면 아래 양식을 통해 문의해 주세요.<br />
                     최대한 빠르게 답변 드리겠습니다.<br />
@@ -1085,6 +1079,13 @@ const handleDevSubmit = async (e) => {
                 <li><a href="#bot">BOT</a></li>
                 <li><a href="#exchanges">연동 거래소</a></li>
                 <li><Link href="/apply">구독 신청</Link></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>회사</h4>
+              <ul>
+                <li><Link href="/terms">이용약관</Link></li>
+                <li><Link href="/terms/privacy">개인정보 보호정책</Link></li>
               </ul>
             </div>
             <div className="footer-col">
