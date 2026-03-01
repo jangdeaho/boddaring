@@ -63,7 +63,7 @@ const T = {
       phoneEn: "+1 555 000 0000",
       email: "example@email.com",
       telegram: "@username",
-      msge: "추가 문의사항이 있으시면 입력해 주세요.",
+      msg: "추가 문의사항이 있으시면 입력해 주세요.",
     },
     expOptions: {
       beginner: "1년 미만",
@@ -129,7 +129,7 @@ const T = {
       email: "E-mail",
       telegram: "Telegram ID",
       exp: "Crypto investing experience",
-      msge: "Additional notes",
+      msg: "Additional notes",
     },
     placeholders: {
       name: "John Doe",
@@ -138,7 +138,7 @@ const T = {
       phoneKo: "010-0000-0000",
       email: "example@email.com",
       telegram: "@username",
-      msge: "Tell us anything we should know (optional).",
+      msg: "Tell us anything we should know (optional).",
     },
     expOptions: {
       beginner: "Less than 1 year",
@@ -231,7 +231,7 @@ const L = T[lang];
         user_ip: userIP,
         message: formData.message || "(메시지 없음)",
         to_name: "BODDARING 관리자",
-        ui_lang: "ko",
+        ui_lang: lang,
       });
       setFormStatus("sent");
       setTimeout(() => setFormStatus("idle"), 5000);
@@ -833,10 +833,10 @@ const L = T[lang];
             </div>
 
             <div className="formGroup" style={{ marginBottom: "24px" }}>
-              <label className="formLabel">{L.labels.msge}</label>
+              <label className="formLabel">{L.labels.msg}</label>
               <textarea
                 className="formTextarea"
-                placeholder="{L.labels.msg}이 있으시면 입력해 주세요."
+                placeholder={L.placeholders.msg}
                 value={formData.message}
                 onChange={(e) => setFormData({...formData, message: e.target.value})}
               />

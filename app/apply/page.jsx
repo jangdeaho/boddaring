@@ -220,14 +220,17 @@ export default function ApplyPage() {
     return Math.max(0, ...pcts);
   }, [plans]);
 
-  const yearlySavingsById = useMemo(
-    () => ({
-      BASIC: 6400000,
-      PRO: 6000000,
-      BOT: 800000,
-    }),
-    []
-  );
+  const yearlySavingsById = useMemo(() => {
+    const out = {};
+    for (const y of plans.yearly) {
+      const m = plans.monthly.find((x) => x.id === y.id);
+      if (!m?.krw || !y?.krw) continue;
+      const total = m.krw * 12;
+      const save = total - y.krw;
+      out[y.id] = Math.max(0, save);
+    }
+    return out;
+  }, [plans]);
 
   const getExperienceLabel = (val) => {
     const found = experienceOptions.find((o) => o.value === val);
@@ -322,18 +325,21 @@ export default function ApplyPage() {
       <style jsx global>{`
         .applyWrap {
           position: relative;
+          width: 100vw;
+          min-height: 100vh;
           padding: 120px 40px;
-          max-width: 1400px;
-          margin: 0 auto;
+          margin: 0;
+          max-width: none;
           color: #fff;
           overflow: hidden;
+          background: #0a0e27;
         }
         @media (max-width: 1024px) {
           .applyWrap { padding: 110px 20px; }
         }
         .aurora {
-          position: absolute;
-          inset: -160px;
+          position: fixed;
+          inset: 0px;
           pointer-events: none;
           z-index: 0;
           opacity: 1;
@@ -379,8 +385,8 @@ export default function ApplyPage() {
           100%{ transform: translate(0%, 0%) scale(1); }
         }
         .auroraNoise{
-          position:absolute;
-          inset:0;
+          position:fixed;
+          inset: 0;
           pointer-events:none;
           z-index:0;
           opacity:0.10;
@@ -413,32 +419,43 @@ export default function ApplyPage() {
           border-color: rgba(167,139,250,0.30);
         }
 
-        .langToggleWrap {
-          position: absolute;
-          top: 24px;
-          right: 24px;
-          display: flex;
+        .langToggle{
+          display: inline-flex;
           align-items: center;
-          gap: 10px;
-          z-index: 5;
-        }
-        .langBtn {
-          padding: 9px 12px;
+          gap: 8px;
+          padding: 6px;
           border-radius: 999px;
-          border: 1px solid rgba(120,100,255,0.18);
-          background: rgba(255,255,255,0.03);
-          color: #a7b0c8;
-          font-weight: 800;
-          font-size: 12px;
-          cursor: pointer;
-          transition: all 180ms ease;
-          letter-spacing: 0.5px;
+          border: 1px solid rgba(255,255,255,0.10);
+          background: rgba(255,255,255,0.04);
+          backdrop-filter: blur(10px);
         }
-        .langBtn.active {
-          color: #e0d7ff;
-          border-color: rgba(167,139,250,0.35);
-          background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
-          box-shadow: 0 0 18px rgba(124,58,237,0.18);
+
+        .langBtn{
+          height: 32px;
+          padding: 0 12px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: .2px;
+          color: rgba(232,238,255,0.70);
+          border: 1px solid transparent;
+          background: transparent;
+          cursor: pointer;
+          transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+        }
+
+        .langBtn:hover{
+          transform: translateY(-1px);
+          color: rgba(232,238,255,0.92);
+          background: rgba(255,255,255,0.06);
+          border-color: rgba(255,255,255,0.10);
+        }
+
+        .langBtn.active{
+          color: #fff;
+          background: linear-gradient(135deg, rgba(124,58,237,0.55), rgba(236,72,153,0.45));
+          border-color: rgba(255,255,255,0.12);
+          box-shadow: 0 0 18px rgba(124,58,237,0.18), 0 0 18px rgba(236,72,153,0.14);
         }
 
         .rateBox {
@@ -733,9 +750,21 @@ export default function ApplyPage() {
       <Link href="/" className="backTop">{T.backHome}</Link>
 
       <div className="content">
-        <div className="langToggleWrap" aria-label="Language selector">
-          <button className={`langBtn ${lang === "ko" ? "active" : ""}`} onClick={() => setLanguage("ko")} type="button">{T.langKOR}</button>
-          <button className={`langBtn ${lang === "en" ? "active" : ""}`} onClick={() => setLanguage("en")} type="button">{T.langENG}</button>
+        <div className="langToggle" aria-label="Language selector">
+          <button
+            type="button"
+            className={`langBtn${lang === "ko" ? " active" : ""}`}
+            onClick={() => setLanguage("ko")}
+          >
+            {T.langKOR}
+          </button>
+          <button
+            type="button"
+            className={`langBtn${lang === "en" ? " active" : ""}`}
+            onClick={() => setLanguage("en")}
+          >
+            {T.langENG}
+          </button>
         </div>
 
         <div style={{ textAlign: "center", marginBottom: "52px" }}>
