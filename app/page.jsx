@@ -1061,17 +1061,23 @@ const handleDevSubmit = async (e) => {
           </div>
         </div>
       </section>
-
+      
       {/* ── 푸터 ── */}
-      <footer>
+      <footer className="site-footer">
         <div className="container">
           <div className="footer-grid">
+            {/* 브랜드 */}
             <div className="footer-brand">
-              <div className="brand-name">BODDARING</div>
-              <p className="footer-desc">
-              | END HOLDINGS Inc.
-              </p>
+              <div className="footer-brand-top">
+                <img src="/endlogo.png" alt="BODDARING logo" className="footer-logo" />
+                <div className="footer-brand-text">
+                  <div className="footer-brand-name">BODDARING</div>
+                  <div className="footer-brand-sub">END HOLDINGS Inc.</div>
+                </div>
+              </div>
             </div>
+
+            {/* 서비스 */}
             <div className="footer-col">
               <h4>서비스</h4>
               <ul>
@@ -1081,29 +1087,70 @@ const handleDevSubmit = async (e) => {
                 <li><Link href="/apply">구독 신청</Link></li>
               </ul>
             </div>
+
+            {/* 회사 */}
             <div className="footer-col">
               <h4>회사</h4>
               <ul>
                 <li><Link href="/terms">이용약관</Link></li>
-                <li><Link href="/terms/privacy">개인정보 보호정책</Link></li>
+                <li><Link href="/terms/privacy">개인정보처리방침</Link></li>
               </ul>
             </div>
+
+            {/* Contact */}
             <div className="footer-col">
-              <h4>Contact</h4>
+              <h4>CONTACT</h4>
               <ul>
-                <li><a href="#contact">문의 접수</a></li>
-                <li><a href="mailto:developmentg@endholdings.com">개발 문의</a></li>
+                <li>
+                  <a
+                    href="#contact"
+                    onClick={() => setContactTab("inquiry")}
+                  >
+                    문의 접수
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    onClick={() => setContactTab("development")}
+                  >
+                    개발 문의
+                  </a>
+                </li>
               </ul>
             </div>
+
+            {/* 소셜 */}
             <div className="footer-col">
               <h4>소셜</h4>
               <ul>
-                <li><a href="">X</a></li>
-                <li><a href="">NAVER BLOG</a></li>
-                <li><a href="">Telegram</a></li>
-                <li><a href="">KakaoTalk OpenChat</a></li>
+                <li>
+                  <a href="https://x.com/" target="_blank" rel="noreferrer">
+                    X
+                  </a>
+                </li>
+                <li>
+                  <a href="https://blog.naver.com/forgotten-season" target="_blank" rel="noreferrer">
+                    NAVER BLOG
+                  </a>
+                </li>
+                <li>
+                  <a href="https://t.me/ttarihunter" target="_blank" rel="noreferrer">
+                    Telegram
+                  </a>
+                </li>
+                <li>
+                  <a href="https://open.kakao.com/o/" target="_blank" rel="noreferrer">
+                    KakaoTalk OpenChat
+                  </a>
+                </li>
               </ul>
             </div>
+          </div>
+
+          {/* 하단 라인(원하면) */}
+          <div className="footer-bottom">
+            <div className="footer-copy">© {new Date().getFullYear()} END HOLDINGS Inc. All rights reserved.</div>
           </div>
         </div>
       </footer>
