@@ -1169,6 +1169,7 @@
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
+    margin-top: 50px;
     padding-top: 40px;
     border-top: 1px solid var(--stroke);
     font-size: 12px;
@@ -2534,6 +2535,7 @@
 }
 
 .learn-video-wrap{
+  position: relative;
   aspect-ratio: 45 / 52;
   width: 100%;
   max-width: 520px;
@@ -2560,10 +2562,12 @@
 }
 
 .learn-video-badge{
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 2;
+  position: absolute !important;
+  top: 14px !important;
+  left: 14px !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 5 !important;           /* 영상 위로 */
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2571,12 +2575,11 @@
   border-radius: 999px;
   background: rgba(0,0,0,0.55);
   border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
   font-size: 11px;
   font-weight: 800;
-  backdrop-filter: blur(10px);
   color: #c4b5fd;
 }
-
 @media (max-width: 768px){
   .learn-video-wrap{ aspect-ratio: 16 / 10; }
 }

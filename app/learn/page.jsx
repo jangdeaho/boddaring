@@ -471,8 +471,6 @@ export default function LearnPage() {
           <section id="guidebook" className="learn-section">
             <div className="learn-section-label">초심자도 쉽게</div>
             <h2 className="learn-section-title">A to Z 가이드북 제공</h2>
-
-            {/* ✅ 영상 삽입 (title 아래) */}
             <div className="learn-video-wrap" aria-label="Guidebook video">
               <div className="learn-video-badge">
                 <span className="live-dot" />
