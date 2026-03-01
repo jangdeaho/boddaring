@@ -22,7 +22,7 @@ export const metadata = {
     url: "https://boddaring.com",
     images: [
       {
-        url: "/og.png",
+        url: "/og-v2.png",
         width: 1200,
         height: 630,
         alt: "보따링 | BODDARING | 아비트라지 데이터 플랫폼",
@@ -33,7 +33,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "보따링 | BODDARING | 아비트라지 데이터 플랫폼",
     description: "거래소 간 시세 차익 비교 · 초 단위 시그널 · 보조 프로그램 운영",
-    images: ["/og.png"],
+    images: ["/og-v2.png"],
   },
 };
 
