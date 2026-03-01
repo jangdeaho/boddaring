@@ -9,6 +9,8 @@ const SECTIONS = [
   { id: "guidebook", label: "A to Z 가이드북" },
   { id: "aboutus", label: "회사 소개" },
   { id: "tos", label: "이용약관" },
+  // ✅ 추가: 용어 사전(하단으로 이동)
+  { id: "glossary", label: "용어 사전" },
 ];
 
 export default function LearnPage() {
@@ -41,6 +43,120 @@ export default function LearnPage() {
 
   return (
     <>
+      {/* ✅ 추가: 툴팁 + 용어사전 스타일 (CSS로만) */}
+      <style jsx global>{`
+        /* ---------- Tooltip (for .footnote-ref) ---------- */
+        .footnote-ref{
+          position: relative;
+        }
+        .footnote-ref[data-tip]::after{
+          content: attr(data-tip);
+          position: absolute;
+          left: 50%;
+          bottom: calc(100% + 10px);
+          transform: translateX(-50%) translateY(6px);
+          opacity: 0;
+          pointer-events: none;
+
+          max-width: 320px;
+          width: max-content;
+          white-space: normal;
+
+          padding: 10px 12px;
+          border-radius: 12px;
+          background: rgba(12, 12, 28, 0.96);
+          border: 1px solid rgba(167,139,250,0.35);
+          color: rgba(235,242,255,0.92);
+          font-size: 12.5px;
+          line-height: 1.55;
+          box-shadow:
+            0 18px 50px rgba(0,0,0,0.55),
+            0 0 0 1px rgba(255,255,255,0.04),
+            0 0 22px rgba(124,58,237,0.14);
+          backdrop-filter: blur(18px);
+          z-index: 9999;
+          transition: opacity .18s ease, transform .18s ease;
+        }
+        .footnote-ref[data-tip]::before{
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: calc(100% + 5px);
+          width: 10px;
+          height: 10px;
+          transform: translateX(-50%) rotate(45deg);
+          background: rgba(12, 12, 28, 0.96);
+          border-left: 1px solid rgba(167,139,250,0.35);
+          border-top: 1px solid rgba(167,139,250,0.35);
+          opacity: 0;
+          transition: opacity .18s ease;
+          z-index: 9999;
+          pointer-events: none;
+        }
+        .footnote-ref:hover::after,
+        .footnote-ref:focus-visible::after{
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+        .footnote-ref:hover::before,
+        .footnote-ref:focus-visible::before{
+          opacity: 1;
+        }
+
+        /* ---------- Glossary ---------- */
+        .glossary-card{
+          margin-top: 22px;
+          padding: 22px 22px;
+          border-radius: 16px;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: linear-gradient(135deg, rgba(120,100,255,0.10), rgba(20,16,44,0.55));
+        }
+        .glossary-head{
+          display:flex;
+          align-items:center;
+          justify-content: space-between;
+          gap: 10px;
+          margin-bottom: 12px;
+        }
+        .glossary-title{
+          font-size: 12px;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          color: #9aa0c8;
+          font-weight: 900;
+        }
+        .glossary-hint{
+          font-size: 12px;
+          color: rgba(170,176,210,0.78);
+          font-weight: 700;
+          white-space: nowrap;
+        }
+        .glossary-dl{
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+          margin-top: 14px;
+        }
+        .glossary-item{
+          padding: 14px 14px;
+          border-radius: 14px;
+          border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(0,0,0,0.14);
+        }
+        .glossary-item dt{
+          font-size: 13px;
+          font-weight: 900;
+          color: #e0d7ff;
+          margin-bottom: 6px;
+        }
+        .glossary-item dd{
+          font-size: 13px;
+          color: #aab0d2;
+          line-height: 1.7;
+          margin-left: 0;
+        }
+      `}</style>
+
       {/* 배경 */}
       <div className="nebula-wrap" aria-hidden="true">
         <div className="nebula nebula-1" />
@@ -141,6 +257,7 @@ export default function LearnPage() {
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-1")}
                   aria-label="프리미엄 설명으로 이동"
+                  data-tip="같은 코인이 국내/해외에서 다르게 가격이 형성되는 ‘가격 괴리’ 현상"
                 >
                   프리미엄이란?
                 </button>
@@ -159,6 +276,7 @@ export default function LearnPage() {
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-2")}
                   aria-label="제약요인 설명으로 이동"
+                  data-tip="환율·유동성·입출금 제약 등 ‘실행을 막는 변수’가 괴리를 만든다"
                 >
                   [제약요인]
                 </button>
@@ -205,6 +323,7 @@ export default function LearnPage() {
                   className="footnote-ref"
                   onClick={() => scrollToId("premium-3")}
                   aria-label="체결 가능성 설명으로 이동"
+                  data-tip="표시된 괴리가 ‘실제로 체결 가능한 구간’인지가 실전 핵심"
                 >
                   [체결 가능성]
                 </button>
@@ -219,10 +338,10 @@ export default function LearnPage() {
                   <li>
                     <strong>환율</strong>은 “원/달러(KRW/USD)”가 아니라 <strong>비트코인 기반 USDT 실거래 환율</strong>을 기준으로 실행해야 합니다.
                     <ul>
-                      <p></p><li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
-                      <p></p> <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
+                        <li>원화(KRW) 입금 후 달러(USD) 현지 출금 혹은 달러(USD) 현지 입금 후 국내 원화(KRW) 반입은 불법입니다.</li>
+                        <li>원화(KRW) 입금 후 USDT 출금 → 해외 거래소 테더(USDT) 마켓 거래 → 테더(USDT) 반입은 합법이며,<br />
                         그렇기에 원/달러 환율은 실질적으로 아비트라지에 도움되지 않습니다.</li>
-                        ※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.
+                        <li>※ 관련 규정은 개인/거래소/국가별로 다를 수 있습니다.</li>
                     </ul>
                   </li>
                 </ul>
@@ -279,7 +398,8 @@ export default function LearnPage() {
               <p>
                 “국내 1% 비싸다”, "역프가 3%" 단순 최종 거래가 비교는 실전에서 즉각 판단이 불가합니다.<br />
                 중요한 건 <strong>실제로 어느 평단에 얼만큼의 수량(Amount)을 사고 팔았을 때 남는 차익금 아닌가요?</strong><br />
-                BODDARING 시스템은 수량(Amount) 및 차익(%, Per) 표기 시 <strong>실제 수익률에 가장 근접한 값으로 정리합니다.</strong>
+                BODDARING 시스템은 수량(Amount) 및 차익(%, Per) 표기 시<br />
+                <strong>실제 수익률에 가장 근접한 값으로 정리합니다.</strong>
               </p>
 
               <h4>반영되는 비용 요소</h4>
@@ -339,7 +459,7 @@ export default function LearnPage() {
                 </p>
               </div>
             </div>
-          </section>         
+          </section>
 
           <section id="guidebook" className="learn-section">
             <div className="learn-section-label">초심자도 쉽게</div>
@@ -370,6 +490,57 @@ export default function LearnPage() {
               <p>
                 -
               </p>
+            </div>
+          </section>
+
+          {/* ✅ 추가: 용어 사전 섹션 (하단) */}
+          <section id="glossary" className="learn-section">
+            <div className="learn-section-label">Glossary</div>
+            <h2 className="learn-section-title">용어 사전</h2>
+            <div className="learn-section-body">
+              <div className="glossary-card">
+                <div className="glossary-head">
+                  <div className="glossary-title">KEY TERMS</div>
+                  <div className="glossary-hint">본문 용어를 한 번에 정리해둔 영역입니다.</div>
+                </div>
+
+                <dl className="glossary-dl">
+                  <div className="glossary-item">
+                    <dt>프리미엄 (김치 프리미엄 / 역프리미엄)</dt>
+                    <dd>같은 코인이라도 국내(KRW)와 해외(USDT) 시장 구조 차이로 가격이 다르게 형성되는 괴리 현상.</dd>
+                  </div>
+
+                  <div className="glossary-item">
+                    <dt>호가창 / 오더북(Order Book)</dt>
+                    <dd>현재 시장에 쌓여 있는 매수·매도 가격/수량 목록. “실제로 체결 가능한 구간”을 판단할 때 핵심.</dd>
+                  </div>
+
+                  <div className="glossary-item">
+                    <dt>매수벽·매도벽</dt>
+                    <dd>특정 가격 구간에 대기 물량이 두껍게 쌓인 상태. 호가가 얇으면 표시된 수익률과 실제 수익률이 달라질 수 있음.</dd>
+                  </div>
+
+                  <div className="glossary-item">
+                    <dt>슬리피지(Slippage)</dt>
+                    <dd>원하는 가격에 전량 체결되지 않아 평균 체결가가 불리해지는 현상(호가/유동성 영향).</dd>
+                  </div>
+
+                  <div className="glossary-item">
+                    <dt>USDT 실거래 환율(크로스 레이트)</dt>
+                    <dd>원/달러 고시 환율이 아니라, 실제 시장 거래(예: BTC 기반 교차환산)로 형성되는 KRW↔USDT 체감 환율.</dd>
+                  </div>
+
+                  <div className="glossary-item">
+                    <dt>Per(%) / Amount</dt>
+                    <dd>Per는 차익률(%) 지표, Amount는 실제 체결 가능 규모(수량/총액). 실전에서는 둘을 함께 봐야 정확함.</dd>
+                  </div>
+
+                  <div className="glossary-item">
+                    <dt>입·출금 제약</dt>
+                    <dd>거래소/네트워크/정책(점검, 제한 등)으로 입출금이 막히는 상태. 괴리가 커도 실행이 어려울 수 있음.</dd>
+                  </div>
+                </dl>
+              </div>
             </div>
           </section>
 
