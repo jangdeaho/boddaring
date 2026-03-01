@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
 export default function Trial() {
   const [lang, setLang] = useState("ko");
   const [formStatus, setFormStatus] = useState("idle");
@@ -49,18 +48,28 @@ const T = {
     ],
     formTitle: "무료체험 신청서",
     required: "* 필수 입력",
-    nameLabel: "{L.nameLabel}",
-    phoneLabel: "{L.phoneLabel}",
-    emailLabel: "{L.emailLabel}",
-    tgLabel: "{L.tgLabel}",
-    expLabel: "{L.expLabel}",
+    labels: {
+      name: "이름 (Name)",
+      phone: "연락처 (Phone)",
+      email: "이메일 (E-mail)",
+      telegram: "텔레그램 ID",
+      exp: "코인 투자 경험",
+      msg: "추가 문의사항",
+    },
+    placeholders: {
+      name: "홍길동",
+      nameEn: "John Doe",
+      phone: "010-0000-0000",
+      phoneEn: "+1 555 000 0000",
+      email: "example@email.com",
+      telegram: "@username",
+      msg: "추가 문의사항이 있으시면 입력해 주세요.",
+    },
     expOptions: {
       beginner: "1년 미만",
       intermediate: "1~3년",
       advanced: "3년 이상",
     },
-    msgLabel: "{L.msgLabel}",
-    msgPh: "{L.msgLabel}이 있으시면 입력해 주세요.",
     warningTitle: "⚠️ 무료체험 이용 주의사항",
     warningItems: [
       <>
@@ -71,7 +80,7 @@ const T = {
         <strong>연락 가능한 정보 :</strong> 정확한 정보 입력이 필수이며, 허위 정보 입력 시 서비스 이용이 제한될 수 있습니다.
       </>,
       <>
-        <strong>텔레그램 필수 :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 {L.tgLabel} 입력이 필수입니다.
+        <strong>텔레그램 필수 :</strong> 신청 승인 및 접근 정보는 텔레그램을 통해 전달되므로 유효한 텔레그램 ID 입력이 필수입니다.
       </>,
       <>
         <strong>데이터 신뢰성 :</strong> 제공되는 모든 데이터는 참고용이며, 투자 결정은 본인의 책임입니다.
@@ -87,14 +96,14 @@ const T = {
       sent: "제출 완료! 곧 연락드리겠습니다.",
       idle: "무료체험 신청하기 🚀",
     },
-    error: "{L.error}",
+    error: "❌ 전송 실패. 다시 시도해 주세요.",
     footer: (
       <>
         문의사항이 있으신가요?<br />
         <strong>boddaring@endholdings.com</strong>으로 문의해 주세요.
       </>
     ),
-    langKR: "KOR",
+    langKR: "국문",
     langEN: "ENG",
   },
   en: {
@@ -104,7 +113,7 @@ const T = {
     subtitle: (
       <>
         Experience BODDARING’s real-time signals with full access.<br />
-        Enjoy our high-frequency, second-by-second data for 24 hours—free of charge.
+        Enjoy high-frequency, second-by-second data for 24 hours — free of charge.
       </>
     ),
     benefits: [
@@ -114,18 +123,28 @@ const T = {
     ],
     formTitle: "Free Trial Application",
     required: "* Required",
-    nameLabel: "Name",
-    phoneLabel: "Phone",
-    emailLabel: "E-mail",
-    tgLabel: "Telegram ID",
-    expLabel: "Crypto investing experience",
+    labels: {
+      name: "Name",
+      phone: "Phone",
+      email: "E-mail",
+      telegram: "Telegram ID",
+      exp: "Crypto investing experience",
+      msg: "Additional notes",
+    },
+    placeholders: {
+      name: "John Doe",
+      nameKo: "홍길동",
+      phone: "+1 555 000 0000",
+      phoneKo: "010-0000-0000",
+      email: "example@email.com",
+      telegram: "@username",
+      msg: "Tell us anything we should know (optional).",
+    },
     expOptions: {
       beginner: "Less than 1 year",
       intermediate: "1–3 years",
       advanced: "3+ years",
     },
-    msgLabel: "Additional notes",
-    msgPh: "Tell us anything we should know (optional).",
     warningTitle: "⚠️ Important notes for the free trial",
     warningItems: [
       <>
@@ -741,28 +760,28 @@ const L = T[lang];
             <div className="formGrid">
               <div className="formGroup">
                 <label className="formLabel">
-                  {L.nameLabel}
+                  {L.labels.name}
                   <span className="formRequired">*</span>
                 </label>
                 <input
                   type="text"
                   className="formInput"
                   required
-                  placeholder={lang === "ko" ? "홍길동" : "John Doe"}
+                  placeholder={lang === "ko" ? L.placeholders.name : L.placeholders.name}
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
               </div>
               <div className="formGroup">
                 <label className="formLabel">
-                  {L.phoneLabel}
+                  {L.labels.phone}
                   <span className="formRequired">*</span>
                 </label>
                 <input
                   type="tel"
                   className="formInput"
                   required
-                  placeholder={lang === "ko" ? "010-0000-0000" : "+1 555 000 0000"}
+                  placeholder={lang === "ko" ? T.ko.placeholders.phone : T.en.placeholders.phone}
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
@@ -772,7 +791,7 @@ const L = T[lang];
             <div className="formGrid">
               <div className="formGroup">
                 <label className="formLabel">
-                  {L.emailLabel}
+                  {L.labels.email}
                   <span className="formRequired">*</span>
                 </label>
                 <input
@@ -786,7 +805,7 @@ const L = T[lang];
               </div>
               <div className="formGroup">
                 <label className="formLabel">
-                  {L.tgLabel}
+                  {L.labels.telegram}
                   <span className="formRequired">*</span>
                 </label>
                 <input
@@ -801,7 +820,7 @@ const L = T[lang];
             </div>
 
             <div className="formGroup" style={{ marginBottom: "16px" }}>
-              <label className="formLabel">{L.expLabel}</label>
+              <label className="formLabel">{L.labels.exp}</label>
               <select
                 className="formSelect"
                 value={formData.experience}
@@ -814,10 +833,10 @@ const L = T[lang];
             </div>
 
             <div className="formGroup" style={{ marginBottom: "24px" }}>
-              <label className="formLabel">{L.msgLabel}</label>
+              <label className="formLabel">{L.labels.msg}</label>
               <textarea
                 className="formTextarea"
-                placeholder="{L.msgLabel}이 있으시면 입력해 주세요."
+                placeholder="{L.labels.msg}이 있으시면 입력해 주세요."
                 value={formData.message}
                 onChange={(e) => setFormData({...formData, message: e.target.value})}
               />

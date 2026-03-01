@@ -464,12 +464,42 @@ export default function LearnPage() {
           <section id="guidebook" className="learn-section">
             <div className="learn-section-label">초심자도 쉽게</div>
             <h2 className="learn-section-title">A to Z 가이드북 제공</h2>
+
+            {/* ✅ 영상 삽입 (title 아래) */}
+            <div className="learn-video-wrap" aria-label="Guidebook video">
+              <div className="learn-video-badge">
+                <span className="live-dot" />
+                Guidebook Preview
+              </div>
+
+              <video
+                className="learn-video"
+                src="/videos/guidebook.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls={false}
+                preload="metadata"
+              />
+            </div>
+
             <div className="learn-section-body">
               <p>
-                (초반에 영상삽입, title 아래)
-                차트가 이렇고 저렇고 거래량이 이렇고 저렇고.. 평생 공부해도 시장 싸이클은 바뀌어요.<br />
-                BODDARING은 초심자도 쉽게 배울 수 있는 A to Z 가이드북을 제공합니다.<br/>
+                주식도, 코인도 결국 시장은 ‘사이클’이 돌죠.<br />
+                반감기, 조정 구간, 불장·약세장… 용어는 많지만<br />
+                몇 년을 공부해도 단 하루만에 흐름이 뒤집히는 게 현실입니다.<br />
+                <br />
+                그래서 {`BODDARING`}은 방향성 예측보다,<br />
+                <strong>‘지금 이 순간’ 실제로 벌어지는 가격 괴리</strong>를 기반으로 판단하는 아비트라지 관점의 <strong>“A to Z 가이드북”</strong>을 제공합니다.<br />
+                <span style={{ color: "#c4b5fd", fontWeight: 700 }}>
+                  세팅 → 조건 필터 → 시그널 해석 → 실행 체크리스트
+                </span>
+                까지, 흐름대로 따라오면 됩니다.
               </p>
+              <div className="learn-note">
+                * 본 가이드북은 무료체험/무료 플랜에는 포함되지 않으며, 구독 플랜에서만 제공됩니다.
+              </div>
             </div>
           </section>
 

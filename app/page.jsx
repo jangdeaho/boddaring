@@ -371,7 +371,7 @@ const handleDevSubmit = async (e) => {
           <div className="navbar-inner">
             {/* 브랜드 */}
             <a href="#top" className="brand">
-              <img src="/icon.png" alt="BODDARING" className="brand-icon" />
+              <img src="/img/icon.png" alt="BODDARING" className="brand-icon" />
               <div className="brand-text">
                 <span className="brand-name">BODDARING</span>
                 <span className="brand-sub">아비트라지 데이터 플랫폼</span>
@@ -581,7 +581,7 @@ const handleDevSubmit = async (e) => {
                 </div>
                 <video
                   className="hero-video"
-                  src="/intro.mp4"
+                  src="/videos/intro.mp4"
                   autoPlay
                   muted
                   loop
@@ -726,7 +726,7 @@ const handleDevSubmit = async (e) => {
           <div className="bot-grid">
             <div className="bot-card reveal">
               <div className="bot-card-img">
-                <img src="/bot-1.png" alt="시그널 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+                <img src="/img/bot-1.png" alt="시그널 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
                 <div className="img-placeholder" style={{display:'none'}}>🤖</div>
               </div>
               <div className="bot-tag">Signal Bot</div>
@@ -737,7 +737,7 @@ const handleDevSubmit = async (e) => {
             </div>
             <div className="bot-card reveal reveal-delay-1">
               <div className="bot-card-img">
-                <img src="/bot-2.png" alt="자동화 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+                <img src="/img/bot-2.png" alt="자동화 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
                 <div className="img-placeholder" style={{display:'none'}}>⚙️</div>
               </div>
               <div className="bot-tag">Execution Bot</div>
@@ -748,7 +748,7 @@ const handleDevSubmit = async (e) => {
             </div>
             <div className="bot-card reveal reveal-delay-2">
               <div className="bot-card-img">
-                <img src="/bot-3.png" alt="모니터링 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
+                <img src="/img/bot-3.png" alt="모니터링 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
                 <div className="img-placeholder" style={{display:'none'}}>📊</div>
               </div>
               <div className="bot-tag">Monitor Bot</div>
@@ -1069,7 +1069,7 @@ const handleDevSubmit = async (e) => {
             {/* 브랜드 */}
             <div className="footer-brand">
               <div className="footer-brand-top">
-                <img src="/endlogo.png" alt="BODDARING logo" className="footer-logo" />
+                <img src="/img/endlogo.png" alt="BODDARING logo" className="footer-logo" />
                 <div className="footer-brand-text">
                   <div className="footer-brand-name">BODDARING</div>
                   <div className="footer-brand-sub">END HOLDINGS Inc.</div>
