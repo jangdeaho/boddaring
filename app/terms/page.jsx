@@ -3,12 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 export default function TermsPage() {
-  // ✅ 바꿔 넣기 (너가 이미 바꿔놨다 했으니 여기만 확인하면 됨)
   const COMPANY = "END HOLDINGS Inc.";
   const SERVICE = "BODDARING";
-  const SUPPORT_EMAIL = "ceo@endholdings.com"; // 너가 바꾼 이메일로
-  const CEO_NAME = "Yonghyeon Lee"; // 너가 바꾼 CEO 이름으로
-  const LAST_REVISED = "2026-03-01"; // 필요 시 수정
+  const SUPPORT_EMAIL = "ceo@endholdings.com";
+  const CEO_NAME = "Yonghyeon Lee";
+  const LAST_REVISED = "2026-03-01";
 
   const [lang, setLang] = useState("ko");
 
@@ -192,6 +191,8 @@ export default function TermsPage() {
           </>
         ),
         privacyLinkText: "개인정보처리방침 보기",
+        privacyLinkText2: "메인으로",
+        
       },
       en: {
         title: "Terms of Service",
@@ -364,6 +365,7 @@ export default function TermsPage() {
           </>
         ),
         privacyLinkText: "View Privacy Policy",
+        privacyLinkText2: "Main Page",
       },
     };
     return dict[lang];
@@ -438,11 +440,11 @@ export default function TermsPage() {
             </p>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <Link href="/privacy" className="btn-cta-u btn-cta-u--blue" style={{ height: 42, fontSize: 14 }}>
+              <Link href="/terms/privacy" className="btn-cta-u btn-cta-u--blue" style={{ height: 42, fontSize: 14 }}>
                 {T.privacyLinkText} <span className="arrow">→</span>
               </Link>
               <Link href="/" className="btn-cta-u btn-cta-u--pink" style={{ height: 42, fontSize: 14 }}>
-                메인으로 <span className="arrow">→</span>
+                {T.privacyLinkText2} <span className="arrow">→</span>
               </Link>
             </div>
           </div>
