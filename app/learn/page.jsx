@@ -204,6 +204,20 @@ export default function LearnPage() {
           text-decoration: underline;
           text-underline-offset: 3px;
         }
+        .qna-video{
+          margin-top: 12px;
+          border-radius: 14px;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: rgba(0,0,0,0.18);
+        }
+        .qna-video-el{
+          width: 100%;
+          height: auto;
+          display: block;
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+        }
       `}</style>
 
       {/* 배경 */}
