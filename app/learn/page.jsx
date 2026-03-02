@@ -218,6 +218,13 @@ export default function LearnPage() {
           aspect-ratio: 16 / 9;
           object-fit: cover;
         }
+        .qna-caption{
+          margin-top: 10px;
+          font-size: 12px;
+          line-height: 1.55;
+          color: rgba(170,176,210,0.78);
+          font-weight: 700;
+        }
       `}</style>
 
       {/* 배경 */}
@@ -596,13 +603,18 @@ export default function LearnPage() {
                     보따링은 그 과정에서 쌓인 실전 경험을 바탕으로, 구독자분들과 동일한 <strong>시그널 기준</strong>과 동일한 <strong>종합 BOT(보조 프로그램)</strong>으로 운영 흐름을 검증합니다.<br />
                     아래 영상은 2021년부터의 실행 기록(이더스캔 기반)을 간단히 공유한 자료이며 현재까지도 꾸준히 실전으로 운영 중입니다.
 
-                    <div className="qna-video">
+                    <div className="qna-video" onContextMenu={(e) => e.preventDefault()}>
+                      <p className="qna-caption">
+                        ※ 영상은 2021년부터의 온체인 트랜잭션(이더스캔) 기반 참고 자료입니다. 일부는 정보 보호를 위해 블러처리를 하였습니다.
+                      </p>
                       <video
                         className="qna-video-el"
                         src="/videos/etherscan.mp4"
                         controls
-                        preload="metadata"
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
                         playsInline
+                        preload="metadata"
                       />
                     </div>
                   </div>
