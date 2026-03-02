@@ -27,22 +27,61 @@ export default function ApplyPage() {
 
   const fetchExchangeRate = async () => {
     try {
-      const [upbitRes, binanceRes] = await Promise.all([
-        fetch("https://api.upbit.com/v1/ticker?markets=KRW-BTC"),
-        fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"),
-      ]);
-      const upbitData = await upbitRes.json();
+      const binanceRes = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
       const binanceData = await binanceRes.json();
-
-      const upbitBTC = upbitData?.[0]?.trade_price;
       const binanceBTC = parseFloat(binanceData?.price);
-
-      if (upbitBTC && binanceBTC) {
-        const rate = Math.round(upbitBTC / binanceBTC);
-        if (Number.isFinite(rate) && rate > 0) {
-          setExchangeRate(rate);
-          setLastUpdatedAt(new Date());
+  
+      if (!Number.isFinite(binanceBTC) || binanceBTC <= 0) throw new Error("Invalid Binance BTCUSDT");
+  
+      const sources = [
+        {
+          name: "UPBIT",
+          fetchKrwBtc: async () => {
+            const r = await fetch("https://api.upbit.com/v1/ticker?markets=KRW-BTC", { cache: "no-store" });
+            const j = await r.json();
+            return j?.[0]?.trade_price;
+          },
+        },
+        {
+          name: "BITHUMB",
+          fetchKrwBtc: async () => {
+            const r = await fetch("https://api.bithumb.com/public/ticker/BTC_KRW", { cache: "no-store" });
+            const j = await r.json();
+            if (j?.status !== "0000") return null;
+            return parseFloat(j?.data?.closing_price);
+          },
+        },
+        {
+          name: "COINONE",
+          fetchKrwBtc: async () => {
+            const r = await fetch("https://api.coinone.co.kr/public/v2/ticker_new/KRW/BTC", { cache: "no-store" });
+            const j = await r.json();
+            if (j?.result !== "success") return null;
+            const last = j?.tickers?.[0]?.last;
+            return parseFloat(last);
+          },
+        },
+      ];
+  
+      let picked = null;
+      for (const s of sources) {
+        try {
+          const krwBtc = await s.fetchKrwBtc();
+          if (!Number.isFinite(krwBtc) || krwBtc <= 0) continue;
+          const rate = Math.round(krwBtc / binanceBTC);
+          if (!Number.isFinite(rate) || rate < 800 || rate > 2500) continue;
+  
+          picked = { source: s.name, rate };
+          break;
+        } catch {
         }
+      }
+  
+      if (picked) {
+        setExchangeRate(picked.rate);
+        setLastUpdatedAt(new Date());
+      } else {
+        console.warn("All KRW-BTC sources failed");
       }
     } catch (err) {
       console.error("Exchange Rate Error:", err);
