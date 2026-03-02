@@ -575,11 +575,22 @@ export default function LearnPage() {
             <div className="learn-section-body">
               <div className="qna-wrap">
 
-                <details className="qna-item" open>
-                  <summary className="qna-q">이것을 실제로 사용하시나요?</summary>
+              <details className="qna-item" open>
+                <summary className="qna-q">이것을 실제로 사용하시나요?</summary>
                   <div className="qna-a">
-                    네. 보따링 플랫폼의 시그널을 기반으로 저희도 동일한 기준으로 진입·판단하며,<br />
-                    구독자분들이 사용하는 것과 동일한 <strong>종합 BOT(보조 프로그램)</strong>으로 운영 흐름을 검증합니다.
+                    네. 저는 2021년부터 아비트라지를 실전으로 운영해 왔고, 지금까지 시장에서 살아남아 계속 실행해왔습니다.<br />
+                    보따링은 그 과정에서 쌓인 실전 경험을 바탕으로, 구독자분들과 동일한 <strong>시그널 기준</strong>과 동일한 <strong>종합 BOT(보조 프로그램)</strong>으로 운영 흐름을 검증합니다.<br />
+                    아래 영상은 2021년부터의 실행 기록(이더스캔 기반)을 간단히 공유한 자료이며 현재까지도 꾸준히 실전으로 운영 중입니다.
+
+                    <div className="qna-video">
+                      <video
+                        className="qna-video-el"
+                        src="/videos/etherscan.mp4"
+                        controls
+                        preload="metadata"
+                        playsInline
+                      />
+                    </div>
                   </div>
                 </details>
 
@@ -656,7 +667,7 @@ export default function LearnPage() {
                   <summary className="qna-q">문의는 어디로 하면 되나요?</summary>
                   <div className="qna-a">
                     서비스 이용 관련 문의는 메인 페이지 <Link href="/?tab=inquiry#contact" className="qna-link">"문의 접수"</Link>에서 접수할 수 있고,<br />
-                    개발/맞춤형 프로그램 관련 문의는 <Link href="/?tab=development#contact" className="qna-link">"개발 문의"</Link> 또는
+                    개발/맞춤형 프로그램 관련 문의는 <Link href="/?tab=development#contact" className="qna-link">"개발 문의"</Link> 또는 
                     <a className="qna-link" href="mailto:development@endholdings.com">development@endholdings.com</a> 으로 연락주시면 됩니다.
                   </div>
                 </details>

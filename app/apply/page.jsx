@@ -146,6 +146,12 @@ export default function ApplyPage() {
         langENG: "ENG",
         yearlySave: (n) => `최대 ${n}% 절약!`,
         yearlySaveSmall: (krw) => `월 플랜 대비 ${krw.toLocaleString()}원 절약!`,
+        yearlyBenefitTitle: "연간 회원 전용 특별 혜택🎉",
+        yearlyBenefitLead: "보따링 운영진과 함께해요!",
+        yearlyBenefitList: [
+          "연간 회원 전용 텔레그램 대화방 (운영진 상시 참여)",
+          "요청 시 주 1회 개인별 피드백 타임 제공 (텔레그램/디스코드 · 약 20분 내외)",
+        ],
       },
       en: {
         pageTitle: "Sign up for a subscription",
@@ -180,6 +186,12 @@ export default function ApplyPage() {
         langENG: "ENG",
         yearlySave: (n) => `Save up to ${n}%!`,
         yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs monthly!`,
+        yearlyBenefitTitle: "Exclusive benefits for annual members 🎉",
+        yearlyBenefitLead: "Connect directly with the BODDARING team.",
+        yearlyBenefitList: [
+          "Private Telegram group for annual members (team members participate regularly)",
+          "Optional weekly 1:1 feedback session on request (Telegram · ~20 minutes)",
+        ],
       },
     };
     return dict[lang];
@@ -919,11 +931,13 @@ export default function ApplyPage() {
 
         {activeTab === "yearly" && (
           <div className="yearlyBenefitBubble" role="note" aria-label="Yearly benefits">
-            <div className="ybTitle">연간 회원 전용 특별 혜택🎉</div>
-            <div className="ybLead">보따링 운영진과 함께해요!</div>
+            <div className="ybTitle">{T.yearlyBenefitTitle}</div>
+            <div className="ybLead">{T.yearlyBenefitLead}</div>
+
             <ul className="ybList">
-              <li>연간 회원 전용 텔레그램 대화방 (운영진 상시 참여)</li>
-              <li>요청 시 주 1회 개인별 피드백 타임 제공 (텔레그램/디스코드 · 약 20분 내외)</li>
+              {T.yearlyBenefitList.map((txt, idx) => (
+                <li key={idx}>{txt}</li>
+              ))}
             </ul>
           </div>
         )}

@@ -450,6 +450,9 @@ const handleDevSubmit = async (e) => {
                 <Link href="/learn#guidebook" className="nav-link nav-link--inline">
                   A to Z 가이드북
                 </Link>
+                <Link href="/learn#QNA" className="nav-link nav-link--inline">
+                  자주 묻는 질문
+                </Link>
               </div>
             </div>
 
