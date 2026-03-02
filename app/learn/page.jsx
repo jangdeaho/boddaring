@@ -592,7 +592,7 @@ export default function LearnPage() {
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">3) 코인에 대해 아무것도 모릅니다. 어떻게 시작해야 하나요?</summary>
+                  <summary className="qna-q">코인에 대해 아무것도 모릅니다. 어떻게 시작해야 하나요?</summary>
                   <div className="qna-a">
                     처음에는 어렵게 느껴질 수 있지만, 실제 사용 흐름은 <strong>“조건 설정 → 시그널 확인 → 실행 체크”</strong>의 반복입니다.<br />
                     가이드북(A to Z)에서 <strong>세팅/필터/시그널 해석/체크리스트</strong>를 단계별로 안내하며,<br />
@@ -601,17 +601,17 @@ export default function LearnPage() {
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">4) 기관/전문투자자용 맞춤형 프로그램도 가능한가요?</summary>
+                  <summary className="qna-q">기관/전문투자자용 맞춤형 프로그램도 가능한가요?</summary>
                   <div className="qna-a">
                     가능합니다.<br />
                     요구사항(거래소/전략/리스크/알림/서버 구조 등)에 따라 범위가 달라지므로,<br />
-                    <a className="qna-link" href="#contact" onClick={() => setContactTab("development")}>development@endholdings.com</a> 로 문의 주시면 목적에 맞춰 안내드리겠습니다.
+                    <a className="qna-link" href="mailto:development@endholdings.com">development@endholdings.com</a> 로 문의 주시면 목적에 맞춰 안내드리겠습니다.
                   </div>
                 </details>
 
                 {/* --- 추가 FAQ: 구독자 입장에서 많이 묻는 것들 --- */}
                 <details className="qna-item">
-                  <summary className="qna-q">5) 시그널은 “수익 보장”인가요?</summary>
+                  <summary className="qna-q">시그널은 “수익 보장”인가요?</summary>
                   <div className="qna-a">
                     아닙니다. 본 서비스는 투자 판단을 돕는 <strong>데이터 제공/계산 플랫폼</strong>이며,<br />
                     수수료·슬리피지·입출금 제한·네트워크 지연 등 변수에 따라 결과가 달라질 수 있습니다.<br />
@@ -620,16 +620,16 @@ export default function LearnPage() {
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">6) 어떤 거래소를 지원하나요?</summary>
+                  <summary className="qna-q">어떤 거래소를 지원하나요?</summary>
                   <div className="qna-a">
                     국내(KRW)·해외(USDT) 주요 거래소의 공개 API 데이터를 기반으로 시그널을 구성합니다.<br />
-                    연동 거래소 목록은 메인 페이지의 “연동 거래소” 섹션에서 확인할 수 있으며,<br />
+                    연동 거래소 목록은 메인 페이지의 <Link href="/#exchanges" className="qna-link">“연동 거래소”</Link> 섹션에서 확인할 수 있으며,<br />
                     정책/점검/상장 상태에 따라 일부 데이터는 일시적으로 제한될 수 있습니다.
                   </div>
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">7) 입출금이 막히면 어떻게 되나요?</summary>
+                  <summary className="qna-q">입출금이 막히면 어떻게 되나요?</summary>
                   <div className="qna-a">
                     입출금 제한(점검/지연)이 있으면 괴리가 커도 실행이 어려울 수 있습니다.<br />
                     그래서 보따링은 단순 퍼센트가 아닌 <strong>실행 가능성(호가/Amount/상태)</strong>을 함께 보도록 설계되어 있습니다.
@@ -637,7 +637,7 @@ export default function LearnPage() {
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">8) 무료체험은 무엇을 확인하면 좋나요?</summary>
+                  <summary className="qna-q">무료체험은 무엇을 확인하면 좋나요?</summary>
                   <div className="qna-a">
                     무료체험에서는 “내가 원하는 조건(퍼센트/금액/거래소 조합)”이 실제로 얼마나 자주 뜨는지,<br />
                     그리고 호가·Amount 기준으로 봤을 때 실행 가능한 구간이 어느 정도인지 확인해보는 것을 추천합니다.
@@ -645,7 +645,7 @@ export default function LearnPage() {
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">9) 결제/구독은 어떻게 진행되나요?</summary>
+                  <summary className="qna-q">결제/구독은 어떻게 진행되나요?</summary>
                   <div className="qna-a">
                     현재는 신청서 접수 후 안내드리는 방식으로 진행됩니다.<br />
                     결제 수단/절차는 운영 정책에 따라 변경될 수 있으며, 자세한 안내는 신청 후 개별로 전달드립니다.
@@ -653,12 +653,11 @@ export default function LearnPage() {
                 </details>
 
                 <details className="qna-item">
-                  <summary className="qna-q">10) 문의는 어디로 하면 되나요?</summary>
+                  <summary className="qna-q">문의는 어디로 하면 되나요?</summary>
                   <div className="qna-a">
-                    서비스 이용 관련 문의는 메인 페이지 “문의하기”에서 접수할 수 있고,<br />
-                    개발/맞춤형 프로그램 관련 문의는
-                    <a className="qna-link" href="mailto:development@endholdings.com">development@endholdings.com</a>
-                    으로 연락주시면 됩니다.
+                    서비스 이용 관련 문의는 메인 페이지 <a href="/#contact?tab=inquiry">"문의 접수"</a>에서 접수할 수 있고,<br />
+                    개발/맞춤형 프로그램 관련 문의는 <a href="/#contact-development">"개발 문의"</a> 또는
+                    <a className="qna-link" href="mailto:development@endholdings.com">development@endholdings.com</a> 으로 연락주시면 됩니다.
                   </div>
                 </details>
 

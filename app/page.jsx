@@ -355,6 +355,28 @@ const handleDevSubmit = async (e) => {
     }, ms);
   };
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+  
+    const applyTabFromUrl = () => {
+      const hash = window.location.hash || "";
+      if (!hash.startsWith("#contact")) return;
+  
+      const qIndex = hash.indexOf("?");
+      if (qIndex === -1) return;
+  
+      const params = new URLSearchParams(hash.slice(qIndex + 1));
+      const tab = params.get("tab");
+      if (tab === "development" || tab === "inquiry") {
+        setContactTab(tab);
+      }
+    };
+  
+    applyTabFromUrl();
+    window.addEventListener("hashchange", applyTabFromUrl);
+    return () => window.removeEventListener("hashchange", applyTabFromUrl);
+  }, []);
+
   return (
     <>
       {/* ── 배경 ── */}
