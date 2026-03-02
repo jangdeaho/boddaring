@@ -655,8 +655,8 @@ export default function LearnPage() {
                 <details className="qna-item">
                   <summary className="qna-q">문의는 어디로 하면 되나요?</summary>
                   <div className="qna-a">
-                    서비스 이용 관련 문의는 메인 페이지 <Link href="/#contact?tab=inquiry" className="qna-link">"문의 접수"</Link>에서 접수할 수 있고,<br />
-                    개발/맞춤형 프로그램 관련 문의는 <Link href="/#contact-development" className="qna-link">"개발 문의"</Link> 또는
+                    서비스 이용 관련 문의는 메인 페이지 <Link href="/?tab=inquiry#contact" className="qna-link">"문의 접수"</Link>에서 접수할 수 있고,<br />
+                    개발/맞춤형 프로그램 관련 문의는 <Link href="/?tab=development#contact" className="qna-link">"개발 문의"</Link> 또는
                     <a className="qna-link" href="mailto:development@endholdings.com">development@endholdings.com</a> 으로 연락주시면 됩니다.
                   </div>
                 </details>

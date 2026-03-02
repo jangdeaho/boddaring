@@ -174,7 +174,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
-  const [contactTab, setContactTab] = useState("inquiry"); // inquiry, development
+  const [contactTab, setContactTab] = useState("inquiry");
   const [formData, setFormData] = useState({
     email: "",
     telegram: "",
@@ -359,22 +359,14 @@ const handleDevSubmit = async (e) => {
     if (typeof window === "undefined") return;
   
     const applyTabFromUrl = () => {
-      const hash = window.location.hash || "";
-      if (!hash.startsWith("#contact")) return;
-  
-      const qIndex = hash.indexOf("?");
-      if (qIndex === -1) return;
-  
-      const params = new URLSearchParams(hash.slice(qIndex + 1));
+      const params = new URLSearchParams(window.location.search);
       const tab = params.get("tab");
-      if (tab === "development" || tab === "inquiry") {
+      if (tab === "inquiry" || tab === "development") {
         setContactTab(tab);
       }
     };
   
     applyTabFromUrl();
-    window.addEventListener("hashchange", applyTabFromUrl);
-    return () => window.removeEventListener("hashchange", applyTabFromUrl);
   }, []);
 
   return (
