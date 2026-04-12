@@ -743,8 +743,8 @@ const handleDevSubmit = async (e) => {
           <div className="bot-grid">
             <div className="bot-card reveal">
               <div className="bot-card-img">
-                <img src="/img/bot-1.png" alt="시그널 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
-                <div className="img-placeholder" style={{display:'none'}}>🤖</div>
+                {/* <img src="/img/bot-1.png" alt="시그널 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} /> */}
+                {/* <div className="img-placeholder" style={{display:'none'}}>🤖</div> */}
               </div>
               <div className="bot-tag">Signal Bot</div>
               <h3>종합 매도 BOT</h3>
@@ -754,8 +754,8 @@ const handleDevSubmit = async (e) => {
             </div>
             <div className="bot-card reveal reveal-delay-1">
               <div className="bot-card-img">
-                <img src="/img/bot-2.png" alt="자동화 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
-                <div className="img-placeholder" style={{display:'none'}}>⚙️</div>
+                {/* <img src="/img/bot-2.png" alt="자동화 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} /> */}
+                {/* <div className="img-placeholder" style={{display:'none'}}>⚙️</div> */}
               </div>
               <div className="bot-tag">Execution Bot</div>
               <h3>국·해외 출금 BOT</h3>
@@ -765,8 +765,8 @@ const handleDevSubmit = async (e) => {
             </div>
             <div className="bot-card reveal reveal-delay-2">
               <div className="bot-card-img">
-                <img src="/img/bot-3.png" alt="모니터링 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
-                <div className="img-placeholder" style={{display:'none'}}>📊</div>
+                {/* <img src="/img/bot-3.png" alt="모니터링 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} /> */}
+                {/* <div className="img-placeholder" style={{display:'none'}}>📊</div> */}
               </div>
               <div className="bot-tag">Monitor Bot</div>
               <h3>보조 & 전략 BOT</h3>
