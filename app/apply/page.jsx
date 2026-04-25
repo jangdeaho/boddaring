@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ApplyPage() {
   const [lang, setLang] = useState("ko");
-  const [activeTab, setActiveTab] = useState("monthly");
+  const [activeTab, setActiveTab] = useState("weekly");
 
   // KRW per 1 USDT (derived via BTC cross-rate)
   const [exchangeRate, setExchangeRate] = useState(1471);
@@ -116,6 +116,7 @@ export default function ApplyPage() {
       ko: {
         pageTitle: "구독 신청하기",
         pageDesc: "원하시는 플랜을 선택하고 신청서를 작성해 주시면 검토 후 빠르게 연락드리겠습니다.",
+        tabWeekly: "주 플랜",
         tabMonthly: "월 플랜",
         tabYearly: "연 플랜",
         tabVIP: "VIP",
@@ -146,6 +147,8 @@ export default function ApplyPage() {
         langENG: "ENG",
         yearlySave: (n) => `최대 ${n}% 절약!`,
         yearlySaveSmall: (krw) => `월 플랜 대비 ${krw.toLocaleString()}원 절약!`,
+        monthlySave: (n) => `최대 ${n}% 절약!`,
+        monthlySaveSmall: (krw) => `주 플랜 대비 ${krw.toLocaleString()}원 절약!`,
         yearlyBenefitTitle: "연간 회원 전용 특별 혜택🎉",
         yearlyBenefitLead: "보따링 운영진과 함께해요!",
         yearlyBenefitList: [
@@ -156,6 +159,7 @@ export default function ApplyPage() {
       en: {
         pageTitle: "Sign up for a subscription",
         pageDesc: "Select a plan and submit the application. We'll review it and get back to you shortly.",
+        tabWeekly: "Weekly",
         tabMonthly: "Monthly",
         tabYearly: "Yearly",
         tabVIP: "VIP",
@@ -186,6 +190,8 @@ export default function ApplyPage() {
         langENG: "ENG",
         yearlySave: (n) => `Save up to ${n}%!`,
         yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs monthly!`,
+        monthlySave: (n) => `Save up to ${n}%!`,
+        monthlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs weekly!`,
         yearlyBenefitTitle: "Exclusive benefits for annual members 🎉",
         yearlyBenefitLead: "Connect directly with the BODDARING team.",
         yearlyBenefitList: [
@@ -233,15 +239,20 @@ export default function ApplyPage() {
 
   const plans = useMemo(
     () => ({
+      weekly: [
+        { id: "BASIC", krw: 300000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 400000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
+        { id: "BOT", krw: 150000, descKo: "종합 BOT", descEn: "Execution BOT" },
+      ],
       monthly: [
-        { id: "BASIC", krw: 2200000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
-        { id: "PRO", krw: 3000000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
-        { id: "BOT", krw: 880000, descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", krw: 800000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 1200000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
+        { id: "BOT", krw: 450000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       yearly: [
-        { id: "BASIC", krw: 20000000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
-        { id: "PRO", krw: 30000000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
-        { id: "BOT", krw: 8000000, descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", krw: 7500000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 11000000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
+        { id: "BOT", krw: 4000000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       vip: [
         {
@@ -256,6 +267,32 @@ export default function ApplyPage() {
     }),
     []
   );
+
+  const monthlyMaxSavePct = useMemo(() => {
+    const weekly = plans.weekly;
+    const monthly = plans.monthly;
+    const pcts = monthly.map((m) => {
+      const w = weekly.find((x) => x.id === m.id);
+      if (!w || !w.krw || !m.krw) return 0;
+      const total = w.krw * 4;
+      const save = total - m.krw;
+      if (total <= 0) return 0;
+      return Math.max(0, Math.round((save / total) * 100));
+    });
+    return Math.max(0, ...pcts);
+  }, [plans]);
+
+  const monthlySavingsById = useMemo(() => {
+    const out = {};
+    for (const m of plans.monthly) {
+      const w = plans.weekly.find((x) => x.id === m.id);
+      if (!w?.krw || !m?.krw) continue;
+      const total = w.krw * 4;
+      const save = total - m.krw;
+      out[m.id] = Math.max(0, save);
+    }
+    return out;
+  }, [plans]);
 
   const yearlyMaxSavePct = useMemo(() => {
     const monthly = plans.monthly;
@@ -372,7 +409,7 @@ export default function ApplyPage() {
   };
 
   return (
-    <div className={`applyWrap ${activeTab === "monthly" ? "is-monthly" : activeTab === "yearly" ? "is-yearly" : "is-vip"}`}>
+    <div className={`applyWrap ${activeTab === "weekly" ? "is-weekly" : activeTab === "monthly" ? "is-monthly" : activeTab === "yearly" ? "is-yearly" : "is-vip"}`}>
       <style jsx global>{`
         .applyWrap {
           position: relative;
@@ -554,6 +591,12 @@ export default function ApplyPage() {
           box-shadow: 0 0 20px rgba(124,58,237,0.30);
         }
 
+        .applyWrap.is-weekly .tabBtn.active{
+          border-color: rgba(249,115,22,0.88);
+          background: linear-gradient(135deg, rgba(249,115,22,0.22), rgba(251,146,60,0.10));
+          box-shadow: 0 0 22px rgba(249,115,22,0.30), 0 0 18px rgba(251,146,60,0.14);
+          color: rgba(255, 237, 213, 0.96);
+        }
         .applyWrap.is-monthly .tabBtn.active{
           border-color: #7c3aed;
           background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(167,139,250,0.10));
@@ -573,10 +616,16 @@ export default function ApplyPage() {
           color: rgba(255, 235, 200, 0.95);
         }
 
+        .tabBtn[data-tab="weekly"]{ border-color: rgba(249,115,22,0.24); }
         .tabBtn[data-tab="monthly"]{ border-color: rgba(124,58,237,0.22); }
         .tabBtn[data-tab="yearly"]{ border-color: rgba(34,211,238,0.20); }
         .tabBtn[data-tab="vip"]{ border-color: rgba(245,158,11,0.22); }
 
+        .applyWrap.is-weekly .planCard.selected:not(.vip){
+          border-color: rgba(249,115,22,0.82);
+          background: linear-gradient(135deg, rgba(249,115,22,0.16), rgba(251,146,60,0.08));
+          box-shadow: 0 0 34px rgba(249,115,22,0.20), 0 0 26px rgba(251,146,60,0.12);
+        }
         .applyWrap.is-monthly .planCard.selected:not(.vip){
           border-color: #7c3aed;
           background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(167,139,250,0.08));
@@ -592,6 +641,11 @@ export default function ApplyPage() {
           border-color: rgba(34,211,238,0.28);
           background: rgba(34,211,238,0.14);
           color: rgba(186, 230, 253, 0.95);
+        }
+        .applyWrap.is-weekly .planCard.selected:not(.vip) .selectedPill{
+          border-color: rgba(249,115,22,0.32);
+          background: rgba(249,115,22,0.16);
+          color: rgba(255, 237, 213, 0.96);
         }
         .applyWrap.is-monthly .planCard.selected:not(.vip) .selectedPill{
           border-color: rgba(167,139,250,0.22);
@@ -675,6 +729,21 @@ export default function ApplyPage() {
           background: rgba(236,72,153,0.25);
           border-right: 1px solid rgba(255,255,255,0.12);
           border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        .tabBtn[data-tab="monthly"] .yearlyBubble{
+          background: linear-gradient(135deg, rgba(124,58,237,0.44), rgba(236,72,153,0.22));
+          box-shadow: 0 0 18px rgba(124,58,237,0.18), 0 0 18px rgba(236,72,153,0.14);
+        }
+        .tabBtn[data-tab="monthly"] .yearlyBubble:after{
+          background: rgba(124,58,237,0.28);
+        }
+        .tabBtn[data-tab="yearly"] .yearlyBubble{
+          color: rgba(236, 254, 255, 0.96);
+          background: linear-gradient(135deg, rgba(34,211,238,0.38), rgba(59,130,246,0.20));
+          box-shadow: 0 0 18px rgba(34,211,238,0.18), 0 0 18px rgba(59,130,246,0.14);
+        }
+        .tabBtn[data-tab="yearly"] .yearlyBubble:after{
+          background: rgba(34,211,238,0.24);
         }
         @keyframes floaty{
           0%,100%{ transform: translateX(-50%) translateY(0); }
@@ -915,15 +984,17 @@ export default function ApplyPage() {
         </div>
 
         <div className="applyTabs">
-          {["monthly","yearly","vip"].map((tab) => {
+          {["weekly","monthly","yearly","vip"].map((tab) => {
             const isActive = activeTab === tab;
             const isVip = tab === "vip";
+            const isMonth = tab === "monthly";
             const isYear = tab === "yearly";
             return (
               <button key={tab} data-tab={tab} onClick={() => onTabClick(tab)} type="button" className={`tabBtn ${isActive ? "active" : ""}`}>
+                {isMonth && <span className="yearlyBubble">{T.monthlySave(monthlyMaxSavePct)}</span>}
                 {isYear && <span className="yearlyBubble">{T.yearlySave(yearlyMaxSavePct)}</span>}
                 {isVip && <span className="vipCrown" aria-hidden="true">👑</span>}
-                {tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : "VIP"}
+                {tab === "weekly" ? T.tabWeekly : tab === "monthly" ? T.tabMonthly : tab === "yearly" ? T.tabYearly : "VIP"}
               </button>
             );
           })}
@@ -963,8 +1034,8 @@ export default function ApplyPage() {
                 const isVip = String(p.id).toUpperCase() === "VIP";
                 const desc = lang === "ko" ? p.descKo : p.descEn;
 
-                const periodKo = activeTab === "monthly" ? "월" : activeTab === "yearly" ? "연" : "";
-                const periodEn = activeTab === "monthly" ? "Month" : activeTab === "yearly" ? "Year" : "";
+                const periodKo = activeTab === "weekly" ? "주" : activeTab === "monthly" ? "월" : activeTab === "yearly" ? "연" : "";
+                const periodEn = activeTab === "weekly" ? "Week" : activeTab === "monthly" ? "Month" : activeTab === "yearly" ? "Year" : "";
 
                 const krwLine = !isVip && p.krw
                   ? `${periodKo} ${p.krw.toLocaleString()} KRW`
@@ -975,6 +1046,7 @@ export default function ApplyPage() {
                 const priceMain = lang === "ko" ? krwLine : (usdLine || krwLine);
                 const priceSub = lang === "ko" ? (usdLine || "") : (!isVip && p.krw ? krwLine : "");
 
+                const monthlySaving = activeTab === "monthly" ? monthlySavingsById[p.id] : null;
                 const yearlySaving = activeTab === "yearly" ? yearlySavingsById[p.id] : null;
 
                 return (
@@ -989,6 +1061,7 @@ export default function ApplyPage() {
                       <div>
                         <div className="planTitle">{p.id}</div>
                         <div className="planDesc">{desc}</div>
+                        {monthlySaving ? <div className="savingTag">{T.monthlySaveSmall(monthlySaving)}</div> : null}
                         {yearlySaving ? <div className="savingTag">{T.yearlySaveSmall(yearlySaving)}</div> : null}
                       </div>
 
