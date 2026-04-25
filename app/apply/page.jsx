@@ -146,9 +146,9 @@ export default function ApplyPage() {
         langKOR: "KOR",
         langENG: "ENG",
         yearlySave: (n) => `최대 ${n}% 절약!`,
-        yearlySaveSmall: (krw) => `월 플랜 대비 ${krw.toLocaleString()}원 절약!`,
+        yearlySaveSmall: (krw) => `월 플랜 12개월 대비 ${krw.toLocaleString()}원 절약!`,
         monthlySave: (n) => `최대 ${n}% 절약!`,
-        monthlySaveSmall: (krw) => `주 플랜 대비 ${krw.toLocaleString()}원 절약!`,
+        monthlySaveSmall: (krw) => `주 플랜 4주 대비 ${krw.toLocaleString()}원 절약!`,
         yearlyBenefitTitle: "연간 회원 전용 특별 혜택🎉",
         yearlyBenefitLead: "보따링 운영진과 함께해요!",
         yearlyBenefitList: [
@@ -189,9 +189,9 @@ export default function ApplyPage() {
         langKOR: "KOR",
         langENG: "ENG",
         yearlySave: (n) => `Save up to ${n}%!`,
-        yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs monthly!`,
+        yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs 12 monthly payments!`,
         monthlySave: (n) => `Save up to ${n}%!`,
-        monthlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs weekly!`,
+        monthlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs 4 weekly payments!`,
         yearlyBenefitTitle: "Exclusive benefits for annual members 🎉",
         yearlyBenefitLead: "Connect directly with the BODDARING team.",
         yearlyBenefitList: [
@@ -881,6 +881,19 @@ export default function ApplyPage() {
           font-size:14px;
           outline:none;
           transition: border-color .18s ease, box-shadow .18s ease;
+        }
+        .select {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          padding-right: 42px;
+
+          background-color: rgba(0,0,0,0.18);
+          background-image: url("data:image/svg+xml,%3Csvg width='14' height='9' viewBox='0 0 14 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 1.5L7 7L12.5 1.5' stroke='%23e0d7ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          background-size: 14px 9px;
+          cursor: pointer;
         }
         .input:focus,.select:focus,.textarea:focus{
           border-color: rgba(167,139,250,0.38);
