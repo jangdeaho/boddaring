@@ -428,7 +428,8 @@ export default function ApplyPage() {
         });
 
         if (!notifyRes.ok) {
-          console.warn("Apply Telegram notify failed:", notifyRes.status);
+          const errText = await notifyRes.text();
+          console.warn("Apply Telegram notify failed:", notifyRes.status, errText);
         }
       } catch (notifyError) {
         console.warn("Apply Telegram notify error:", notifyError);
