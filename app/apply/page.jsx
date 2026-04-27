@@ -146,7 +146,7 @@ export default function ApplyPage() {
         langKOR: "KOR",
         langENG: "ENG",
         yearlySave: (n) => `최대 ${n}% 절약!`,
-        yearlySaveSmall: (krw) => `월 플랜 12개월 대비 ${krw.toLocaleString()}원 절약!`,
+        yearlySaveSmall: (krw) => `주 플랜 52주 대비 ${krw.toLocaleString()}원 절약!`,
         monthlySave: (n) => `최대 ${n}% 절약!`,
         monthlySaveSmall: (krw) => `주 플랜 4주 대비 ${krw.toLocaleString()}원 절약!`,
         yearlyBenefitTitle: "연간 회원 전용 특별 혜택🎉",
@@ -189,7 +189,7 @@ export default function ApplyPage() {
         langKOR: "KOR",
         langENG: "ENG",
         yearlySave: (n) => `Save up to ${n}%!`,
-        yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs 12 monthly payments!`,
+        yearlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs 52 weekly payments!`,
         monthlySave: (n) => `Save up to ${n}%!`,
         monthlySaveSmall: (krw) => `Save ₩${krw.toLocaleString()} vs 4 weekly payments!`,
         yearlyBenefitTitle: "Exclusive benefits for annual members 🎉",
@@ -295,12 +295,12 @@ export default function ApplyPage() {
   }, [plans]);
 
   const yearlyMaxSavePct = useMemo(() => {
-    const monthly = plans.monthly;
+    const weekly = plans.weekly;
     const yearly = plans.yearly;
     const pcts = yearly.map((y) => {
-      const m = monthly.find((x) => x.id === y.id);
-      if (!m || !m.krw || !y.krw) return 0;
-      const total = m.krw * 12;
+      const w = weekly.find((x) => x.id === y.id);
+      if (!w || !w.krw || !y.krw) return 0;
+      const total = w.krw * 52;
       const save = total - y.krw;
       if (total <= 0) return 0;
       return Math.max(0, Math.round((save / total) * 100));
@@ -311,9 +311,9 @@ export default function ApplyPage() {
   const yearlySavingsById = useMemo(() => {
     const out = {};
     for (const y of plans.yearly) {
-      const m = plans.monthly.find((x) => x.id === y.id);
-      if (!m?.krw || !y?.krw) continue;
-      const total = m.krw * 12;
+      const w = plans.weekly.find((x) => x.id === y.id);
+      if (!w?.krw || !y?.krw) continue;
+      const total = w.krw * 52;
       const save = total - y.krw;
       out[y.id] = Math.max(0, save);
     }
