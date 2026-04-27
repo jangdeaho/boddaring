@@ -233,6 +233,47 @@ const L = T[lang];
         to_name: "BODDARING 관리자",
         ui_lang: lang,
       });
+
+      try {
+        const notifyRes = await fetch("https://api.boddaring.com/account/apply/notify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            telegram: formData.telegram,
+
+            experience:
+              lang === "ko"
+                ? T.ko.expOptions[formData.experience]
+                : T.en.expOptions[formData.experience],
+            fund_size: "-",
+
+            selected_plan: "TRIAL - 24시간 무료체험 (실시간 시그널)",
+            plan_krw: "무료체험",
+            plan_usdt: "Free Trial",
+
+            exchange_rate: "-",
+            rate_updated: "-",
+
+            message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
+            ui_lang: lang,
+
+            user_ip: userIP,
+          }),
+        });
+
+        if (!notifyRes.ok) {
+          const errText = await notifyRes.text();
+          console.warn("Trial Telegram notify failed:", notifyRes.status, errText);
+        }
+      } catch (notifyError) {
+        console.warn("Trial Telegram notify error:", notifyError);
+      }
+
       setFormStatus("sent");
       setTimeout(() => setFormStatus("idle"), 5000);
     } catch (error) {
