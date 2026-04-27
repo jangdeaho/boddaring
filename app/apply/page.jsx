@@ -400,6 +400,40 @@ export default function ApplyPage() {
         ui_lang: lang,
       });
 
+      try {
+        const notifyRes = await fetch("https://api.boddaring.com/account/apply/notify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            telegram: formData.telegram,
+
+            experience: experienceLabel,
+            fund_size: fundLabel,
+
+            selected_plan: `${activeTab.toUpperCase()} - ${formData.plan}`,
+            plan_krw: krwPriceLabel,
+            plan_usdt: usdtPriceLabel,
+
+            exchange_rate: `${exchangeRate.toLocaleString()} KRW/USDT`,
+            rate_updated: lastUpdatedAt ? formatTime(lastUpdatedAt) : "-",
+
+            message: formData.message || (lang === "ko" ? "(메시지 없음)" : "(No message)"),
+            ui_lang: lang,
+          }),
+        });
+
+        if (!notifyRes.ok) {
+          console.warn("Apply Telegram notify failed:", notifyRes.status);
+        }
+      } catch (notifyError) {
+        console.warn("Apply Telegram notify error:", notifyError);
+      }
+
       setFormStatus("sent");
       setTimeout(() => setFormStatus("idle"), 5000);
     } catch (error) {
