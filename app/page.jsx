@@ -782,7 +782,7 @@ const handleDevSubmit = async (e) => {
                     <div className="arrow">→</div>
                     <div className="flow-node"><span className="flow-dot" style={{ color: "#6aee8b", background: "#56a0f5" }} />개인 필터링</div>
                     <div className="arrow">→</div>
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#a78bfa", background: "#a78bfa" }} />시그널 표시</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#a78bfa", background: "#a78bfa" }} />차익 시그널 표시</div>
                   </div>
 
                   <div className="signal-table">
@@ -798,16 +798,32 @@ const handleDevSubmit = async (e) => {
                       <div className="coin-cell"><div>TRAC</div></div>
                       <div className="pair-block"><div className="pair-top">TRAC-USDT</div><div className="pair-ex">MEXC</div><div className="pair-bottom">503.9938 KRW</div></div>
                       <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">534.5026 KRW</div></div>
-                      <div className="amount-cell">435 USDT</div>
+                      <div className="amount-cell">4,435 USDT</div>
                       <div className="per-cell red">+6.04%</div>
                     </div>
 
                     <div className="signal-row">
                       <div className="coin-cell"><div>TRAC</div></div>
-                      <div className="pair-block"><div className="pair-top">TRAC-USD</div><div className="pair-ex">COINBASE</div><div className="pair-bottom">507.8702 KRW</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-USD</div><div className="pair-ex">COINBASE</div><div className="pair-bottom">502.8702 KRW</div></div>
                       <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">532.4029 KRW</div></div>
                       <div className="amount-cell">8,601 USD</div>
-                      <div className="per-cell red">+4.81%</div>
+                      <div className="per-cell red">+5.87%</div>
+                    </div>
+
+                    <div className="signal-row">
+                      <div className="coin-cell"><div>TRAC</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-USDT</div><div className="pair-ex">GATE.IO</div><div className="pair-bottom">507.5571 KRW</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">534.1026 KRW</div></div>
+                      <div className="amount-cell">5,453 USDT</div>
+                      <div className="per-cell red">+5.23%</div>
+                    </div>
+
+                    <div className="signal-row">
+                      <div className="coin-cell"><div>TRAC</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-USDT</div><div className="pair-ex">KUCOIN</div><div className="pair-bottom">515.7781 KRW</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">533.1780 KRW</div></div>
+                      <div className="amount-cell">2,2821 USDT</div>
+                      <div className="per-cell red">+3.37%</div>
                     </div>
                   </div>
                 </div>
@@ -827,8 +843,8 @@ const handleDevSubmit = async (e) => {
 
               <div className="value-stack">
                 <div className="value-card"><p className="value-title">압도적인 데이터 수집</p><p className="value-desc">15개 이상의 거래소에서 모든 종목의 호가를 모아,<br />같은 기준으로 빠르게 비교할 수 있는 구조를 만듭니다.</p></div>
-                <div className="value-card"><p className="value-title">차익 시그널 자동 계산</p><p className="value-desc">A 거래소와 C 거래소 사이의 가격 차이만 보는 것이 아닌<br />Amount, Per 계산까지 함께 보여줘 판단 속도를 높입니다.</p></div>
-                <div className="value-card"><p className="value-title">실행 가능한 기회 선별</p><p className="value-desc">겉으로 보이는 숫자보다 실제 체결 구조와 수수료, 환율 반영 이후에도<br />의미 있는 기회만 빠르게 확인할 수 있습니다.</p></div>
+                <div className="value-card"><p className="value-title">차익 시그널 자동 계산</p><p className="value-desc">A 거래소와 C 거래소 사이의 가격 차이만 보는 것이 아닌<br />Amount, Per, 도착 거래소 통화단위의 평균 매수 단가표기로 판단 속도를 높입니다.</p></div>
+                <div className="value-card"><p className="value-title">실행 가능한 기회 선별</p><p className="value-desc">겉으로 표기되는 숫자보다 실제 체결 구조 및 수수료 그리고 환율 반영 등<br />의미 있는 기회만 빠르게 확인할 수 있으며, 사용자별 개인 설정을 통해 커스텀 할 수 있습니다.</p></div>
                 <div className="value-card"><p className="value-title">실시간 시그널 중심 화면</p><p className="value-desc">복잡한 설명보다 바로 읽히는 구조가 중요합니다.<br />핵심 종목, 거래소, 금액, 퍼센트 위주로 신호를 단순하게 표시합니다.</p></div>
               </div>
             </div>
@@ -911,7 +927,7 @@ const handleDevSubmit = async (e) => {
                       <div className="field-row"><label>코인명</label><div className="fake-input"><span>USDT</span><span className="select-arrow">▼</span></div></div>
                       <div className="field-row"><label>수신 주소</label><div className="fake-input"><span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>TCcyd...qr5Se</span><span className="select-arrow">▼</span></div></div>
                       <div className="field-row"><label>2차 주소</label><div className="fake-input disabled"><span>&nbsp;</span><span className="select-arrow">▼</span></div></div>
-                      <div className="field-row"><label>딜레이</label><div className="fake-input"><span>1</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>딜레이</label><div className="fake-input"><span>1s</span><span className="select-arrow">▼</span></div></div>
                     </div><div className="center-actions"><div className="fake-btn btn-send">SEND</div><div className="fake-btn btn-stop">STOP</div></div></div>
                     <div className="ui-panel"><div className="panel-label">Console Log</div><div className="log-panel"><div className="log-box"><div className="log-line">💠 수신 주소 선택 : TCcyd...qr5Se</div><div className="log-line">⛔ 2차 주소가 비활성화되었습니다.</div><div className="log-line blue">📤 업비트 출금 요청<br />3500.0000 USDT → TCcyd...qr5Se</div><div className="log-line">수수료: 0.01 USDT | 시도 횟수= 1/6</div><div className="log-line good">✅ 출금 요청 완료!</div><div className="log-line good">📨 텔레그램 알림 전송 완료!</div><div className="log-line warn">⛔ 출금이 중단되었습니다.</div></div></div></div>
                   </div></div>
