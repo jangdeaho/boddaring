@@ -3,7 +3,6 @@ import emailjs from "@emailjs/browser";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-/* ── 거래소 데이터 ── */
 const EXCHANGES = [
   { name: "업비트", logo: "upbit.png", color: "#1763B6" },
   { name: "빗썸", logo: "bithumb.png", color: "#F7A600" },
@@ -31,7 +30,7 @@ const EXCHANGES = [
   { name: "Deepcoin", logo: "deepcoin.png", color: "#fe7701" },
 ];
 
-/* ── 별똥별 Canvas ── */
+
 function StarCanvas() {
   const canvasRef = useRef(null);
 
@@ -122,7 +121,7 @@ function StarCanvas() {
       ctx.clearRect(0, 0, W, H);
       frame++;
 
-      /* 별 */
+
       stars.forEach((s) => {
         const a = s.a * (0.6 + 0.4 * Math.sin(frame * s.speed + s.phase));
         ctx.beginPath();
@@ -131,7 +130,7 @@ function StarCanvas() {
         ctx.fill();
       });
 
-      /* 별똥별 */
+
       meteors.forEach((m) => {
         m.update();
         m.draw(ctx);
@@ -175,6 +174,7 @@ export default function Home() {
   const [serviceOpen, setServiceOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
   const [contactTab, setContactTab] = useState("inquiry");
+  const [activeBot, setActiveBot] = useState("order");
   const [formData, setFormData] = useState({
     email: "",
     telegram: "",
@@ -193,14 +193,14 @@ export default function Home() {
   const serviceRef = useRef(null);
   const serviceCloseT = useRef(null);
 
-  /* 스크롤 감지 */
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* 드롭다운 외부 클릭 감지 */
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (serviceRef.current && !serviceRef.current.contains(e.target)) {
@@ -211,7 +211,7 @@ export default function Home() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  /* Scroll Reveal */
+
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
@@ -223,7 +223,7 @@ export default function Home() {
     return () => io.disconnect();
   }, []);
 
-  /* EmailJS 초기화 */
+
   useEffect(() => {
     const pk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
     if (!pk) {
@@ -234,7 +234,7 @@ export default function Home() {
     setEmailjsReady(true);
   }, []);
 
-  /* 폼 검증 */
+
   const validate = () => {
     const errs = {};
     if (!formData.email.trim()) errs.email = true;
@@ -243,7 +243,7 @@ export default function Home() {
     return errs;
   };
 
-  /* 폼 제출 — 일반 문의 */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
@@ -275,7 +275,7 @@ export default function Home() {
     }
   };
 
-  /* 폼 제출 — 개발 문의 */
+
 const handleDevSubmit = async (e) => {
   e.preventDefault();
   
@@ -371,7 +371,6 @@ const handleDevSubmit = async (e) => {
 
   return (
     <>
-      {/* ── 배경 ── */}
       <StarCanvas />
       <div className="nebula-wrap" aria-hidden="true">
         <div className="nebula nebula-1" />
@@ -379,11 +378,81 @@ const handleDevSubmit = async (e) => {
         <div className="nebula nebula-3" />
       </div>
 
-      {/* ── 네비게이션 ── */}
+      <style jsx global>{`
+        #about .about-grid{
+          display:grid;
+          grid-template-columns:1.04fr .96fr;
+          gap:38px;
+          align-items:center;
+        }
+        #about .signal-shell{
+          position:relative;
+          min-height:640px;
+          overflow:hidden;
+          border-radius:28px;
+          border:1px solid rgba(255,255,255,.12);
+          background:radial-gradient(420px 260px at 22% 18%, rgba(124,58,237,.18), transparent 62%),radial-gradient(420px 300px at 84% 20%, rgba(14,165,233,.11), transparent 65%),linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.026));
+          box-shadow:0 24px 90px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        #about .signal-shell:before{content:"";position:absolute;inset:0;opacity:.12;background:linear-gradient(90deg,transparent 0 49%,rgba(255,255,255,.08) 50%,transparent 51%),linear-gradient(0deg,transparent 0 49%,rgba(255,255,255,.06) 50%,transparent 51%);background-size:52px 52px;mask-image:radial-gradient(circle at 52% 40%,black,transparent 75%);pointer-events:none;}
+        #about .signal-ui{position:absolute;inset:22px;border:1px solid rgba(255,255,255,.11);border-radius:24px;background:rgba(4,7,18,.72);backdrop-filter:blur(18px);box-shadow:0 18px 80px rgba(0,0,0,.42);overflow:hidden;animation:bdrFadeUp .35s ease;}
+        #about .signal-head{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 18px;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(90deg,rgba(124,58,237,.14),transparent),rgba(255,255,255,.03);}
+        #about .signal-brand{display:flex;align-items:center;gap:12px;min-width:0;}
+        #about .signal-logo{width:38px;height:38px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(124,58,237,.18);padding:6px;}
+        #about .signal-logo img{width:100%;height:100%;object-fit:contain;display:block;}
+        #about .signal-title{font-weight:950;font-size:15px;color:rgba(245,247,255,.97);}
+        #about .signal-body{padding:18px;display:grid;gap:16px;}
+        #about .signal-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+        #about .stat-card{padding:14px 14px 13px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);box-shadow:inset 0 1px 0 rgba(255,255,255,.03);}
+        #about .stat-label{color:rgba(202,210,238,.54);font-size:11px;line-height:1.15;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;white-space:nowrap;}
+        #about .stat-value{font-size:22px;font-weight:950;letter-spacing:-.04em;}
+        #about .stat-sub{margin-top:4px;color:rgba(202,210,238,.64);font-size:12px;font-weight:700;}
+        #about .signal-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+        #about .flow-node{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:12px;font-weight:850;color:rgba(245,247,255,.92);}
+        #about .flow-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 14px currentColor;animation:bdrPulse 1.4s ease-in-out infinite;}
+        #about .arrow{color:rgba(202,210,238,.46);font-weight:900;font-size:14px;}
+        #about .signal-table{overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);}
+        #about .signal-row,#about .signal-head-row{display:grid;grid-template-columns:.82fr 1.34fr 1.34fr .92fr .55fr;gap:12px;align-items:center;padding:15px 18px;}
+        #about .signal-head-row{border-bottom:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(202,210,238,.62);font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;}
+        #about .signal-row{position:relative;animation:bdrSoftIn .4s ease both;}
+        #about .signal-row:nth-child(2){animation-delay:.05s;}#about .signal-row:nth-child(3){animation-delay:.1s;}#about .signal-row:nth-child(4){animation-delay:.15s;}
+        #about .signal-row + .signal-row{border-top:1px solid rgba(255,255,255,.06);}
+        #about .coin-cell{display:flex;align-items:center;gap:10px;font-weight:950;min-width:0;}
+        #about .coin-icon{width:30px;height:30px;border-radius:50%;overflow:hidden;background:none;display:block;box-shadow:none;flex:0 0 30px;}
+        #about .coin-icon img{width:100%;height:100%;object-fit:cover;display:block;}
+        #about .pair-block{display:flex;flex-direction:column;gap:4px;min-width:0;}
+        #about .pair-top{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:900;color:rgba(245,247,255,.96);white-space:nowrap;}
+        #about .pair-ex{color:rgba(202,210,238,.46);font-size:11px;font-weight:800;text-transform:uppercase;}
+        #about .pair-bottom{font-size:12px;font-weight:900;color:#fbbf24;}#about .pair-bottom.blue{color:#22d3ee;}
+        #about .amount-cell{font-size:13px;font-weight:950;color:#fff;white-space:nowrap;}#about .per-cell{font-size:16px;font-weight:950;color:#4ade80;white-space:nowrap;}#about .per-cell.red{color:#ff5f73;}#about .per-cell.green{color:#22c55e;}
+        #about .about-copy .section-desc{font-size:13px;line-height:1.85;max-width:720px;}
+        #about .value-stack{display:grid;gap:13px;margin-top:28px;}
+        #about .value-card{position:relative;overflow:hidden;padding:18px 18px 18px 52px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(255,255,255,.045);transition:transform .18s ease,border-color .18s ease,background .18s ease;}
+        #about .value-card:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.34);background:rgba(255,255,255,.062);}
+        #about .value-card:before{content:"✓";position:absolute;left:18px;top:18px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;color:#08111d;background:linear-gradient(135deg,#34d399,#38bdf8);font-size:12px;font-weight:950;}
+        #about .value-title{font-size:15px;font-weight:950;margin:0 0 5px;}#about .value-desc{margin:0;color:rgba(202,210,238,.66);line-height:1.62;font-size:13px;font-weight:650;}
+
+        #bot .bot-layout{margin-top:40px;display:grid;grid-template-columns:.86fr 1.14fr;gap:28px;align-items:stretch;}
+        #bot .bot-tabs{display:grid;gap:14px;}#bot .bot-tab{width:100%;padding:20px;border:1px solid rgba(255,255,255,.10);border-radius:20px;background:rgba(255,255,255,.04);color:white;text-align:left;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;}
+        #bot .bot-tab:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.28);background:rgba(255,255,255,.058);}#bot .bot-tab.active{border-color:rgba(167,139,250,.48);background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(56,189,248,.08)),rgba(255,255,255,.05);box-shadow:0 0 40px rgba(124,58,237,.12);}
+        #bot .bot-tab-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}#bot .bot-tag{display:inline-flex;align-items:center;gap:7px;color:rgba(221,214,254,.96);background:rgba(124,58,237,.18);border:1px solid rgba(167,139,250,.18);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950;letter-spacing:.05em;}#bot .bot-tag i{width:7px;height:7px;border-radius:50%;background:#a78bfa;box-shadow:0 0 12px rgba(167,139,250,.7);}#bot .bot-index{color:rgba(202,210,238,.42);font-size:12px;font-weight:950;}#bot .bot-tab h3{margin:0 0 8px;font-size:20px;font-weight:950;letter-spacing:-.035em;}#bot .bot-tab p{margin:0;color:rgba(202,210,238,.66);font-size:13px;line-height:1.62;font-weight:650;}
+        #bot .bot-mini-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}#bot .bot-mini-chips span{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(235,240,255,.82);font-size:11px;font-weight:850;}
+        #bot .bot-preview{position:relative;min-height:580px;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:28px;background:radial-gradient(520px 300px at 70% 10%,rgba(56,189,248,.14),transparent 62%),radial-gradient(400px 260px at 18% 24%,rgba(124,58,237,.2),transparent 65%),rgba(255,255,255,.045);box-shadow:0 24px 90px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.07);}
+        #bot .bot-preview:before{content:"";position:absolute;inset:0;opacity:.11;background:linear-gradient(90deg,transparent 0 49%,rgba(255,255,255,.08) 50%,transparent 51%),linear-gradient(0deg,transparent 0 49%,rgba(255,255,255,.06) 50%,transparent 51%);background-size:42px 42px;mask-image:radial-gradient(circle at 54% 28%,black,transparent 78%);pointer-events:none;}
+        #bot .program-shell{position:absolute;inset:34px;border:1px solid rgba(255,255,255,.13);border-radius:24px;background:rgba(4,7,18,.78);box-shadow:0 18px 80px rgba(0,0,0,.44);backdrop-filter:blur(20px);overflow:hidden;animation:bdrFadeUp .35s ease;}
+        #bot .program-head{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.09);background:linear-gradient(90deg,rgba(124,58,237,.12),transparent),rgba(255,255,255,.035);}#bot .program-brand{display:flex;align-items:center;gap:12px;min-width:0;}#bot .program-logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,rgba(124,58,237,.92),rgba(56,189,248,.76));box-shadow:0 0 22px rgba(124,58,237,.25);display:grid;place-items:center;font-weight:950;font-size:13px;}#bot .program-title{font-weight:950;font-size:15px;color:rgba(245,247,255,.96);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}#bot .program-sub{margin-top:2px;color:rgba(202,210,238,.48);font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}#bot .program-status{padding:8px 11px;border-radius:999px;background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.18);color:rgba(209,250,229,.92);font-size:11px;font-weight:950;white-space:nowrap;}
+        #bot .program-canvas{height:calc(100% - 66px);padding:18px;overflow:hidden;}#bot .ui-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:16px;height:100%;}#bot .ui-panel{border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(255,255,255,.035);padding:16px;min-height:0;display:flex;flex-direction:column;overflow:hidden;}#bot .panel-label{margin-bottom:14px;color:rgba(202,210,238,.48);font-size:10px;font-weight:950;letter-spacing:.18em;text-transform:uppercase;}#bot .control-form{display:grid;gap:10px;flex:1;min-height:0;}#bot .field-row{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;}#bot .field-row label{color:rgba(245,247,255,.88);font-size:12px;font-weight:900;}#bot .fake-input{height:31px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 10px;border-radius:4px;background:rgba(255,255,255,.9);color:#111827;font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;}#bot .fake-input.disabled{opacity:.6;background:rgba(255,255,255,.58);}#bot .select-arrow{color:rgba(15,23,42,.62);font-size:10px;margin-left:auto;}#bot .center-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px;}#bot .fake-btn{min-width:96px;padding:10px 14px;border-radius:6px;text-align:center;font-size:12px;font-weight:950;color:#071018;box-shadow:0 0 18px rgba(255,255,255,.05);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;}#bot .fake-btn:hover{transform:translateY(-1px);filter:brightness(1.03);box-shadow:0 8px 24px rgba(0,0,0,.25);}#bot .btn-sell{background:#ff6868;}#bot .btn-stop{background:#ffe16c;}#bot .btn-send{background:#58f29d;}
+        #bot .log-panel{display:flex;flex-direction:column;min-height:0;height:100%;}#bot .log-box{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:13px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.07);overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.03);}#bot .log-line{color:rgba(245,247,255,.84);font-size:12px;font-weight:770;line-height:1.38;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.03);animation:bdrSoftIn .35s ease both;}#bot .log-line:nth-child(2){animation-delay:.05s;}#bot .log-line:nth-child(3){animation-delay:.1s;}#bot .log-line:nth-child(4){animation-delay:.15s;}#bot .log-line:nth-child(5){animation-delay:.2s;}#bot .log-line.good{color:rgba(187,247,208,.95);border-color:rgba(52,211,153,.16);}#bot .log-line.warn{color:rgba(254,240,138,.95);border-color:rgba(250,204,21,.14);}#bot .log-line.blue{color:rgba(186,230,253,.95);border-color:rgba(56,189,248,.16);}
+        #bot .assist-preview-wrap{height:100%;display:flex;flex-direction:column;justify-content:flex-start;padding:4px 2px 0;}#bot .assist-intro{text-align:center;margin-bottom:10px;padding:0 8px;}#bot .assist-kicker{color:rgba(202,210,238,.52);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;}#bot .assist-title{font-size:22px;line-height:1.2;font-weight:950;letter-spacing:-.03em;color:#f5f7ff;margin-bottom:8px;}#bot .assist-desc{max-width:560px;margin:0 auto;font-size:12px;line-height:1.6;color:rgba(202,210,238,.68);font-weight:650;}#bot .assist-slider-stage{position:relative;overflow:hidden;margin-top:6px;padding:8px 0 10px;}#bot .assist-slider-track{display:flex;gap:16px;width:max-content;padding:0 6px;will-change:transform;animation:bdrAssistLoop 24s linear infinite;}#bot .assist-slider-stage:hover .assist-slider-track{animation-play-state:paused;}#bot .assist-slide-card{width:248px;min-height:272px;border-radius:20px;padding:18px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.028));border:1px solid rgba(255,255,255,.08);box-shadow:0 16px 34px rgba(0,0,0,.22);flex:0 0 auto;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;}#bot .assist-slide-card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.28);box-shadow:0 22px 42px rgba(0,0,0,.28);}#bot .assist-slide-card:before{content:"";position:absolute;inset:0;background:radial-gradient(160px 90px at 22% 16%,rgba(124,58,237,.14),transparent 60%),radial-gradient(160px 90px at 82% 16%,rgba(56,189,248,.10),transparent 60%);pointer-events:none;}#bot .assist-card-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:16px;}#bot .assist-card-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;background:linear-gradient(135deg,rgba(124,58,237,.95),rgba(56,189,248,.78));box-shadow:0 10px 24px rgba(124,58,237,.22);}#bot .assist-card-chip{padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);color:rgba(230,235,255,.88);font-size:10px;font-weight:900;letter-spacing:.08em;}#bot .assist-card-title{position:relative;z-index:1;font-size:18px;font-weight:950;letter-spacing:-.03em;color:#f5f7ff;margin-bottom:8px;}#bot .assist-card-text{position:relative;z-index:1;font-size:12px;line-height:1.65;color:rgba(202,210,238,.72);font-weight:650;min-height:78px;}#bot .assist-card-miniui{position:relative;z-index:1;margin-top:16px;display:grid;gap:10px;}#bot .assist-mini-box{border-radius:12px;padding:11px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);}#bot .assist-mini-label{font-size:10px;font-weight:900;color:rgba(202,210,238,.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}#bot .assist-mini-value{font-size:13px;font-weight:850;color:#f5f7ff;}#bot .assist-mini-row{display:flex;gap:8px;}#bot .assist-mini-pill{flex:1;padding:10px 10px;border-radius:10px;text-align:center;font-size:11px;font-weight:900;color:#071018;}#bot .assist-pill-yellow{background:#ffb000;}#bot .assist-pill-green{background:#58f29d;}#bot .assist-pill-blue{background:#8fd3ff;}#bot .assist-pill-orange{background:#ffbf47;}#bot .assist-slider-dots{display:flex;justify-content:center;gap:8px;margin-top:8px;}#bot .assist-slider-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.16);animation:bdrAssistDotPulse 1.8s ease-in-out infinite;}#bot .assist-slider-dots span:nth-child(2){animation-delay:.25s;}#bot .assist-slider-dots span:nth-child(3){animation-delay:.5s;}
+        #bot .mini-cta{margin-top:38px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}#bot .ghost-note{padding:12px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:rgba(202,210,238,.68);font-size:12px;font-weight:800;}
+        @keyframes bdrFadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}@keyframes bdrPulse{0%,100%{opacity:.55;transform:scale(.92);}50%{opacity:1;transform:scale(1.15);}}@keyframes bdrSoftIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}@keyframes bdrAssistLoop{from{transform:translateX(0);}to{transform:translateX(-1056px);}}@keyframes bdrAssistDotPulse{0%,100%{opacity:.35;transform:scale(.92);}50%{opacity:1;transform:scale(1.15);}}
+        @media (max-width:1080px){#about .about-grid,#bot .bot-layout{grid-template-columns:1fr;}#about .signal-shell{min-height:620px;}#bot .program-shell{position:relative;inset:auto;margin:24px;min-height:540px;}#bot .bot-preview{min-height:auto;}}
+        @media (max-width:800px){#about .signal-stats{grid-template-columns:1fr;}#about .signal-head-row,#about .signal-row{grid-template-columns:1fr;gap:10px;}#bot .ui-grid{grid-template-columns:1fr;}#bot .field-row{grid-template-columns:1fr;gap:6px;}#bot .bot-tabs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;}#bot .bot-tab{min-width:280px;scroll-snap-align:start;}}
+      `}</style>
+
       <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
         <div className="container">
           <div className="navbar-inner">
-            {/* 브랜드 */}
             <a href="#top" className="brand">
               <img src="/img/icon.png" alt="BODDARING" className="brand-icon" />
               <div className="brand-text">
@@ -392,9 +461,7 @@ const handleDevSubmit = async (e) => {
               </div>
             </a>
 
-            {/* 데스크탑 네비 */}
             <div className="nav-links">
-              {/* 서비스 드롭다운 */}
               <div
                 className={`nav-dropdown${serviceOpen ? " open" : ""}`}
                 ref={serviceRef}
@@ -439,7 +506,6 @@ const handleDevSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* 더 알아보기 */}
               <div className="nav-inline">
                 <Link href="/learn#arbitrage" className="nav-link nav-link--inline">
                   아비트라지란?
@@ -456,7 +522,6 @@ const handleDevSubmit = async (e) => {
               </div>
             </div>
 
-            {/* CTA */}
             <div className="nav-cta">
               <Link href="/trial" className="btn-cta-u btn-cta-u--pink">
                 무료체험 요청 <span className="arrow">→</span>
@@ -467,7 +532,6 @@ const handleDevSubmit = async (e) => {
               </Link>
             </div>
 
-            {/* 모바일 햄버거 */}
             <button
               className="hamburger"
               aria-label="메뉴"
@@ -481,9 +545,7 @@ const handleDevSubmit = async (e) => {
         </div>
       </nav>
 
-      {/* 모바일 메뉴 */}
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
-        {/* 모바일 서비스 아코디언 */}
         <button
           className="nav-link mobile-service-toggle"
           onClick={() => setMobileServiceOpen((p) => !p)}
@@ -524,11 +586,10 @@ const handleDevSubmit = async (e) => {
         </Link>
       </div>
 
-      {/* ── 히어로 ── */}
+
       <section id="top" className="hero">
         <div className="container">
           <div className="hero-grid">
-            {/* 좌측 */}
             <div className="hero-left reveal">
               <div className="hero-badge">
                 <span className="hero-badge-dot" />
@@ -589,7 +650,6 @@ const handleDevSubmit = async (e) => {
               </div>
             </div>
 
-            {/* 우측 */}
             <div className="hero-right reveal reveal-delay-2">
               <div className="hero-video-wrap hero-video-large">
                 <div className="hero-video-badge">
@@ -613,7 +673,6 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 시그널 소개 ── */}
       <section id="signal" style={{ padding: "100px 0" }}>
         <div className="container">
           <div className="section-head reveal">
@@ -628,7 +687,6 @@ const handleDevSubmit = async (e) => {
             </p>
           </div>
 
-          {/* 타임라인 */}
           <div className="feature-timeline reveal">
             <div className="feature-timeline-item">
               <div className="ftl-icon-wrap">
@@ -673,52 +731,96 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 사이트 상세 소개 ── */}
       <section id="about" className="about-section">
         <div className="container">
           <div className="about-grid">
-            {/* 좌측 — 영상 */}
-            <div className="reveal">
-              <div className="about-video-wrap">
-                <div className="about-video-placeholder">
-                  <div className="video-icon">▶</div>
-                  <span className="video-label">상세 소개 영상</span>
+            <div className="signal-shell reveal">
+              <div className="signal-ui">
+                <div className="signal-head">
+                  <div className="signal-brand">
+                    <div className="signal-logo">
+                      <img src="/img/icon.png" alt="BODDARING" />
+                    </div>
+                    <div>
+                      <div className="signal-title">BODDARING DATA ENGINE</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="signal-body">
+                  <div className="signal-stats">
+                    <div className="stat-card">
+                      <div className="stat-label">Connected Exchanges</div>
+                      <div className="stat-value">15+</div>
+                      <div className="stat-sub">국내 · 해외 거래소 통합</div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-label">Tracked Symbols</div>
+                      <div className="stat-value">10,000+</div>
+                      <div className="stat-sub">실시간 호가 모니터링</div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-label">Signal Logic</div>
+                      <div className="stat-value">Amount · Per</div>
+                      <div className="stat-sub">차익 구간 자동 계산</div>
+                    </div>
+                  </div>
+
+                  <div className="signal-flow">
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#34d399", background: "#34d399" }} />15개+ 거래소 호가 수집</div>
+                    <div className="arrow">→</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#38bdf8", background: "#38bdf8" }} />A ↔ C 거래소 차익 감지</div>
+                    <div className="arrow">→</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#fbbf24", background: "#fbbf24" }} />Amount · Per 계산</div>
+                    <div className="arrow">→</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#a78bfa", background: "#a78bfa" }} />시그널 표시</div>
+                  </div>
+
+                  <div className="signal-table">
+                    <div className="signal-head-row">
+                      <div>Base</div>
+                      <div>From</div>
+                      <div>To</div>
+                      <div>Amount</div>
+                      <div>Per</div>
+                    </div>
+
+                    <div className="signal-row">
+                      <div className="coin-cell"><div>TRAC</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-USDT</div><div className="pair-ex">MEXC</div><div className="pair-bottom">503.9938 KRW</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">534.5026 KRW</div></div>
+                      <div className="amount-cell">435 USDT</div>
+                      <div className="per-cell red">+6.04%</div>
+                    </div>
+
+                    <div className="signal-row">
+                      <div className="coin-cell"><div>TRAC</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-USD</div><div className="pair-ex">COINBASE</div><div className="pair-bottom">507.8702 KRW</div></div>
+                      <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">532.4029 KRW</div></div>
+                      <div className="amount-cell">8,601 USD</div>
+                      <div className="per-cell red">+4.81%</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 우측 — 설명 */}
-            <div className="reveal reveal-delay-1">
+            <div className="about-copy reveal reveal-delay-1">
               <div className="section-label">Why BODDARING</div>
               <h2 className="section-title">
                 데이터가 곧 <span className="hero-grad">경쟁력</span>입니다.
               </h2>
               <p className="section-desc no-break">
-                아비트라지는 속도와 정보의 싸움입니다.<br />
-                BODDARING은 고도화된 데이터 수집 인프라로 여러분의 경쟁력을 극대화합니다.
+                아비트라지는 단순히 높은 퍼센트를 찾는 게임이 아닙니다.<br />
+                중요한 것은 지금 표시된 가격 차이가 실제로 체결 가능한 구조인지,<br />
+                입출금·수수료·환율까지 반영했을 때 의미 있는 구간인지 판단하는 것입니다.
               </p>
 
-              <div className="check-list">
-                <div className="check-item">
-                  압도적인 데이터 수집<br />
-                    └─ 연동 거래소내에 상장된 모든 코인 호가를 1초 단위로 실시간 데이터 수집 및 비교 
-                </div>              
-                <div className="check-item">
-                  테더(USDT) 실거래 환율 기반 프리미엄 계산<br />
-                    └─ 단순 원·달러 환율이 아닌 비트코인 환율 기반 실질 차익 기준 반영
-                </div>              
-                <div className="check-item">
-                  오더북 유동성 기반 실행 가능성 검증<br />
-                    └─ 표시되는 단순 퍼센트 수치가 아닌 실제 체결 가능한 기회만 선별
-                </div>              
-                <div className="check-item">
-                  입출금 상태 실시간 모니터링<br />
-                    └─ 차익 발생 시 즉시 실행 가능한 환경인지 사전 확인
-                </div>              
-                <div className="check-item">
-                  텔레그램 프라이빗 알림 시스템<br />
-                    └─ 개인 봇 설정을 통한 안전하고 독립적인 시그널 관리
-                </div>
+              <div className="value-stack">
+                <div className="value-card"><p className="value-title">압도적인 데이터 수집</p><p className="value-desc">15개 이상의 거래소에서 모든 종목의 호가를 모아,<br />같은 기준으로 빠르게 비교할 수 있는 구조를 만듭니다.</p></div>
+                <div className="value-card"><p className="value-title">차익 시그널 자동 계산</p><p className="value-desc">A 거래소와 C 거래소 사이의 가격 차이만 보는 것이 아닌<br />Amount, Per 계산까지 함께 보여줘 판단 속도를 높입니다.</p></div>
+                <div className="value-card"><p className="value-title">실행 가능한 기회 선별</p><p className="value-desc">겉으로 보이는 숫자보다 실제 체결 구조와 수수료, 환율 반영 이후에도<br />의미 있는 기회만 빠르게 확인할 수 있습니다.</p></div>
+                <div className="value-card"><p className="value-title">실시간 시그널 중심 화면</p><p className="value-desc">복잡한 설명보다 바로 읽히는 구조가 중요합니다.<br />핵심 종목, 거래소, 금액, 퍼센트 위주로 신호를 단순하게 표시합니다.</p></div>
               </div>
             </div>
           </div>
@@ -727,7 +829,6 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── BOT 소개 ── */}
       <section id="bot" className="bot-section">
         <div className="container">
           <div className="section-head center reveal">
@@ -736,51 +837,100 @@ const handleDevSubmit = async (e) => {
               아비트라지에 <span className="hero-grad">날개를 더하는 BOT</span>
             </h2>
             <p className="section-desc">
-              사용자 편의성을 최우선으로 고려한 보조 프로그램을 제공합니다.<br />프라이빗한 텔레그램 알림부터 실전 매매 흐름에 최적화된 자동화 기능까지 제공합니다.
+              데이터 확인에서 끝나지 않고, 실제 운영 흐름을 더 빠르고 안정적으로 만들기 위한 보조 프로그램을 제공합니다.<br />
+              주문·출금·알림·전략 보조까지 실전에서 반복되는 과정을 더 단순하게 만듭니다.
             </p>
           </div>
 
-          <div className="bot-grid">
-            <div className="bot-card reveal">
-              {/* <div className="bot-card-img">
-                <img src="/img/bot-1.png" alt="시그널 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
-                <div className="img-placeholder" style={{display:'none'}}>🤖</div>
-              </div> */}
-              <div className="bot-tag">Signal Bot</div>
-              <h3>종합 매도 BOT</h3>
-              <p>
-                국내·해외 주요 거래소를 통합 연동하여 시장가·지정가 매도를 빠르게 실행합니다. 반복 주문, 잔고 확인 및 텔레그램 알림까지 실전 매도 흐름을 자동화합니다.
-              </p>
+          <div className="bot-layout">
+            <div className="bot-tabs">
+              <button type="button" className={`bot-tab${activeBot === "order" ? " active" : ""}`} onClick={() => setActiveBot("order")}>
+                <div className="bot-tab-top"><span className="bot-tag"><i /> ORDER BOT</span><span className="bot-index">01</span></div>
+                <h3>종합 오더 BOT</h3>
+                <p>다양한 거래유형 중심의 깔끔한 주문 화면과<br />콘솔형 상태 표시를 통해 핵심 동작만 간단하게 보여줍니다.</p>
+              </button>
+
+              <button type="button" className={`bot-tab${activeBot === "withdraw" ? " active" : ""}`} onClick={() => setActiveBot("withdraw")}>
+                <div className="bot-tab-top"><span className="bot-tag"><i /> WITHDRAW BOT</span><span className="bot-index">02</span></div>
+                <h3>국내·해외 출금 BOT</h3>
+                <p>국내 및 글로벌 거래소 간 자산 이동을 자동화합니다.<br />네트워크 선택, 수수료 반영까지 안전하고 빠른 자산 이동을 지원합니다.</p>
+              </button>
+
+              <button type="button" className={`bot-tab${activeBot === "assist" ? " active" : ""}`} onClick={() => setActiveBot("assist")}>
+                <div className="bot-tab-top"><span className="bot-tag"><i /> ASSIST BOT</span><span className="bot-index">03</span></div>
+                <h3>보조 & 전략 BOT</h3>
+                <p>실전 운영에 필요한 보조 기능을 하나로 묶었습니다.<br />컨트랙트 검색, 잔고 알림, 입금 확인, 거래내역, 매매 일지 등<br />자주 사용하는 유틸리티를 빠르게 실행할 수 있습니다.</p>
+                <div className="bot-mini-chips"><span>Contract Search</span><span>Balance Alert</span><span>Deposit Check</span><span>Trade History</span></div>
+              </button>
             </div>
-            <div className="bot-card reveal reveal-delay-1">
-              {/* <div className="bot-card-img">
-                <img src="/img/bot-2.png" alt="자동화 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
-                <div className="img-placeholder" style={{display:'none'}}>⚙️</div>
-              </div> */}
-              <div className="bot-tag">Execution Bot</div>
-              <h3>국·해외 출금 BOT</h3>
-              <p>
-                국내 및 글로벌 거래소 간 자산 이동을 자동화합니다. 네트워크 선택, 수수료 반영, 입출금 상태 확인까지 안전하고 빠른 자금 이동을 지원합니다.
-              </p>
-            </div>
-            <div className="bot-card reveal reveal-delay-2">
-              {/* <div className="bot-card-img">
-                <img src="/img/bot-3.png" alt="모니터링 봇" onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
-                <div className="img-placeholder" style={{display:'none'}}>📊</div>
-              </div> */}
-              <div className="bot-tag">Monitor Bot</div>
-              <h3>보조 & 전략 BOT</h3>
-              <p>
-                급락 감지 매수 봇, 메타마스크 전송 자동화, 컨트랙트 검색기, 잔고 알리미, 업비트 입금 확인 시스템 등 실전 운영에 필요한 다양한 전략 보조 도구를 제공합니다.
-              </p>
+
+            <div className="bot-preview">
+              {activeBot === "order" && (
+                <div className="program-shell">
+                  <div className="program-head"><div className="program-brand"><div className="program-logo">BD</div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING ORDER BOT</div></div></div><div className="program-status">LIMIT SELL</div></div>
+                  <div className="program-canvas"><div className="ui-grid">
+                    <div className="ui-panel"><div className="panel-label">LimitSell Form</div><div className="control-form">
+                      <div className="field-row"><label>거래소 선택</label><div className="fake-input"><span>Bithumb</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>코인명</label><div className="fake-input"><span>USDT</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>주문 가격</label><div className="fake-input"><span>1,490 KRW</span></div></div>
+                      <div className="field-row"><label>주문 수량</label><div className="fake-input"><span>1000.0 USDT</span></div></div>
+                      <div className="field-row"><label>딜레이</label><div className="fake-input"><span>0.1s</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>텔레그램</label><div className="fake-input"><span>Connected</span><span className="select-arrow">▼</span></div></div>
+                    </div><div className="center-actions"><div className="fake-btn btn-sell">SELL</div><div className="fake-btn btn-stop">STOP</div></div></div>
+                    <div className="ui-panel"><div className="panel-label">Console Log</div><div className="log-panel"><div className="log-box"><div className="log-line blue">⏰ 지정가 매도 요청 준비중...</div><div className="log-line">💰 현재 보유 수량 - 5.0000 USDT</div><div className="log-line warn">📌 매도 가격 1,490 KRW<br />💸 매도 수량 1000.0 USDT</div><div className="log-line good">✅ Bithumb LIMIT SELL 완료!</div><div className="log-line good">📨 텔레그램 알림 전송 완료!</div><div className="log-line blue">⏰ 지정가 매도 요청 준비중...</div></div></div></div>
+                  </div></div>
+                </div>
+              )}
+
+              {activeBot === "withdraw" && (
+                <div className="program-shell">
+                  <div className="program-head"><div className="program-brand"><div className="program-logo">BD</div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING WITHDRAW BOT</div></div></div><div className="program-status">WITHDRAW</div></div>
+                  <div className="program-canvas"><div className="ui-grid">
+                    <div className="ui-panel"><div className="panel-label">Withdraw Form</div><div className="control-form">
+                      <div className="field-row"><label>거래소 선택</label><div className="fake-input"><span>Upbit</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>네트워크 선택</label><div className="fake-input"><span>TRX</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>코인명</label><div className="fake-input"><span>USDT</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>수신 주소</label><div className="fake-input"><span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>TCcyd...qr5Se</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>2차 주소</label><div className="fake-input disabled"><span>&nbsp;</span><span className="select-arrow">▼</span></div></div>
+                      <div className="field-row"><label>딜레이</label><div className="fake-input"><span>1</span><span className="select-arrow">▼</span></div></div>
+                    </div><div className="center-actions"><div className="fake-btn btn-send">SEND</div><div className="fake-btn btn-stop">STOP</div></div></div>
+                    <div className="ui-panel"><div className="panel-label">Console Log</div><div className="log-panel"><div className="log-box"><div className="log-line">💠 수신 주소 선택 : TCcyd...qr5Se</div><div className="log-line">⛔ 2차 주소가 비활성화되었습니다.</div><div className="log-line blue">📤 업비트 출금 요청<br />3500.0000 USDT → TCcyd...qr5Se</div><div className="log-line">수수료: 0.01 USDT | 시도 횟수= 1/6</div><div className="log-line good">✅ 출금 요청 완료!</div><div className="log-line good">📨 텔레그램 알림 전송 완료!</div><div className="log-line warn">⛔ 출금이 중단되었습니다.</div></div></div></div>
+                  </div></div>
+                </div>
+              )}
+
+              {activeBot === "assist" && (
+                <div className="program-shell">
+                  <div className="program-head"><div className="program-brand"><div className="program-logo">BD</div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING ASSIST BOT</div><div className="program-sub">utility preset preview</div></div></div><div className="program-status">PRESET</div></div>
+                  <div className="program-canvas"><div className="assist-preview-wrap">
+                    <div className="assist-intro"><div className="assist-kicker">Assist Preview</div><div className="assist-title">보조 기능 프리셋</div><div className="assist-desc">컨트랙트 검색, 잔고 알림, 입금 확인, 트레이딩 봇처럼<br />실전에서 자주 쓰는 보조 기능들을 카드 형태로 미리 보여주는 프리뷰입니다.</div></div>
+                    <div className="assist-slider-stage"><div className="assist-slider-track">
+                      {[
+                        ["⌕", "SEARCH", "컨트랙트 검색", "필요한 토큰 정보를 빠르게 확인하고, 핵심 주소를 바로 찾아볼 수 있는 검색형 프리셋입니다.", "Keyword", "USDT / TRAC / XRP", "검색", "Explorer", "assist-pill-yellow", "assist-pill-blue"],
+                        ["🔔", "ALERT", "잔고 알림", "지갑 또는 자산 상태를 확인하고, 변동이 발생했을 때 빠르게 대응할 수 있도록 돕는 모니터링 프리셋입니다.", "Monitor", "Wallet Watch · Telegram Notify", "Start", "Refresh", "assist-pill-green", "assist-pill-blue"],
+                        ["⦿", "CHECK", "입금 확인", "입금 진행 상태를 빠르게 점검하고, 필요한 흐름을 한 번 더 체크할 수 있는 확인용 프리셋입니다.", "Status", "Detect · Scan · Confirm", "Scan", "Stop", "assist-pill-green", "assist-pill-yellow"],
+                        ["📘", "TRADE", "트레이딩 봇", "거래 내역을 조회하고 매매 일지 작성 등 자산의 흐름을 정리하고 관리할 수 있는 프리셋입니다.", "History", "Trades · Journal · Summary", "조회", "일지", "assist-pill-orange", "assist-pill-blue"],
+                        ["⌕", "SEARCH", "컨트랙트 검색", "필요한 토큰 정보를 빠르게 확인하고, 핵심 주소를 바로 찾아볼 수 있는 검색형 프리셋입니다.", "Keyword", "USDT / TRAC / XRP", "검색", "Explorer", "assist-pill-yellow", "assist-pill-blue"],
+                        ["🔔", "ALERT", "잔고 알림", "지갑 또는 자산 상태를 확인하고, 변동이 발생했을 때 빠르게 대응할 수 있도록 돕는 모니터링 프리셋입니다.", "Monitor", "Wallet Watch · Telegram Notify", "Start", "Refresh", "assist-pill-green", "assist-pill-blue"],
+                        ["⦿", "CHECK", "입금 확인", "입금 진행 상태를 빠르게 점검하고, 필요한 흐름을 한 번 더 체크할 수 있는 확인용 프리셋입니다.", "Status", "Detect · Scan · Confirm", "Scan", "Stop", "assist-pill-green", "assist-pill-yellow"],
+                        ["📘", "TRADE", "트레이딩 봇", "거래 내역을 조회하고 매매 일지 작성 등 자산의 흐름을 정리하고 관리할 수 있는 프리셋입니다.", "History", "Trades · Journal · Summary", "조회", "일지", "assist-pill-orange", "assist-pill-blue"],
+                      ].map((card, idx) => (
+                        <div className="assist-slide-card" key={idx}><div className="assist-card-top"><div className="assist-card-icon">{card[0]}</div><div className="assist-card-chip">{card[1]}</div></div><div className="assist-card-title">{card[2]}</div><div className="assist-card-text">{card[3]}</div><div className="assist-card-miniui"><div className="assist-mini-box"><div className="assist-mini-label">{card[4]}</div><div className="assist-mini-value">{card[5]}</div></div><div className="assist-mini-row"><div className={`assist-mini-pill ${card[8]}`}>{card[6]}</div><div className={`assist-mini-pill ${card[9]}`}>{card[7]}</div></div></div></div>
+                      ))}
+                    </div></div>
+                    <div className="assist-slider-dots"><span /><span /><span /></div>
+                  </div></div>
+                </div>
+              )}
             </div>
           </div>
+
+          <div className="mini-cta"><div className="ghost-note">※ 실제 프로그램 화면이 아닌, 기능 이해를 위한 가상 UI 프리뷰입니다.</div></div>
         </div>
       </section>
 
       <div className="divider" />
 
-      {/* ── 연동 거래소 ── */}
       <section id="exchanges" className="exchange-section">
         <div className="container">
           <div className="section-head center reveal">
@@ -817,7 +967,6 @@ const handleDevSubmit = async (e) => {
           </div>
         </div>
 
-        {/* 거래소 하단 고지 */}
         <div className="container">
           <div className="exchange-footer-notes">
             <p className="exchange-note-intl">
@@ -833,12 +982,11 @@ const handleDevSubmit = async (e) => {
 
       <div className="divider" />
 
-      {/* ── 설명 + 문의 섹션 ── */}
+
       <section id="contact" className="quote-section">
         <div className="container">
           <div className="quote-contact-grid">
-      
-            {/* 좌측 — 플랫폼 설명 */}
+
             <div className="quote-box reveal">
               <div className="quote-title">
                 방향성보다 구조를 보십시오.
@@ -870,9 +1018,7 @@ const handleDevSubmit = async (e) => {
               </div>
             </div>
 
-            {/* 우측 — 문의 폼 */}
             <div className="contact-box reveal reveal-delay-1">
-              {/* 탭 버튼 */}
               <div style={{ display: "flex", gap: "12px", marginBottom: "24px", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "12px" }}>
                 <button
                   onClick={() => setContactTab("inquiry")}
@@ -908,7 +1054,6 @@ const handleDevSubmit = async (e) => {
                 </button>
               </div>
 
-              {/* 탭 1: 일반 문의 */}
               {contactTab === "inquiry" && (
                 <>
                   <h3>일반 문의 <span className="ftl-note2"> (*는 필수 항목입니다.)</span></h3>
@@ -987,7 +1132,6 @@ const handleDevSubmit = async (e) => {
                 </>
               )}
 
-              {/* 탭 2: 개발 문의 */}
               {contactTab === "development" && (
                 <>
                   <h3>개발 문의 <span className="ftl-note"> (*는 필수 항목입니다.)</span></h3>
@@ -1079,16 +1223,13 @@ const handleDevSubmit = async (e) => {
         </div>
       </section>
       
-      {/* ── 푸터 ── */}
       <footer className="site-footer">
         <div className="container">
           <div className="footer-grid">
-            {/* 브랜드 */}
             <div className="footer-brand">
               <div className="footer-brand-stack">
                 <div className="footer-brand-name">BODDARING</div>
 
-                {/* 로고 */}
                 <img
                   src="/img/endlogo.png"
                   alt="END HOLDINGS Inc."
@@ -1097,7 +1238,6 @@ const handleDevSubmit = async (e) => {
               </div>
             </div>
 
-            {/* 서비스 */}
             <div className="footer-col">
               <h4>서비스</h4>
               <ul>
@@ -1108,7 +1248,6 @@ const handleDevSubmit = async (e) => {
               </ul>
             </div>
 
-            {/* 회사 */}
             <div className="footer-col">
               <h4>회사</h4>
               <ul>
@@ -1117,7 +1256,6 @@ const handleDevSubmit = async (e) => {
               </ul>
             </div>
 
-            {/* Contact */}
             <div className="footer-col">
               <h4>CONTACT</h4>
               <ul>
@@ -1140,7 +1278,6 @@ const handleDevSubmit = async (e) => {
               </ul>
             </div>
 
-            {/* 소셜 */}
             <div className="footer-col">
               <h4>소셜</h4>
               <ul>
@@ -1155,7 +1292,7 @@ const handleDevSubmit = async (e) => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://t.me/ttarihunter" target="_blank" rel="noreferrer">
+                  <a href="https://t.me/BODDARING_ranin" target="_blank" rel="noreferrer">
                     Telegram (준비중)
                   </a>
                 </li>
