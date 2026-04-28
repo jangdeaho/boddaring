@@ -822,7 +822,7 @@ const handleDevSubmit = async (e) => {
                       <div className="coin-cell"><div>TRAC</div></div>
                       <div className="pair-block"><div className="pair-top">TRAC-USDT</div><div className="pair-ex">KUCOIN</div><div className="pair-bottom">515.7781 KRW</div></div>
                       <div className="pair-block"><div className="pair-top">TRAC-KRW</div><div className="pair-ex">BITHUMB</div><div className="pair-bottom blue">533.1780 KRW</div></div>
-                      <div className="amount-cell">2,2821 USDT</div>
+                      <div className="amount-cell">2,281 USDT</div>
                       <div className="per-cell red">+3.37%</div>
                     </div>
                   </div>
