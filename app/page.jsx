@@ -387,7 +387,7 @@ const handleDevSubmit = async (e) => {
         }
         #about .signal-shell{
           position:relative;
-          min-height:640px;
+          min-height:720px;
           overflow:hidden;
           border-radius:28px;
           border:1px solid rgba(255,255,255,.12);
@@ -452,7 +452,7 @@ const handleDevSubmit = async (e) => {
         #bot .assist-preview-wrap{height:100%;display:flex;flex-direction:column;justify-content:flex-start;padding:4px 2px 0;}#bot .assist-intro{text-align:center;margin-bottom:10px;padding:0 8px;}#bot .assist-kicker{color:rgba(202,210,238,.52);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;}#bot .assist-title{font-size:22px;line-height:1.2;font-weight:950;letter-spacing:-.03em;color:#f5f7ff;margin-bottom:8px;}#bot .assist-desc{max-width:560px;margin:0 auto;font-size:12px;line-height:1.6;color:rgba(202,210,238,.68);font-weight:650;}#bot .assist-slider-stage{position:relative;overflow:hidden;margin-top:6px;padding:8px 0 10px;}#bot .assist-slider-track{display:flex;gap:16px;width:max-content;padding:0 6px;will-change:transform;animation:bdrAssistLoop 24s linear infinite;}#bot .assist-slider-stage:hover .assist-slider-track{animation-play-state:paused;}#bot .assist-slide-card{width:248px;min-height:272px;border-radius:20px;padding:18px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.028));border:1px solid rgba(255,255,255,.08);box-shadow:0 16px 34px rgba(0,0,0,.22);flex:0 0 auto;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;}#bot .assist-slide-card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.28);box-shadow:0 22px 42px rgba(0,0,0,.28);}#bot .assist-slide-card:before{content:"";position:absolute;inset:0;background:radial-gradient(160px 90px at 22% 16%,rgba(124,58,237,.14),transparent 60%),radial-gradient(160px 90px at 82% 16%,rgba(56,189,248,.10),transparent 60%);pointer-events:none;}#bot .assist-card-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:16px;}#bot .assist-card-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;background:linear-gradient(135deg,rgba(124,58,237,.95),rgba(56,189,248,.78));box-shadow:0 10px 24px rgba(124,58,237,.22);}#bot .assist-card-chip{padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);color:rgba(230,235,255,.88);font-size:10px;font-weight:900;letter-spacing:.08em;}#bot .assist-card-title{position:relative;z-index:1;font-size:18px;font-weight:950;letter-spacing:-.03em;color:#f5f7ff;margin-bottom:8px;}#bot .assist-card-text{position:relative;z-index:1;font-size:12px;line-height:1.65;color:rgba(202,210,238,.72);font-weight:650;min-height:78px;}#bot .assist-card-miniui{position:relative;z-index:1;margin-top:16px;display:grid;gap:10px;}#bot .assist-mini-box{border-radius:12px;padding:11px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);}#bot .assist-mini-label{font-size:10px;font-weight:900;color:rgba(202,210,238,.5);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}#bot .assist-mini-value{font-size:13px;font-weight:850;color:#f5f7ff;}#bot .assist-mini-row{display:flex;gap:8px;}#bot .assist-mini-pill{flex:1;padding:10px 10px;border-radius:10px;text-align:center;font-size:11px;font-weight:900;color:#071018;}#bot .assist-pill-yellow{background:#ffb000;}#bot .assist-pill-green{background:#58f29d;}#bot .assist-pill-blue{background:#8fd3ff;}#bot .assist-pill-orange{background:#ffbf47;}#bot .assist-slider-dots{display:flex;justify-content:center;gap:8px;margin-top:8px;}#bot .assist-slider-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.16);animation:bdrAssistDotPulse 1.8s ease-in-out infinite;}#bot .assist-slider-dots span:nth-child(2){animation-delay:.25s;}#bot .assist-slider-dots span:nth-child(3){animation-delay:.5s;}
         #bot .mini-cta{margin-top:38px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}#bot .ghost-note{padding:12px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:rgba(202,210,238,.68);font-size:12px;font-weight:800;}
         @keyframes bdrFadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}@keyframes bdrPulse{0%,100%{opacity:.55;transform:scale(.92);}50%{opacity:1;transform:scale(1.15);}}@keyframes bdrSoftIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}@keyframes bdrAssistLoop{from{transform:translateX(0);}to{transform:translateX(-1056px);}}@keyframes bdrAssistDotPulse{0%,100%{opacity:.35;transform:scale(.92);}50%{opacity:1;transform:scale(1.15);}}
-        @media (max-width:1080px){#about .about-grid,#bot .bot-layout{grid-template-columns:1fr;}#about .signal-shell{min-height:680px;}#bot .program-shell{position:relative;inset:auto;margin:24px;min-height:540px;}#bot .bot-preview{min-height:auto;}}
+        @media (max-width:1080px){#about .about-grid,#bot .bot-layout{grid-template-columns:1fr;}#about .signal-shell{min-height:760px;}#bot .program-shell{position:relative;inset:auto;margin:24px;min-height:540px;}#bot .bot-preview{min-height:auto;}}
         @media (max-width:800px){#about .signal-stats{grid-template-columns:1fr;}#about .signal-head-row,#about .signal-row{grid-template-columns:1fr;gap:10px;}#bot .ui-grid{grid-template-columns:1fr;}#bot .field-row{grid-template-columns:1fr;gap:6px;}#bot .bot-tabs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;}#bot .bot-tab{min-width:280px;scroll-snap-align:start;}}
       `}</style>
 
@@ -773,11 +773,15 @@ const handleDevSubmit = async (e) => {
                   </div>
 
                   <div className="signal-flow">
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#34d399", background: "#34d399" }} />15개+ 거래소 호가 수집</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#34d399", background: "#ee4d4d" }} />15개+ 거래소 호가 수집</div>
                     <div className="arrow">→</div>
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#38bdf8", background: "#38bdf8" }} />A ↔ B 거래소 차익 감지</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#38bdf8", background: "#f38462" }} />A ↔ B 거래소 차익 감지</div>
                     <div className="arrow">→</div>
                     <div className="flow-node"><span className="flow-dot" style={{ color: "#fbbf24", background: "#fbbf24" }} />Amount · Per 계산</div>
+                    <div className="arrow">→</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#fd7a3d", background: "#98ee47e8" }} />입·출금 여부 감지</div>
+                    <div className="arrow">→</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#6aee8b", background: "#56a0f5" }} />개인 필터링</div>
                     <div className="arrow">→</div>
                     <div className="flow-node"><span className="flow-dot" style={{ color: "#a78bfa", background: "#a78bfa" }} />시그널 표시</div>
                   </div>
@@ -879,11 +883,10 @@ const handleDevSubmit = async (e) => {
                         <img src="/img/icon.png" alt="BODDARING" />
                       </div>
                       <div style={{ minWidth: 0 }}>
-                        <div className="program-title">BODDARING ASSIST BOT</div>
-                        <div className="program-sub">utility preset preview</div>
+                        <div className="program-title">BODDARING ORDER BOT</div>
                       </div>
                     </div>
-                    <div className="program-status">PRESET</div>
+                    <div className="program-status">ORDER</div>
                   </div>
                   <div className="program-canvas"><div className="ui-grid">
                     <div className="ui-panel"><div className="panel-label">LimitSell Form</div><div className="control-form">
@@ -901,7 +904,7 @@ const handleDevSubmit = async (e) => {
 
               {activeBot === "withdraw" && (
                 <div className="program-shell">
-                  <div className="program-head"><div className="program-brand"><div className="program-logo">BD</div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING WITHDRAW BOT</div></div></div><div className="program-status">WITHDRAW</div></div>
+                  <div className="program-head"><div className="program-brand"><div className="program-logo"><img src="/img/icon.png" alt="BODDARING" /></div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING WITHDRAW BOT</div></div></div><div className="program-status">WITHDRAW</div></div>
                   <div className="program-canvas"><div className="ui-grid">
                     <div className="ui-panel"><div className="panel-label">Withdraw Form</div><div className="control-form">
                       <div className="field-row"><label>거래소 선택</label><div className="fake-input"><span>Upbit</span><span className="select-arrow">▼</span></div></div>
@@ -918,7 +921,7 @@ const handleDevSubmit = async (e) => {
 
               {activeBot === "assist" && (
                 <div className="program-shell">
-                  <div className="program-head"><div className="program-brand"><div className="program-logo">BD</div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING ASSIST BOT</div><div className="program-sub">utility preset preview</div></div></div></div>
+                  <div className="program-head"><div className="program-brand"><div className="program-logo"><img src="/img/icon.png" alt="BODDARING" /></div><div style={{ minWidth: 0 }}><div className="program-title">BODDARING ASSIST BOT</div></div></div><div className="program-status">SUPPORT</div></div>
                   <div className="program-canvas"><div className="assist-preview-wrap">
                     <div className="assist-intro"><div className="assist-kicker">Assist Preview</div><div className="assist-desc">실전에서 자주 쓰는 보조 기능들을 미리 보여주는 프리뷰입니다.</div></div>
                     <div className="assist-slider-stage"><div className="assist-slider-track">
