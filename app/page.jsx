@@ -772,15 +772,15 @@ const handleDevSubmit = async (e) => {
                   </div>
 
                   <div className="signal-flow">
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#34d399", background: "#ee4d4d" }} />15개+ 거래소 호가 수집</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#ee4d4d", background: "#ee4d4d" }} />15개+ 거래소 호가 수집</div>
                     <div className="arrow">→</div>
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#38bdf8", background: "#f38462" }} />A ↔ B 거래소 차익 감지</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#f38462", background: "#f38462" }} />A ↔ B 거래소 차익 감지</div>
                     <div className="arrow">→</div>
                     <div className="flow-node"><span className="flow-dot" style={{ color: "#fbbf24", background: "#fbbf24" }} />Amount · Per 계산</div>
                     <div className="arrow">→</div>
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#fd7a3d", background: "#98ee47e8" }} />입·출금 여부 감지</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#98ee47e8", background: "#98ee47e8" }} />입·출금 여부 감지</div>
                     <div className="arrow">→</div>
-                    <div className="flow-node"><span className="flow-dot" style={{ color: "#6aee8b", background: "#56a0f5" }} />개인 필터링</div>
+                    <div className="flow-node"><span className="flow-dot" style={{ color: "#56a0f5", background: "#56a0f5" }} />개인 필터링</div>
                     <div className="arrow">→</div>
                     <div className="flow-node"><span className="flow-dot" style={{ color: "#a78bfa", background: "#a78bfa" }} />차익 시그널 표시</div>
                   </div>
