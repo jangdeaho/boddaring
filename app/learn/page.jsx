@@ -1221,8 +1221,6 @@ export default function LearnPage() {
           <hr className="learn-divider" />
 
           <section id="exchange-links" className="learn-section">
-            <hr className="learn-divider" />
-
             <section id="notice-alerts" className="learn-section">
               <div className="learn-section-label">Notice Alerts</div>
               <h2 className="learn-section-title">거래소 공지 알림</h2>
@@ -1276,6 +1274,7 @@ export default function LearnPage() {
                 </div>
               </div>
             </section>
+            <hr className="learn-divider" />
             <div className="learn-section-label">Exchange Links</div>
             <h2 className="learn-section-title">거래소 가입 링크</h2>
             <div className="learn-section-body">
@@ -1328,6 +1327,7 @@ export default function LearnPage() {
               </div>
             </div>
           </section>
+          <hr className="learn-divider" />
 
           {/* 하단 CTA */}
           <div style={{
