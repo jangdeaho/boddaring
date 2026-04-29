@@ -52,34 +52,36 @@ const WALLET_ALERT_PREVIEW = [
 ];
 
 const EXCHANGE_LINKS = [
-  { name: "코인원", eng: "Coinone", href: "https://buly.kr/uVKTup", region: "KOREA" },
-  { name: "업비트", eng: "Upbit", href: "https://buly.kr/9tByViY", region: "KOREA" },
-  { name: "빗썸", eng: "Bithumb", href: "https://buly.kr/3NJwDV8", region: "KOREA" },
-  { name: "코빗", eng: "Korbit", href: "https://buly.kr/C0B4HW3", region: "KOREA" },
-  { name: "후오비", eng: "HTX", href: "https://buly.kr/3CPBEjq", region: "GLOBAL" },
-  { name: "쿠코인", eng: "Kucoin", href: "https://buly.kr/28udLsY", region: "GLOBAL" },
-  { name: "오케이", eng: "OKX", href: "https://buly.kr/9MRhZLv", region: "GLOBAL" },
-  { name: "게이트아이오", eng: "Gate.io", href: "https://buly.kr/DwFP4a3", region: "GLOBAL" },
-  { name: "아센덱스", eng: "Ascendex", href: "https://buly.kr/7QNMmPh", region: "GLOBAL" },
-  { name: "멕시", eng: "MEXC", href: "https://buly.kr/6td5pyM", region: "GLOBAL" },
-  { name: "바이비트", eng: "Bybit", href: "https://buly.kr/3CPBEqk", region: "GLOBAL" },
-  { name: "비트마트", eng: "Bitmart", href: "https://buly.kr/EduQzt1", region: "GLOBAL" },
-  { name: "바이낸스", eng: "Binance", href: "https://buly.kr/9iHDX4B", region: "GLOBAL" },
-  { name: "비트겟", eng: "Bitget", href: "https://buly.kr/YfoWiR", region: "GLOBAL" },
-  { name: "크립토닷컴", eng: "Crypto.com", href: "https://buly.kr/8Ix9ghG", region: "GLOBAL" },
-  { name: "코인베이스", eng: "Coinbase advanced", href: "https://buly.kr/BTQp3YC", region: "GLOBAL" },
-  { name: "빙엑스", eng: "BingX", href: "https://buly.kr/AllnYl4", region: "GLOBAL" },
-  { name: "코인엑스", eng: "CoinEx", href: "https://buly.kr/3YEjL8Q", region: "GLOBAL" },
-  { name: "엘뱅크", eng: "LBank", href: "https://buly.kr/31USOU5", region: "GLOBAL" },
-  { name: "크라켄", eng: "Kraken", href: "https://buly.kr/AF1WcLL", region: "GLOBAL" },
-  { name: "제미니", eng: "Gemini", href: "https://exchange.gemini.com", region: "GLOBAL" },
-  { name: "딥코인", eng: "Deepcoin", href: "https://buly.kr/A46ldJA", region: "GLOBAL" },
-  { name: "오렌지엑스", eng: "OrangeX", href: "https://buly.kr/2JpQTQ3", region: "GLOBAL" },
+  { name: "코인원", eng: "Coinone", href: "https://buly.kr/uVKTup", region: "KOREA", icon: "coinone.png" },
+  { name: "업비트", eng: "Upbit", href: "https://buly.kr/9tByViY", region: "KOREA", icon: "upbit.png" },
+  { name: "빗썸", eng: "Bithumb", href: "https://buly.kr/3NJwDV8", region: "KOREA", icon: "bithumb.png" },
+  { name: "코빗", eng: "Korbit", href: "https://buly.kr/C0B4HW3", region: "KOREA", icon: "korbit.png" },
+
+  { name: "후오비", eng: "HTX", href: "https://buly.kr/3CPBEjq", region: "GLOBAL", icon: "htx.png" },
+  { name: "쿠코인", eng: "Kucoin", href: "https://buly.kr/28udLsY", region: "GLOBAL", icon: "kucoin.png" },
+  { name: "오케이", eng: "OKX", href: "https://buly.kr/9MRhZLv", region: "GLOBAL", icon: "okx.png" },
+  { name: "게이트아이오", eng: "Gate.io", href: "https://buly.kr/DwFP4a3", region: "GLOBAL", icon: "gateio.png" },
+  { name: "아센덱스", eng: "Ascendex", href: "https://buly.kr/7QNMmPh", region: "GLOBAL", icon: "ascendex.png" },
+  { name: "멕시", eng: "MEXC", href: "https://buly.kr/6td5pyM", region: "GLOBAL", icon: "mexc.png" },
+  { name: "바이비트", eng: "Bybit", href: "https://buly.kr/3CPBEqk", region: "GLOBAL", icon: "bybit.png" },
+  { name: "비트마트", eng: "Bitmart", href: "https://buly.kr/EduQzt1", region: "GLOBAL", icon: "bitmart.png" },
+  { name: "바이낸스", eng: "Binance", href: "https://buly.kr/9iHDX4B", region: "GLOBAL", icon: "binance.png" },
+  { name: "비트겟", eng: "Bitget", href: "https://buly.kr/YfoWiR", region: "GLOBAL", icon: "bitget.png" },
+  { name: "크립토닷컴", eng: "Crypto.com", href: "https://buly.kr/8Ix9ghG", region: "GLOBAL", icon: "cryptocom.png" },
+  { name: "코인베이스", eng: "Coinbase advanced", href: "https://buly.kr/BTQp3YC", region: "GLOBAL", icon: "coinbase.png" },
+  { name: "빙엑스", eng: "BingX", href: "https://buly.kr/AllnYl4", region: "GLOBAL", icon: "bingx.png" },
+  { name: "코인엑스", eng: "CoinEx", href: "https://buly.kr/3YEjL8Q", region: "GLOBAL", icon: "coinex.png" },
+  { name: "엘뱅크", eng: "LBank", href: "https://buly.kr/31USOU5", region: "GLOBAL", icon: "lbank.png" },
+  { name: "크라켄", eng: "Kraken", href: "https://buly.kr/AF1WcLL", region: "GLOBAL", icon: "kraken.png" },
+  { name: "제미니", eng: "Gemini", href: "https://exchange.gemini.com", region: "GLOBAL", icon: "" },
+  { name: "딥코인", eng: "Deepcoin", href: "https://buly.kr/A46ldJA", region: "GLOBAL", icon: "deepcoin.png" },
+  { name: "오렌지엑스", eng: "OrangeX", href: "https://buly.kr/2JpQTQ3", region: "GLOBAL", icon: "orangex.png" },
 ];
 
 export default function LearnPage() {
   const [activeId, setActiveId] = useState("arbitrage");
-  const [walletAlerts, setWalletAlerts] = useState(WALLET_ALERT_PREVIEW);
+  const [walletAlerts, setWalletAlerts] = useState([]);
+  const [walletAlertStatus, setWalletAlertStatus] = useState("loading");
 
   const scrollToId = (id) => {
     if (typeof window === "undefined") return;
@@ -111,20 +113,40 @@ export default function LearnPage() {
 
     const loadWalletAlerts = async () => {
       try {
-        const response = await fetch(WALLET_ALERT_API_URL, { cache: "no-store" });
-        if (!response.ok) return;
+        const response = await fetch(`${WALLET_ALERT_API_URL}&t=${Date.now()}`, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          if (mounted) {
+            setWalletAlertStatus("error");
+            setWalletAlerts([]);
+          }
+          return;
+        }
+
         const data = await response.json();
         const items = Array.isArray(data) ? data : data?.alerts;
-        if (mounted && Array.isArray(items) && items.length > 0) {
-          setWalletAlerts(items);
+
+        if (mounted) {
+          if (Array.isArray(items)) {
+            setWalletAlerts(items);
+            setWalletAlertStatus(items.length > 0 ? "ready" : "empty");
+          } else {
+            setWalletAlerts([]);
+            setWalletAlertStatus("error");
+          }
         }
       } catch (_) {
-        // 서버 API 연결 전에는 샘플 알림을 그대로 보여줍니다.
+        if (mounted) {
+          setWalletAlerts([]);
+          setWalletAlertStatus("error");
+        }
       }
     };
 
     loadWalletAlerts();
-    const timer = window.setInterval(loadWalletAlerts, 60000);
+    const timer = window.setInterval(loadWalletAlerts, 15000);
 
     return () => {
       mounted = false;
@@ -260,6 +282,33 @@ export default function LearnPage() {
         .wallet-alert-feed::-webkit-scrollbar-thumb{
           border-radius: 999px;
           background: rgba(167,139,250,0.35);
+        }
+        .wallet-empty-state{
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          padding: 18px 18px;
+          border-radius: 16px;
+          border: 1px dashed rgba(167,139,250,0.22);
+          background: rgba(0,0,0,0.16);
+        }
+
+        .wallet-empty-state strong{
+          color: #efeaff;
+          font-size: 14px;
+          font-weight: 900;
+        }
+
+        .wallet-empty-state span{
+          color: rgba(170,176,210,0.78);
+          font-size: 12.5px;
+          line-height: 1.6;
+          font-weight: 700;
+        }
+
+        .wallet-empty-state.error{
+          border-color: rgba(248,113,113,0.24);
+          background: rgba(60,20,36,0.28);
         }
         .wallet-bubble-row{
           display: flex;
@@ -435,11 +484,25 @@ export default function LearnPage() {
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: hidden;
+          flex: 0 0 auto;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.08);
+          box-shadow: 0 12px 26px rgba(124,58,237,0.12);
+        }
+
+        .exchange-link-logo img{
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          padding: 4px;
+          display: block;
+        }
+
+        .exchange-link-logo span{
           color: #efeaff;
           font-size: 14px;
           font-weight: 950;
-          background: linear-gradient(135deg, rgba(124,58,237,0.85), rgba(56,189,248,0.55));
-          box-shadow: 0 12px 26px rgba(124,58,237,0.16);
         }
 
         .exchange-link-meta{
@@ -1183,6 +1246,27 @@ export default function LearnPage() {
                 </div>
 
                 <div className="wallet-alert-feed" aria-live="polite">
+                  {walletAlertStatus === "loading" && (
+                    <div className="wallet-empty-state">
+                      <strong>알림 기록을 불러오는 중입니다.</strong>
+                      <span>서버의 최근 지갑 알림 데이터를 확인하고 있습니다.</span>
+                    </div>
+                  )}
+
+                  {walletAlertStatus === "error" && (
+                    <div className="wallet-empty-state error">
+                      <strong>알림 기록을 불러오지 못했습니다.</strong>
+                      <span>서버 연결 상태를 확인 중입니다. 가장 빠른 알림은 텔레그램 채널에서 확인할 수 있습니다.</span>
+                    </div>
+                  )}
+
+                  {walletAlertStatus === "empty" && (
+                    <div className="wallet-empty-state">
+                      <strong>아직 표시할 최근 알림이 없습니다.</strong>
+                      <span>새로운 입출금 변경, 신규 지갑 추가, 네트워크 점검 감지가 발생하면 이곳에 표시됩니다.</span>
+                    </div>
+                  )}
+
                   {walletAlerts.map((alert, index) => (
                     <div className="wallet-bubble-row" key={`${alert.exchange || "alert"}-${alert.title || index}-${index}`}>
                       <div className={`wallet-bubble ${alert.tone || "danger"}`}>
@@ -1217,7 +1301,9 @@ export default function LearnPage() {
               </div>
             </div>
           </section>
-          <section id="exchange-links" className="learn-section">
+
+          <hr className="learn-divider" />
+
             <section id="notice-alerts" className="learn-section">
               <div className="learn-section-label">Notice Alerts</div>
               <h2 className="learn-section-title">거래소 공지 알림</h2>
@@ -1271,6 +1357,9 @@ export default function LearnPage() {
                 </div>
               </div>
             </section>
+          <hr className="learn-divider" />
+
+          <section id="exchange-links" className="learn-section">
             <div className="learn-section-label">Exchange Links</div>
             <h2 className="learn-section-title">거래소 가입 링크</h2>
             <div className="learn-section-body">
@@ -1307,7 +1396,15 @@ export default function LearnPage() {
                             className="exchange-link-card compact"
                           >
                             <div className="exchange-link-logo">
-                              {exchange.eng.slice(0, 1).toUpperCase()}
+                              {exchange.icon ? (
+                                <img
+                                  src={`/exchanges/${exchange.icon}`}
+                                  alt={`${exchange.eng} logo`}
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <span>{exchange.eng.slice(0, 1).toUpperCase()}</span>
+                              )}
                             </div>
                             <div className="exchange-link-meta">
                               <div className="exchange-link-name">{exchange.name}</div>
