@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const SECTIONS = [
@@ -82,6 +82,7 @@ export default function LearnPage() {
   const [activeId, setActiveId] = useState("arbitrage");
   const [walletAlerts, setWalletAlerts] = useState([]);
   const [walletAlertStatus, setWalletAlertStatus] = useState("loading");
+  const walletFeedRef = useRef(null);
 
   const scrollToId = (id) => {
     if (typeof window === "undefined") return;
@@ -130,7 +131,7 @@ export default function LearnPage() {
 
         if (mounted) {
           if (Array.isArray(items)) {
-            setWalletAlerts(items);
+            setWalletAlerts([...items].reverse());
             setWalletAlertStatus(items.length > 0 ? "ready" : "empty");
           } else {
             setWalletAlerts([]);
@@ -153,6 +154,13 @@ export default function LearnPage() {
       window.clearInterval(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (!walletFeedRef.current) return;
+    if (walletAlertStatus !== "ready") return;
+
+    walletFeedRef.current.scrollTop = walletFeedRef.current.scrollHeight;
+  }, [walletAlerts, walletAlertStatus]);
 
   return (
     <>
@@ -1255,7 +1263,7 @@ export default function LearnPage() {
                   </div>
                 </div>
 
-                <div className="wallet-alert-feed wallet-alert-feed-fixed" aria-live="polite">
+                <div ref={walletFeedRef} className="wallet-alert-feed wallet-alert-feed-fixed" aria-live="polite">
                   {walletAlertStatus === "loading" && (
                     <div className="wallet-empty-state">
                       <strong>알림 기록을 불러오는 중입니다.</strong>
