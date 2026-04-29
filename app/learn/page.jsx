@@ -22,6 +22,8 @@ const TELEGRAM_WALLET_LINK = "https://t.me/BODDARING_WALLET";
 
 const TELEGRAM_NOTICE_LINK = "https://t.me/BODDARING_NOTICE";
 
+const WALLET_ALERT_API_URL = "https://api.boddaring.com/wallet/alerts?limit=30";
+
 const WALLET_ALERT_PREVIEW = [
   {
     type: "wallet_change",
@@ -109,7 +111,7 @@ export default function LearnPage() {
 
     const loadWalletAlerts = async () => {
       try {
-        const response = await fetch("/api/wallet-alerts?limit=30", { cache: "no-store" });
+        const response = await fetch(WALLET_ALERT_API_URL, { cache: "no-store" });
         if (!response.ok) return;
         const data = await response.json();
         const items = Array.isArray(data) ? data : data?.alerts;
@@ -336,68 +338,152 @@ export default function LearnPage() {
           transform: translateY(-1px);
           filter: brightness(1.08);
         }
-        .exchange-link-grid{
-          margin-top: 22px;
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
+        .disabled-telegram-btn{
+          opacity: 0.62;
+          cursor: not-allowed;
+          filter: grayscale(0.25);
         }
-        .exchange-link-card{
-          position: relative;
-          overflow: hidden;
-          min-height: 124px;
-          padding: 16px;
-          border-radius: 18px;
+
+        .notice-wait-pill{
+          border-color: rgba(251,191,36,0.28);
+          background: rgba(251,191,36,0.10);
+          color: #fde68a;
+        }
+
+        .notice-maintenance-shell{
+          border-color: rgba(251,191,36,0.14);
+        }
+        .exchange-link-groups{
+          margin-top: 22px;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        .exchange-link-group{
+          padding: 18px;
+          border-radius: 20px;
           border: 1px solid rgba(255,255,255,0.08);
           background:
-            radial-gradient(circle at 90% 10%, rgba(167,139,250,0.15), transparent 30%),
-            rgba(10,12,32,0.72);
-          text-decoration: none;
-          transition: transform .18s ease, border-color .18s ease, background .18s ease;
+            radial-gradient(circle at 10% 0%, rgba(167,139,250,0.11), transparent 34%),
+            rgba(8,10,28,0.62);
         }
-        .exchange-link-card:hover{
-          transform: translateY(-2px);
-          border-color: rgba(167,139,250,0.32);
-          background:
-            radial-gradient(circle at 90% 10%, rgba(167,139,250,0.24), transparent 32%),
-            rgba(14,16,42,0.86);
+
+        .exchange-link-group-head{
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 14px;
+          margin-bottom: 14px;
         }
-        .exchange-link-region{
-          display: inline-flex;
-          align-items: center;
-          padding: 5px 8px;
-          border-radius: 999px;
-          background: rgba(167,139,250,0.10);
-          border: 1px solid rgba(167,139,250,0.16);
-          color: #c4b5fd;
-          font-size: 10px;
-          font-weight: 900;
-          letter-spacing: .08em;
-        }
-        .exchange-link-name{
-          margin-top: 13px;
-          color: #f0eeff;
+
+        .exchange-link-group-title{
+          color: #efeaff;
           font-size: 15px;
           font-weight: 900;
         }
-        .exchange-link-eng{
-          margin-top: 4px;
+
+        .exchange-link-group-desc{
+          margin-top: 5px;
           color: rgba(170,176,210,0.72);
           font-size: 12.5px;
-          font-weight: 800;
+          line-height: 1.55;
+          font-weight: 700;
         }
+
+        .exchange-link-group-count{
+          flex: 0 0 auto;
+          padding: 6px 9px;
+          border-radius: 999px;
+          border: 1px solid rgba(167,139,250,0.16);
+          background: rgba(167,139,250,0.10);
+          color: #c4b5fd;
+          font-size: 11px;
+          font-weight: 900;
+        }
+
+        .exchange-link-grid{
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+        }
+
+        .exchange-link-card.compact{
+          display: grid;
+          grid-template-columns: 38px 1fr auto;
+          align-items: center;
+          gap: 10px;
+          min-height: 66px;
+          padding: 12px;
+          border-radius: 16px;
+          border: 1px solid rgba(255,255,255,0.07);
+          background: rgba(0,0,0,0.16);
+          text-decoration: none;
+          transition: transform .18s ease, border-color .18s ease, background .18s ease;
+        }
+
+        .exchange-link-card.compact:hover{
+          transform: translateY(-1px);
+          border-color: rgba(167,139,250,0.30);
+          background: rgba(167,139,250,0.08);
+        }
+
+        .exchange-link-logo{
+          width: 38px;
+          height: 38px;
+          border-radius: 13px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #efeaff;
+          font-size: 14px;
+          font-weight: 950;
+          background: linear-gradient(135deg, rgba(124,58,237,0.85), rgba(56,189,248,0.55));
+          box-shadow: 0 12px 26px rgba(124,58,237,0.16);
+        }
+
+        .exchange-link-meta{
+          min-width: 0;
+        }
+
+        .exchange-link-name{
+          color: #f0eeff;
+          font-size: 13.5px;
+          font-weight: 900;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .exchange-link-eng{
+          margin-top: 3px;
+          color: rgba(170,176,210,0.72);
+          font-size: 12px;
+          font-weight: 800;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         .exchange-link-action{
-          margin-top: 14px;
           color: #a78bfa;
           font-size: 12px;
           font-weight: 900;
+          white-space: nowrap;
         }
         @media (max-width: 920px){
           .exchange-link-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .wallet-alert-bottom{ align-items: flex-start; flex-direction: column; }
         }
+
         @media (max-width: 560px){
           .exchange-link-grid{ grid-template-columns: 1fr; }
+          .exchange-link-card.compact{
+            grid-template-columns: 36px 1fr;
+          }
+          .exchange-link-action{
+            grid-column: 2;
+          }
           .wallet-alert-topbar{ align-items: flex-start; flex-direction: column; }
         }
 
@@ -1080,19 +1166,19 @@ export default function LearnPage() {
             <h2 className="learn-section-title">거래소 지갑 알림</h2>
             <div className="learn-section-body">
               <p>
-                거래소별 입금·출금 상태 변화와 신규 지갑 추가, 네트워크 점검 감지를 대화방 형태로 정리합니다.<br />
-                웹 표시 알림은 일정 시간 지연될 수 있으며, 가장 빠른 실시간 알림은 텔레그램 채널에서 확인할 수 있습니다.
+                거래소별 입출금 상태 변화, 신규 지갑 추가, 네트워크 점검·복구 알림을 확인할 수 있습니다.<br />
+                가장 빠른 알림은 텔레그램 채널에 먼저 전송되며, 웹 화면은 최근 기록 확인용으로 일부 지연 반영될 수 있습니다.
               </p>
 
               <div className="wallet-alert-shell">
                 <div className="wallet-alert-topbar">
                   <div className="wallet-alert-title">
                     <strong>BODDARING 거래소 지갑 알림</strong>
-                    <span>최근 알림 미리보기 · 공개채널 기준</span>
+                    <span>최근 알림 미리보기</span>
                   </div>
                   <div className="wallet-live-pill">
                     <span className="live-dot" />
-                    Telegram First
+                    Telegram Alerts
                   </div>
                 </div>
 
@@ -1117,7 +1203,7 @@ export default function LearnPage() {
                 <div className="wallet-alert-bottom">
                   <div className="wallet-alert-note">
                     텔레그램 채널은 서버 감시 엔진에서 가장 먼저 전송됩니다.<br />
-                    웹 알림은 기록 확인용으로 일부 지연 반영될 수 있습니다.
+                    텔레그램 채널에 입장하여 실시간으로 알림을 받아보세요!
                   </div>
                   <a
                     href={TELEGRAM_WALLET_LINK}
@@ -1135,6 +1221,61 @@ export default function LearnPage() {
           <hr className="learn-divider" />
 
           <section id="exchange-links" className="learn-section">
+            <hr className="learn-divider" />
+
+            <section id="notice-alerts" className="learn-section">
+              <div className="learn-section-label">Notice Alerts</div>
+              <h2 className="learn-section-title">거래소 공지 알림</h2>
+              <div className="learn-section-body">
+                <p>
+                  거래소 상장, 입출금, 점검 공지를 한 곳에서 확인할 수 있도록 준비 중입니다.<br />
+                  현재는 지갑 알림 시스템을 우선 운영 중이며, 공지 알림은 안정화 후 순차적으로 공개될 예정입니다.
+                </p>
+
+                <div className="wallet-alert-shell notice-maintenance-shell">
+                  <div className="wallet-alert-topbar">
+                    <div className="wallet-alert-title">
+                      <strong>BODDARING 거래소 공지 알림</strong>
+                      <span>상장 · 입출금 공지 · 점검 안내 통합 예정</span>
+                    </div>
+                    <div className="wallet-live-pill notice-wait-pill">
+                      준비 중
+                    </div>
+                  </div>
+
+                  <div className="wallet-alert-feed">
+                    <div className="wallet-bubble-row">
+                      <div className="wallet-bubble warning">
+                        <div className="wallet-bubble-head">
+                          <strong>현재 점검 중입니다</strong>
+                          <span className="wallet-bubble-time">Coming Soon</span>
+                        </div>
+                        <div className="wallet-bubble-lines">
+                          <div>거래소별 공지 수집 엔진을 준비하고 있습니다.</div>
+                          <div>상장 공지, 입출금 공지, 점검 공지를 분리해 제공할 예정입니다.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="wallet-alert-bottom">
+                    <div className="wallet-alert-note">
+                      공지 알림은 거래소별 페이지 구조와 API 안정성을 확인한 뒤 공개됩니다.<br />
+                      먼저 제공 중인 지갑 알림 채널에서 입출금 상태 변화를 확인할 수 있습니다.
+                    </div>
+                    <a
+                      href={TELEGRAM_NOTICE_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="telegram-join-btn disabled-telegram-btn"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      공지 알림 준비 중
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
             <div className="learn-section-label">Exchange Links</div>
             <h2 className="learn-section-title">거래소 가입 링크</h2>
             <div className="learn-section-body">
@@ -1143,21 +1284,47 @@ export default function LearnPage() {
                 버튼을 누르면 각 거래소 가입/접속 페이지가 새 창으로 열립니다.
               </p>
 
-              <div className="exchange-link-grid">
-                {EXCHANGE_LINKS.map((exchange) => (
-                  <a
-                    key={`${exchange.name}-${exchange.eng}`}
-                    href={exchange.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="exchange-link-card"
-                  >
-                    <span className="exchange-link-region">{exchange.region}</span>
-                    <div className="exchange-link-name">{exchange.name}</div>
-                    <div className="exchange-link-eng">{exchange.eng}</div>
-                    <div className="exchange-link-action">거래소 이동하기 →</div>
-                  </a>
-                ))}
+              <div className="exchange-link-groups">
+                {["KOREA", "GLOBAL"].map((region) => {
+                  const items = EXCHANGE_LINKS.filter((exchange) => exchange.region === region);
+                  const regionTitle = region === "KOREA" ? "국내 거래소" : "해외 거래소";
+                  const regionDesc = region === "KOREA"
+                    ? "KRW 마켓과 국내 입출금 환경을 확인할 수 있는 거래소입니다."
+                    : "USDT 마켓과 글로벌 유동성을 확인할 수 있는 거래소입니다.";
+
+                  return (
+                    <div className="exchange-link-group" key={region}>
+                      <div className="exchange-link-group-head">
+                        <div>
+                          <div className="exchange-link-group-title">{regionTitle}</div>
+                          <div className="exchange-link-group-desc">{regionDesc}</div>
+                        </div>
+                        <span className="exchange-link-group-count">{items.length}개</span>
+                      </div>
+
+                      <div className="exchange-link-grid compact">
+                        {items.map((exchange) => (
+                          <a
+                            key={`${exchange.name}-${exchange.eng}`}
+                            href={exchange.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="exchange-link-card compact"
+                          >
+                            <div className="exchange-link-logo">
+                              {exchange.eng.slice(0, 1).toUpperCase()}
+                            </div>
+                            <div className="exchange-link-meta">
+                              <div className="exchange-link-name">{exchange.name}</div>
+                              <div className="exchange-link-eng">{exchange.eng}</div>
+                            </div>
+                            <div className="exchange-link-action">이동 →</div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
