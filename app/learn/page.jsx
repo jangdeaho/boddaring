@@ -277,6 +277,12 @@ export default function LearnPage() {
           max-height: 520px;
           overflow-y: auto;
           padding: 20px 18px;
+          overscroll-behavior: contain;
+        }
+
+        .wallet-alert-feed-fixed{
+          height: 420px;
+          max-height: 420px;
         }
         .wallet-alert-feed::-webkit-scrollbar{ width: 8px; }
         .wallet-alert-feed::-webkit-scrollbar-thumb{
@@ -548,6 +554,10 @@ export default function LearnPage() {
             grid-column: 2;
           }
           .wallet-alert-topbar{ align-items: flex-start; flex-direction: column; }
+          .wallet-alert-feed-fixed{
+            height: 360px;
+            max-height: 360px;
+          }
         }
 
         /* ---------- Glossary ---------- */
@@ -1245,7 +1255,7 @@ export default function LearnPage() {
                   </div>
                 </div>
 
-                <div className="wallet-alert-feed" aria-live="polite">
+                <div className="wallet-alert-feed wallet-alert-feed-fixed" aria-live="polite">
                   {walletAlertStatus === "loading" && (
                     <div className="wallet-empty-state">
                       <strong>알림 기록을 불러오는 중입니다.</strong>
