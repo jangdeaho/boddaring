@@ -524,6 +524,9 @@ const handleDevSubmit = async (e) => {
                 <Link href="/learn#QNA" className="nav-link nav-link--inline">
                   자주 묻는 질문
                 </Link>
+                <Link href="https://blog.boddaring.com/" className="nav-link nav-link--inline">
+                  BODDARING BLOG
+                </Link>
               </div>
             </div>
 
@@ -1334,6 +1337,11 @@ const handleDevSubmit = async (e) => {
                 <li>
                   <a href="https://open.kakao.com/o/gWAs8czi" target="_blank" rel="noreferrer">
                     KakaoTalk OpenChat
+                  </a>
+                </li>
+                <li>
+                  <a href="https://blog.boddaring.com/" target="_blank" rel="noreferrer">
+                    BODDARING BLOG
                   </a>
                 </li>
               </ul>
