@@ -1327,13 +1327,13 @@ const handleDevSubmit = async (e) => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://t.me/BODDARING_ranin" target="_blank" rel="noreferrer">
-                    Telegram (준비중)
+                  <a href="https://t.me/BODDARING_Official" target="_blank" rel="noreferrer">
+                    Telegram
                   </a>
                 </li>
                 <li>
-                  <a href="https://open.kakao.com/o/" target="_blank" rel="noreferrer">
-                    KakaoTalk OpenChat (준비중)
+                  <a href="https://open.kakao.com/o/gWAs8czi" target="_blank" rel="noreferrer">
+                    KakaoTalk OpenChat
                   </a>
                 </li>
               </ul>
