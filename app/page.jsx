@@ -831,14 +831,13 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">비용 반영 계산 시스템</h3>
-                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다.<br />종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
-                <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
+                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다.<br />종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며,<br />해당 수량 기준의 수익률 계산 공식이 작동됩니다.<span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
               </div>
             </article>
 
             <article className="signal-feature-card">
               <div className="signal-feature-top">
-                <div className="ftl-icon">🎯</div>
+                <div className="ftl-icon"></div>
                 <span className="signal-feature-index">03</span>
               </div>
               <div className="ftl-content">
