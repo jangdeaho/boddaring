@@ -820,7 +820,7 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">실시간 데이터 수집</h3>
-                <p className="ftl-desc">공개 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영하여 정확도를 높입니다.</p>
+                <p className="ftl-desc">공개 오더북 데이터를 초 단위로 수집합니다.<br />실제 체결 가능한 가격 기준의 유동성 데이터만을 반영하여 정확도를 높입니다.</p>
               </div>
             </article>
 
@@ -831,7 +831,7 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">비용 반영 계산 시스템</h3>
-                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
+                <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다.<br />종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
                 <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
               </div>
             </article>
@@ -843,7 +843,7 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">오더북 기반 유동성 분석</h3>
-                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 수익 가능성 판단이 가능합니다.</p>
+                <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다.<br />From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 수익 가능성 판단이 가능합니다.</p>
               </div>
             </article>
 
@@ -854,7 +854,7 @@ const handleDevSubmit = async (e) => {
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">사용자 조건 필터</h3>
-                <p className="ftl-desc">Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다. 거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.</p>
+                <p className="ftl-desc">Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다.<br />거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.</p>
               </div>
             </article>
           </div>
