@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export default function Trial() {
   const [lang, setLang] = useState("ko");
+  const [showPauseNotice, setShowPauseNotice] = useState(true);
   const [formStatus, setFormStatus] = useState("idle");
   const [userIP, setUserIP] = useState("Loading...");
   const [formData, setFormData] = useState({
@@ -30,15 +31,41 @@ useEffect(() => {
   } catch {}
 }, [lang]);
 
+useEffect(() => {
+  if (!showPauseNotice) return;
+
+  const previousOverflow = document.body.style.overflow;
+  document.body.style.overflow = "hidden";
+
+  return () => {
+    document.body.style.overflow = previousOverflow;
+  };
+}, [showPauseNotice]);
+
 const T = {
   ko: {
+    notice: {
+      badge: "무료 체험 일시 중단",
+      title: "무료 체험 신청 안내",
+      body: (
+        <>
+          현재 무료 체험 신청자가 많아 신규 무료 신청을 일시 중단하였습니다.<br />
+          대신 BODDARING의 전체 기능을 24시간 이용할 수 있는
+          <strong> 1일 체험권을 50,000원</strong>에 신청하실 수 있습니다.<br />
+          이용을 원하지 않으시면 뒤로가기를 눌러주세요.
+        </>
+      ),
+      price: "1일 체험권 · 50,000원",
+      back: "뒤로가기",
+      apply: "신청하기",
+    },
     back: "← 메인으로 돌아가기",
-    bubble: "⏰ 하루면 충분합니다!",
-    title: "무료 체험 요청",
+    bubble: "⏰ 24시간 전체 이용",
+    title: "1일 체험 신청",
     subtitle: (
       <>
         BODDARING의 실시간 시그널을 제한 없이 경험해 보세요.<br />
-        초 단위로 업데이트되는 압도적인 데이터를 24시간 동안 무료로 이용할 수 있습니다.
+        1일 체험권은 50,000원이며, 계정 제공 후 24시간 동안 이용할 수 있습니다.
       </>
     ),
     benefits: [
@@ -46,7 +73,7 @@ const T = {
       { icon: "📊", title: "고급 분석", desc: "15개+ 거래소 데이터" },
       { icon: "🔍", title: "차익 탐지", desc: "정교한 계산 시스템" },
     ],
-    formTitle: "무료체험 신청서",
+    formTitle: "1일 체험 신청서",
     required: "* 필수 입력",
     labels: {
       name: "이름 (Name)",
@@ -70,10 +97,10 @@ const T = {
       intermediate: "1~3년",
       advanced: "3년 이상",
     },
-    warningTitle: "⚠️ 무료체험 이용 주의사항",
+    warningTitle: "⚠️ 1일 체험 이용 주의사항",
     warningItems: [
       <>
-        <strong>24시간 제한 :</strong> 무료체험은 계정 제공 후 정확히 24시간 동안만 이용 가능합니다.<br />
+        <strong>24시간 제한 :</strong> 1일 체험권은 결제 확인 및 계정 제공 후 정확히 24시간 동안 이용 가능합니다.<br />
         24시간 경과 후 자동으로 서비스 접근이 제한되며, 계속 이용하려면 구독이 필요합니다. (연장 불가/1회 한정)
       </>,
       <>
@@ -94,7 +121,7 @@ const T = {
     btn: {
       sending: "신청서 제출 중...",
       sent: "제출 완료! 곧 연락드리겠습니다.",
-      idle: "무료체험 신청하기 🚀",
+      idle: "1일 체험 신청하기 🚀",
     },
     error: "❌ 전송 실패. 다시 시도해 주세요.",
     footer: (
@@ -107,13 +134,27 @@ const T = {
     langEN: "ENG",
   },
   en: {
+    notice: {
+      badge: "Free Trial Temporarily Paused",
+      title: "Trial Application Notice",
+      body: (
+        <>
+          Due to the high volume of applications, new free trial requests are temporarily paused.<br />
+          You can still apply for a <strong>24-hour trial pass for KRW 50,000</strong> with full access to BODDARING.<br />
+          If you do not wish to proceed, please go back.
+        </>
+      ),
+      price: "24-Hour Trial · KRW 50,000",
+      back: "Go Back",
+      apply: "Apply",
+    },
     back: "← Back to Home",
-    bubble: "⏰ 24-Hour Trial",
-    title: "Request a Free Trial",
+    bubble: "⏰ Full Access for 24 Hours",
+    title: "Apply for a 24-Hour Trial",
     subtitle: (
       <>
         Experience BODDARING’s real-time signals with full access.<br />
-        Enjoy high-frequency, second-by-second data for 24 hours — free of charge.
+        The 24-hour trial pass is KRW 50,000 and begins when account access is provided.
       </>
     ),
     benefits: [
@@ -121,7 +162,7 @@ const T = {
       { icon: "📊", title: "Advanced Analytics", desc: "Data from 15+ exchanges" },
       { icon: "🔍", title: "Arbitrage Detection", desc: "Precise calculation system" },
     ],
-    formTitle: "Free Trial Application",
+    formTitle: "24-Hour Trial Application",
     required: "* Required",
     labels: {
       name: "Name",
@@ -145,10 +186,10 @@ const T = {
       intermediate: "1–3 years",
       advanced: "3+ years",
     },
-    warningTitle: "⚠️ Important notes for the free trial",
+    warningTitle: "⚠️ Important notes for the 24-hour trial",
     warningItems: [
       <>
-        <strong>24-hour limit:</strong> The free trial is available for exactly 24 hours after account access is provided.<br />
+        <strong>24-hour limit:</strong> The trial is available for exactly 24 hours after payment is confirmed and account access is provided.<br />
         Access is automatically revoked after 24 hours. To continue, a subscription is required. (No extensions / one-time only)
       </>,
       <>
@@ -169,7 +210,7 @@ const T = {
     btn: {
       sending: "Submitting...",
       sent: "Submitted! We'll contact you shortly.",
-      idle: "Request Free Trial 🚀",
+      idle: "Apply for 24-Hour Trial 🚀",
     },
     error: "❌ Submission failed. Please try again.",
     footer: (
@@ -227,7 +268,7 @@ const L = T[lang];
         from_email: formData.email,
         telegram_id: formData.telegram,
         experience: formData.experience,
-        selected_plan: "24시간 무료체험 (실시간 시그널)",
+        selected_plan: "24시간 1일 체험권 50,000원 (실시간 시그널)",
         user_ip: userIP,
         message: formData.message || "(메시지 없음)",
         to_name: "BODDARING 관리자",
@@ -252,9 +293,9 @@ const L = T[lang];
                 : T.en.expOptions[formData.experience],
             fund_size: "-",
 
-            selected_plan: "TRIAL - 24시간 무료체험 (실시간 시그널)",
-            plan_krw: "무료체험",
-            plan_usdt: "Free Trial",
+            selected_plan: "TRIAL - 24시간 1일 체험권 (실시간 시그널)",
+            plan_krw: "50,000원",
+            plan_usdt: "KRW 50,000",
 
             exchange_rate: "-",
             rate_updated: "-",
@@ -741,14 +782,183 @@ const L = T[lang];
     box-shadow: 0 0 18px rgba(124,58,237,0.18), 0 0 18px rgba(236,72,153,0.14);
   }
 
+  .trialNoticeOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(3, 6, 24, 0.76);
+    backdrop-filter: blur(14px);
+  }
+
+  .trialNoticeModal {
+    position: relative;
+    width: min(100%, 520px);
+    padding: 34px;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid rgba(167,139,250,0.30);
+    background:
+      linear-gradient(145deg, rgba(24,27,62,0.98), rgba(12,15,42,0.98));
+    box-shadow:
+      0 24px 80px rgba(0,0,0,0.46),
+      0 0 38px rgba(124,58,237,0.18),
+      0 0 34px rgba(236,72,153,0.12);
+    text-align: center;
+  }
+
+  .trialNoticeModal::before {
+    content: "";
+    position: absolute;
+    inset: -80px auto auto -80px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(124,58,237,0.18);
+    filter: blur(42px);
+    pointer-events: none;
+  }
+
+  .trialNoticeBadge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,190,205,0.20);
+    background: rgba(236,72,153,0.13);
+    color: #ffc4d2;
+    font-size: 12px;
+    font-weight: 900;
+  }
+
+  .trialNoticeTitle {
+    position: relative;
+    margin-bottom: 15px;
+    color: #fff;
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+
+  .trialNoticeBody {
+    position: relative;
+    color: rgba(224,229,252,0.78);
+    font-size: 14px;
+    line-height: 1.8;
+    word-break: keep-all;
+  }
+
+  .trialNoticeBody strong {
+    color: #fff;
+    font-weight: 900;
+  }
+
+  .trialNoticePrice {
+    position: relative;
+    margin: 22px 0;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(167,139,250,0.24);
+    background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(236,72,153,0.10));
+    color: #eee9ff;
+    font-size: 17px;
+    font-weight: 900;
+  }
+
+  .trialNoticeActions {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .trialNoticeBtn {
+    min-height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border-radius: 13px;
+    font-size: 14px;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .18s ease, border-color .18s ease, filter .18s ease;
+  }
+
+  .trialNoticeBtn:hover {
+    transform: translateY(-1px);
+  }
+
+  .trialNoticeBack {
+    color: rgba(232,238,255,0.84);
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .trialNoticeApply {
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: linear-gradient(135deg, #7c3aed, #ec4899);
+    box-shadow: 0 0 22px rgba(124,58,237,0.22), 0 0 20px rgba(236,72,153,0.16);
+  }
+
+  .trialNoticeApply:hover {
+    filter: brightness(1.06);
+  }
+
   @media (max-width: 520px){
     .trialTopbar{ margin-bottom: 18px; }
     .langBtn{ padding: 0 10px; }
+    .trialNoticeOverlay { padding: 16px; }
+    .trialNoticeModal { padding: 28px 20px 22px; border-radius: 20px; }
+    .trialNoticeTitle { font-size: 23px; }
+    .trialNoticeBody { font-size: 13px; }
+    .trialNoticeActions { grid-template-columns: 1fr; }
   }
 `}</style>
 
       <div className="trialAurora" />
       <div className="trialNoise" />
+
+      {showPauseNotice && (
+        <div className="trialNoticeOverlay" role="presentation">
+          <div
+            className="trialNoticeModal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="trial-notice-title"
+            aria-describedby="trial-notice-description"
+          >
+            <div className="trialNoticeBadge">{L.notice.badge}</div>
+            <h2 className="trialNoticeTitle" id="trial-notice-title">
+              {L.notice.title}
+            </h2>
+            <p className="trialNoticeBody" id="trial-notice-description">
+              {L.notice.body}
+            </p>
+            <div className="trialNoticePrice">{L.notice.price}</div>
+            <div className="trialNoticeActions">
+              <Link href="/" className="trialNoticeBtn trialNoticeBack">
+                {L.notice.back}
+              </Link>
+              <button
+                type="button"
+                className="trialNoticeBtn trialNoticeApply"
+                onClick={() => setShowPauseNotice(false)}
+              >
+                {L.notice.apply}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="trialContent">
         <div className="trialTopbar">
@@ -896,10 +1106,10 @@ const L = T[lang];
               disabled={formStatus === "sending" || !isFormValid}
             >
               {formStatus === "sending"
-                ? "신청서 제출 중..."
+                ? L.btn.sending
                 : formStatus === "sent"
-                ? "제출 완료! 곧 연락드리겠습니다."
-                : "무료체험 신청하기 🚀"}
+                ? L.btn.sent
+                : L.btn.idle}
             </button>
 
             {formStatus === "error" && (
