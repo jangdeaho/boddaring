@@ -379,6 +379,123 @@ const handleDevSubmit = async (e) => {
       </div>
 
       <style jsx global>{`
+        /* Signal Intelligence — line-free card layout */
+        #signal .signal-feature-grid{
+          display:grid;
+          grid-template-columns:repeat(2,minmax(0,1fr));
+          gap:18px;
+          margin-top:52px;
+        }
+        #signal .signal-feature-card{
+          position:relative;
+          min-height:220px;
+          overflow:hidden;
+          padding:24px;
+          border:1px solid rgba(255,255,255,.10);
+          border-radius:22px;
+          background:
+            radial-gradient(280px 150px at 100% 0%, rgba(124,58,237,.12), transparent 66%),
+            linear-gradient(145deg, rgba(255,255,255,.052), rgba(255,255,255,.022));
+          box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+          transition:transform .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease;
+        }
+        #signal .signal-feature-card::before{
+          content:"";
+          position:absolute;
+          top:0;
+          left:24px;
+          right:24px;
+          height:1px;
+          background:linear-gradient(90deg,transparent,rgba(103,232,249,.7),rgba(167,139,250,.72),transparent);
+          opacity:.7;
+        }
+        #signal .signal-feature-card::after{
+          content:"";
+          position:absolute;
+          right:-58px;
+          bottom:-78px;
+          width:180px;
+          height:180px;
+          border-radius:50%;
+          background:radial-gradient(circle,rgba(124,58,237,.12),transparent 68%);
+          pointer-events:none;
+        }
+        #signal .signal-feature-card:hover{
+          transform:translateY(-4px);
+          border-color:rgba(167,139,250,.34);
+          background:
+            radial-gradient(300px 170px at 100% 0%, rgba(124,58,237,.17), transparent 66%),
+            linear-gradient(145deg, rgba(255,255,255,.068), rgba(255,255,255,.028));
+          box-shadow:0 18px 55px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.07);
+        }
+        #signal .signal-feature-top{
+          position:relative;
+          z-index:1;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:16px;
+          margin-bottom:22px;
+        }
+        #signal .signal-feature-card .ftl-icon{
+          position:static;
+          inset:auto;
+          transform:none;
+          width:52px;
+          height:52px;
+          margin:0;
+          border:1px solid rgba(167,139,250,.25);
+          border-radius:16px;
+          display:grid;
+          place-items:center;
+          background:linear-gradient(145deg,rgba(124,58,237,.18),rgba(56,189,248,.08));
+          box-shadow:0 12px 30px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.07);
+          font-size:23px;
+          line-height:1;
+        }
+        #signal .signal-feature-index{
+          color:rgba(202,210,238,.34);
+          font-size:12px;
+          font-weight:950;
+          letter-spacing:.18em;
+        }
+        #signal .signal-feature-card .ftl-content{
+          position:relative;
+          z-index:1;
+          width:auto;
+          margin:0;
+          padding:0;
+        }
+        #signal .signal-feature-card .ftl-title{
+          margin:0 0 10px;
+          color:rgba(247,248,255,.96);
+          font-size:18px;
+          line-height:1.35;
+          font-weight:950;
+          letter-spacing:-.025em;
+        }
+        #signal .signal-feature-card .ftl-desc{
+          margin:0;
+          color:rgba(202,210,238,.66);
+          font-size:13px;
+          line-height:1.72;
+          font-weight:650;
+        }
+        #signal .signal-feature-card .ftl-note{
+          display:inline-block;
+          margin-top:7px;
+          color:rgba(202,210,238,.44);
+          font-size:11px;
+        }
+        @media (max-width:760px){
+          #signal .signal-feature-grid{grid-template-columns:1fr;gap:14px;margin-top:36px;}
+          #signal .signal-feature-card{min-height:auto;padding:21px;border-radius:18px;}
+          #signal .signal-feature-card::before{left:20px;right:20px;}
+          #signal .signal-feature-top{margin-bottom:18px;}
+          #signal .signal-feature-card .ftl-icon{width:48px;height:48px;border-radius:14px;font-size:21px;}
+          #signal .signal-feature-card .ftl-title{font-size:17px;}
+        }
+
         #about .about-grid{
           display:grid;
           grid-template-columns:1.04fr .96fr;
@@ -695,44 +812,51 @@ const handleDevSubmit = async (e) => {
             </p>
           </div>
 
-          <div className="feature-timeline reveal">
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
+          <div className="signal-feature-grid reveal">
+            <article className="signal-feature-card">
+              <div className="signal-feature-top">
                 <div className="ftl-icon">📡</div>
+                <span className="signal-feature-index">01</span>
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">실시간 데이터 수집</h3>
                 <p className="ftl-desc">공개 오더북 데이터를 초 단위로 수집합니다. 실제 체결 가능한 가격 기준의 유동성 데이터만을 반영하여 정확도를 높입니다.</p>
               </div>
-            </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
+            </article>
+
+            <article className="signal-feature-card">
+              <div className="signal-feature-top">
                 <div className="ftl-icon">⚡</div>
+                <span className="signal-feature-index">02</span>
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">비용 반영 계산 시스템</h3>
                 <p className="ftl-desc">수수료, 환율, 슬리피지를 반영한 계산값을 표시합니다. 종목별 최종 거래가가 아닌 100% 실시간 호가창 비교를 통해 Amount를 표기하며, 해당 수량 기준의 수익률 계산 공식이 작동됩니다.<br />
                 <span className="ftl-note">(투자 수익 보장을 의미하지 않습니다.)</span></p>
               </div>
-            </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
+            </article>
+
+            <article className="signal-feature-card">
+              <div className="signal-feature-top">
                 <div className="ftl-icon">🎯</div>
+                <span className="signal-feature-index">03</span>
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">오더북 기반 유동성 분석</h3>
                 <p className="ftl-desc">체결 가능 범위 기준의 가격 데이터를 제공합니다. From 거래소의 평균 매수가와 To 거래소의 현재가를 실시간으로 비교하여 수익 가능성 판단이 가능합니다.</p>
               </div>
-            </div>
-            <div className="feature-timeline-item">
-              <div className="ftl-icon-wrap">
+            </article>
+
+            <article className="signal-feature-card">
+              <div className="signal-feature-top">
                 <div className="ftl-icon">🤖</div>
+                <span className="signal-feature-index">04</span>
               </div>
               <div className="ftl-content">
                 <h3 className="ftl-title">사용자 조건 필터</h3>
                 <p className="ftl-desc">Per(격차 비율) 및 Amount(거래 규모) 필터링 기능을 제공합니다. 거래소 및 거래 페어 필터도 자유롭게 구성 가능합니다.</p>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </section>
