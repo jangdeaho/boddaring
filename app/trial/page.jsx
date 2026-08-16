@@ -51,21 +51,21 @@ const T = {
         <>
           현재 무료 체험 신청자가 많아 신규 무료 신청을 일시 중단하였습니다.<br />
           대신 BODDARING의 전체 기능을 24시간 이용할 수 있는<br />
-          <strong> 1일 체험권을 50,000원</strong>에 신청하실 수 있습니다.<br />
+          <strong> 24시간 체험권을 50,000원</strong>에 신청하실 수 있습니다.<br />
           이용을 원하지 않으시면 <strong>뒤로가기</strong>를 눌러주세요.
         </>
       ),
-      price: "1일 체험권 · 50,000 원",
+      price: "24시간 체험권 · 50,000 원",
       back: "뒤로가기",
       apply: "신청하기",
     },
     back: "← 메인으로 돌아가기",
     bubble: "⏰ 24시간 전체 이용",
-    title: "1일 체험 신청",
+    title: "24시간 체험 신청",
     subtitle: (
       <>
         BODDARING의 실시간 시그널을 제한 없이 경험해 보세요.<br />
-        1일 체험권은 50,000원이며, 계정 제공 후 24시간 동안 이용할 수 있습니다.
+        24시간 체험권은 50,000원이며, 계정 제공 후 24시간 동안 이용할 수 있습니다.
       </>
     ),
     benefits: [
@@ -73,7 +73,7 @@ const T = {
       { icon: "📊", title: "고급 분석", desc: "15개+ 거래소 데이터" },
       { icon: "🔍", title: "차익 탐지", desc: "정교한 계산 시스템" },
     ],
-    formTitle: "1일 체험 신청서",
+    formTitle: "24시간 체험 신청서",
     required: "* 필수 입력",
     labels: {
       name: "이름 (Name)",
@@ -97,10 +97,10 @@ const T = {
       intermediate: "1~3년",
       advanced: "3년 이상",
     },
-    warningTitle: "⚠️ 1일 체험 이용 주의사항",
+    warningTitle: "⚠️ 24시간 체험 이용 주의사항",
     warningItems: [
       <>
-        <strong>24시간 제한 :</strong> 1일 체험권은 결제 확인 및 계정 제공 후 정확히 24시간 동안 이용 가능합니다.<br />
+        <strong>24시간 제한 :</strong> 24시간 체험권은 결제 확인 및 계정 제공 후 정확히 24시간 동안 이용 가능합니다.<br />
         24시간 경과 후 자동으로 서비스 접근이 제한되며, 계속 이용하려면 구독이 필요합니다. (연장 불가/1회 한정)
       </>,
       <>
@@ -121,7 +121,7 @@ const T = {
     btn: {
       sending: "신청서 제출 중...",
       sent: "제출 완료! 곧 연락드리겠습니다.",
-      idle: "1일 체험 신청하기 🚀",
+      idle: "24시간 체험 신청하기 🚀",
     },
     error: "❌ 전송 실패. 다시 시도해 주세요.",
     footer: (
@@ -268,7 +268,7 @@ const L = T[lang];
         from_email: formData.email,
         telegram_id: formData.telegram,
         experience: formData.experience,
-        selected_plan: "24시간 1일 체험권 50,000원 (실시간 시그널)",
+        selected_plan: "24시간 체험권 50,000원 (실시간 시그널)",
         user_ip: userIP,
         message: formData.message || "(메시지 없음)",
         to_name: "BODDARING 관리자",
@@ -293,7 +293,7 @@ const L = T[lang];
                 : T.en.expOptions[formData.experience],
             fund_size: "-",
 
-            selected_plan: "TRIAL - 24시간 1일 체험권 (실시간 시그널)",
+            selected_plan: "TRIAL - 24시간 체험권 (실시간 시그널)",
             plan_krw: "50,000원",
             plan_usdt: "KRW 50,000",
 
