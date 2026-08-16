@@ -240,14 +240,15 @@ export default function ApplyPage() {
   const plans = useMemo(
     () => ({
       weekly: [
-        { id: "BASIC", krw: 300000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
-        { id: "PRO", krw: 400000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
-        { id: "BOT", krw: 150000, descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", krw: 500000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 600000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
+        { id: "BOT", krw: 300000, descKo: "종합 BOT", descEn: "Execution BOT" },
       ],
       monthly: [
-        { id: "BASIC", krw: 800000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
-        { id: "PRO", krw: 1200000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
-        { id: "BOT", krw: 450000, descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "BASIC", krw: 1100000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
+        { id: "PRO", krw: 1500000, descKo: "실시간 시그널 + 가이드북 + 종합 BOT", descEn: "Real-time signals + a GuideBook + Execution BOT" },
+        { id: "BOT", krw: 600000, descKo: "종합 BOT", descEn: "Execution BOT" },
+        { id: "1:1 TRAINING", krw: 2000000, descKo: "30일간 5년차 아비트라지 트레이더가 맞춤 교육을 진행합니다.", descEn: "Personalized training for 30 days with an arbitrage trader who has 5 years of experience." },
       ],
       yearly: [
         { id: "BASIC", krw: 7500000, descKo: "실시간 시그널 + 가이드북", descEn: "Real-time signals + a GuideBook" },
