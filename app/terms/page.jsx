@@ -7,7 +7,7 @@ export default function TermsPage() {
   const SERVICE = "BODDARING";
   const SUPPORT_EMAIL = "ceo@endholdings.com";
   const CEO_NAME = "Yonghyeon Lee";
-  const LAST_REVISED = "2026-03-01";
+  const LAST_REVISED = "2026-09-11";
 
   const [lang, setLang] = useState("ko");
 
